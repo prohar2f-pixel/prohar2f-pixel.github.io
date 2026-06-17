@@ -64,7 +64,15 @@ nav a:hover::after{right:0}
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:72px;position:relative;overflow:hidden}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 70% 50%,rgba(196,163,90,.06) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 20% 80%,rgba(21,80,150,.08) 0%,transparent 60%)}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%)}
-.hero-in{position:relative;z-index:2;padding:48px 0 40px}
+.hero-in{position:relative;z-index:2;padding:48px 0 40px;display:grid;grid-template-columns:1fr 320px;gap:48px;align-items:center}
+.hero-left{display:flex;flex-direction:column}
+.hero-card{background:var(--card);border:1px solid var(--border-g);border-radius:var(--r2);padding:24px;opacity:0;animation:fadeUp .8s ease forwards .5s}
+.hc-lbl{font-size:.6875rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.hc-person{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.hc-div{height:1px;background:var(--border);margin-bottom:14px}
+.hc-tags{display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
+.hc-tag{display:flex;align-items:center;gap:8px;font-size:.8125rem;color:var(--text2)}
+.hc-tag::before{content:'';display:block;width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0}
 .hero-brow{display:flex;align-items:center;gap:12px;margin-bottom:18px;opacity:0;animation:fadeUp .8s ease forwards .2s}
 .hero-brow-line{width:32px;height:1px;background:var(--gold)}
 .hero-brow-txt{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
@@ -76,7 +84,7 @@ nav a:hover::after{right:0}
 .btn-prim:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 8px 32px rgba(196,163,90,.35)}
 .btn-sec{display:inline-flex;align-items:center;gap:10px;padding:12px 24px;background:transparent;color:var(--text2);font-size:.9375rem;font-weight:500;border-radius:var(--r);border:1px solid var(--border);transition:var(--tr)}
 .btn-sec:hover{color:var(--text);border-color:var(--border-g);background:rgba(196,163,90,.05)}
-.stats{display:flex;border-top:1px solid var(--border);padding-top:28px;opacity:0;animation:fadeUp .8s ease forwards 1s}
+.stats{grid-column:1/-1;display:flex;border-top:1px solid var(--border);padding-top:28px;opacity:0;animation:fadeUp .8s ease forwards 1s}
 .stat{flex:1;padding-right:32px;border-right:1px solid var(--border);margin-right:32px}
 .stat:last-child{border-right:none;margin-right:0;padding-right:0}
 .stat-n{font-family:'Cormorant Garamond',serif;font-size:2.75rem;font-weight:700;color:var(--gold);line-height:1;margin-bottom:4px}
@@ -113,8 +121,9 @@ nav a:hover::after{right:0}
 
 /* SERVICES */
 .services{padding:64px 0;background:var(--bg2)}
-.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);border-radius:var(--r2);overflow:hidden}
-.svc{background:var(--bg2);padding:22px 24px;transition:var(--tr);cursor:pointer}
+.svc-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;background:var(--border);border-radius:var(--r2);overflow:hidden}
+.svc{grid-column:span 2;background:var(--bg2);padding:22px 24px;transition:var(--tr);cursor:pointer}
+.svc:nth-child(4),.svc:nth-child(5){grid-column:span 3}
 .svc:hover{background:var(--card)}
 .svc-n{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--text3);line-height:1;margin-bottom:12px;transition:color var(--tr)}
 .svc:hover .svc-n{color:var(--gold-line)}
@@ -154,6 +163,9 @@ nav a:hover::after{right:0}
 .msng{display:flex;gap:10px;margin-top:12px}
 .msng-btn{display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);font-size:.875rem;font-weight:500;color:var(--text2);transition:var(--tr)}
 .msng-btn:hover{border-color:var(--border-g);color:var(--text)}
+.cta-trust{display:flex;flex-direction:column;gap:10px;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+.cta-trust-item{display:flex;align-items:center;gap:10px;font-size:.8125rem;color:var(--text2)}
+.cta-trust-item svg{flex-shrink:0;color:var(--gold)}
 .form{background:var(--card);border:1px solid var(--border-g);border-radius:var(--r2);padding:28px 32px}
 .form-h{font-family:'Cormorant Garamond',serif;font-size:1.375rem;font-weight:600;margin-bottom:4px}
 .form-s{font-size:.875rem;color:var(--text2);margin-bottom:16px}
@@ -187,8 +199,11 @@ nav a:hover::after{right:0}
 
 /* RESPONSIVE */
 @media(max-width:1024px){
+  .hero-in{grid-template-columns:1fr}
+  .hero-card{display:none}
   .team-grid{grid-template-columns:repeat(2,1fr)}
   .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .svc,.svc:nth-child(4),.svc:nth-child(5){grid-column:span 1}
   .footer-grid{grid-template-columns:repeat(2,1fr)}
   .ind-grid{grid-template-columns:repeat(3,1fr)}
 }
@@ -253,23 +268,46 @@ nav a:hover::after{right:0}
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="wrap"><div class="hero-in">
-    <div class="hero-brow">
-      <div class="hero-brow-line"></div>
-      <span class="hero-brow-txt">Москва · с 2016 года</span>
+    <div class="hero-left">
+      <div class="hero-brow">
+        <div class="hero-brow-line"></div>
+        <span class="hero-brow-txt">Москва · с 2016 года</span>
+      </div>
+      <h1 class="hero-h1">
+        Statera Expert — бухгалтерский аутсорсинг для компаний, которые не доверяют учёт <em>случайным людям</em>
+      </h1>
+      <p class="hero-desc">15 штатных бухгалтеров с узкой специализацией. Прямой контакт с ведущим специалистом без менеджеров и очередей.</p>
+      <div class="hero-acts">
+        <a href="#contacts" class="btn-prim">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .97h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 006.18 6.18l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          Связаться с ведущим бухгалтером
+        </a>
+        <a href="#team" class="btn-sec">
+          Наша команда
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
     </div>
-    <h1 class="hero-h1">
-      Statera Expert — бухгалтерский аутсорсинг для компаний, которые не доверяют учёт <em>случайным людям</em>
-    </h1>
-    <p class="hero-desc">15 штатных бухгалтеров с узкой специализацией. Прямой контакт с ведущим специалистом без менеджеров и очередей.</p>
-    <div class="hero-acts">
-      <a href="#contacts" class="btn-prim">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .97h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 006.18 6.18l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-        Связаться с ведущим бухгалтером
-      </a>
-      <a href="#team" class="btn-sec">
-        Наша команда
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hc-lbl">Ваш ведущий специалист</div>
+        <div class="hc-person">
+          <div class="team-av" style="width:52px;height:52px;font-size:1.125rem;flex-shrink:0">АС</div>
+          <div>
+            <div style="font-size:.9375rem;font-weight:600;color:var(--text)">Анна Соколова</div>
+            <div style="font-size:.8125rem;color:var(--gold);margin-top:2px">Ведущий бухгалтер</div>
+            <div style="font-size:.75rem;color:var(--text3);margin-top:2px">14 лет · ИПБ, ACCA DipIFR</div>
+          </div>
+        </div>
+        <div class="hc-div"></div>
+        <div class="hc-tags">
+          <div class="hc-tag">Производственные холдинги</div>
+          <div class="hc-tag">Многоуровневые группы компаний</div>
+          <div class="hc-tag">Восстановление запущенного учёта</div>
+          <div class="hc-tag">Клиенты с оборотом от 150 млн ₽</div>
+        </div>
+        <a href="#contacts" class="btn-prim" style="width:100%;justify-content:center;font-size:.875rem">Связаться напрямую</a>
+      </div>
     </div>
     <div class="stats">
       <div class="stat"><div class="stat-n" data-count="8">0</div><div class="stat-l">лет на рынке</div></div>
@@ -407,11 +445,11 @@ nav a:hover::after{right:0}
       <h2 class="h2" style="margin-top:12px;margin-bottom:14px">Экспертиза в 5 отраслях</h2>
     </div>
     <div class="ind-grid">
-      <div class="ind-item fade"><div class="ind-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 002 2h16a2 2 0 002-2V8l-7 5V8l-7 5V4a2 2 0 00-2-2H4a2 2 0 00-2 2z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg></div><div class="ind-name">Производство</div><div class="ind-cnt">32 компании</div></div>
-      <div class="ind-item fade"><div class="ind-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div><div class="ind-name">Строительство</div><div class="ind-cnt">24 компании</div></div>
-      <div class="ind-item fade"><div class="ind-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div><div class="ind-name">Ритейл</div><div class="ind-cnt">18 компаний</div></div>
-      <div class="ind-item fade"><div class="ind-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="ind-name">IT</div><div class="ind-cnt">15 компаний</div></div>
-      <div class="ind-item fade"><div class="ind-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div class="ind-name">ВЭД</div><div class="ind-cnt">14 компаний</div></div>
+      <div class="ind-item fade"><div class="ind-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 002 2h16a2 2 0 002-2V8l-7 5V8l-7 5V4a2 2 0 00-2-2H4a2 2 0 00-2 2z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg></div><div class="ind-name">Производство</div><div class="ind-cnt">32 компании</div><div style="font-size:.75rem;color:var(--text3);text-align:center;line-height:1.4">Металлообработка,<br>машиностроение, пищепром</div></div>
+      <div class="ind-item fade"><div class="ind-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div><div class="ind-name">Строительство</div><div class="ind-cnt">24 компании</div><div style="font-size:.75rem;color:var(--text3);text-align:center;line-height:1.4">Девелопмент,<br>подрядчики, ЖКХ</div></div>
+      <div class="ind-item fade"><div class="ind-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div><div class="ind-name">Ритейл</div><div class="ind-cnt">18 компаний</div><div style="font-size:.75rem;color:var(--text3);text-align:center;line-height:1.4">Торговые сети,<br>e-commerce, дистрибьюция</div></div>
+      <div class="ind-item fade"><div class="ind-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="ind-name">IT</div><div class="ind-cnt">15 компаний</div><div style="font-size:.75rem;color:var(--text3);text-align:center;line-height:1.4">SaaS, разработка ПО,<br>IT-аутсорсинг</div></div>
+      <div class="ind-item fade"><div class="ind-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div class="ind-name">ВЭД</div><div class="ind-cnt">14 компаний</div><div style="font-size:.75rem;color:var(--text3);text-align:center;line-height:1.4">Импорт, экспорт,<br>параллельный импорт</div></div>
     </div>
   </div>
 </section>
@@ -454,7 +492,7 @@ nav a:hover::after{right:0}
       <p class="cta-desc">Без менеджеров и скриптов. За 20 минут разберём вашу ситуацию, расскажем как работаем и назовём конкретного специалиста под вашу задачу.</p>
       <a href="tel:+74951234567" class="cta-ph">+7 (495) 123-45-67</a>
       <div class="msng">
-        <a href="https://wa.me/79001234567" class="msng-btn">
+        <a href="https://wa.me/74951234567" class="msng-btn">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
           WhatsApp
         </a>
@@ -462,6 +500,20 @@ nav a:hover::after{right:0}
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
           Telegram
         </a>
+      </div>
+      <div class="cta-trust">
+        <div class="cta-trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Среднее время ответа — 2 часа в рабочее время
+        </div>
+        <div class="cta-trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          NDA — конфиденциальность данных гарантирована
+        </div>
+        <div class="cta-trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Страхование профессиональной ответственности
+        </div>
       </div>
     </div>
     <div>
