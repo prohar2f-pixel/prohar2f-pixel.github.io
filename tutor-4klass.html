@@ -167,6 +167,8 @@
   .subject-card.math { background: linear-gradient(145deg, #FFF0F8, #FFE4F4); }
   .subject-card.russian { background: linear-gradient(145deg, #F0EEFF, #E8E0FF); }
   .subject-card.english { background: linear-gradient(145deg, #ECFFF8, #D8FFE8); }
+  .subject-card.science { background: linear-gradient(145deg, #ECFFF0, #D8F4E0); }
+  .subject-card.reading { background: linear-gradient(145deg, #FFF8EC, #FFEFD0); }
 
   .subject-icon {
     width: 56px;
@@ -181,6 +183,8 @@
   .math .subject-icon { background: rgba(248,164,200,0.25); }
   .russian .subject-icon { background: rgba(196,160,240,0.25); }
   .english .subject-icon { background: rgba(96,208,160,0.25); }
+  .science .subject-icon { background: rgba(60,180,100,0.2); }
+  .reading .subject-icon { background: rgba(255,160,60,0.2); }
 
   .subject-info { flex: 1; }
 
@@ -597,6 +601,30 @@
         <div class="subject-arrow">›</div>
       </div>
 
+      <div class="subject-card science" onclick="goToSubject('science')">
+        <div class="subject-icon">🌿</div>
+        <div class="subject-info">
+          <div class="subject-title">Окружающий мир</div>
+          <div class="subject-desc">7 тем · учи.ру · 4 класс</div>
+          <div class="subject-stars">
+            <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star" style="opacity:0.3">⭐</span>
+          </div>
+        </div>
+        <div class="subject-arrow">›</div>
+      </div>
+
+      <div class="subject-card reading" onclick="goToSubject('reading')">
+        <div class="subject-icon">📖</div>
+        <div class="subject-info">
+          <div class="subject-title">Литературное чтение</div>
+          <div class="subject-desc">7 тем · 4 класс</div>
+          <div class="subject-stars">
+            <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star" style="opacity:0.3">⭐</span>
+          </div>
+        </div>
+        <div class="subject-arrow">›</div>
+      </div>
+
     </div>
   </div>
 
@@ -729,6 +757,42 @@
         { icon: '💪', cls: 'lav',   name: 'Can / Can\'t',         desc: 'Умения и возможности',              key: 'rv_can',    done: false, review: true },
         { icon: '🏠', cls: 'peach', name: 'There is / There are', desc: 'Описание места',                   key: 'rv_there',  done: false, review: true },
         { icon: '📦', cls: 'pink',  name: 'Plural nouns',         desc: 'Множественное число -s/-es',        key: 'rv_plural', done: false, review: true },
+      ]
+    },
+
+    science: {
+      title: 'Окружающий мир', sub: '7 тем · учи.ру · 4 класс', emoji: '🌿',
+      items: [
+        { icon: '🗺️', cls: 'mint',  name: 'Природные зоны России', desc: 'Тундра, тайга, степь, пустыня...', key: 'nature_zones',  done: false },
+        { icon: '🏰', cls: 'lav',   name: 'История России',         desc: 'Древняя Русь, Иван Грозный, Пётр I', key: 'russia_hist', done: false },
+        { icon: '🦅', cls: 'pink',  name: 'Символы России',         desc: 'Герб, флаг, гимн — как читать',    key: 'state_sym',   done: false },
+        { icon: '🫀', cls: 'peach', name: 'Организм человека',      desc: 'Органы и системы тела',             key: 'human_body',  done: false },
+        { icon: '🌱', cls: 'sky',   name: 'Экология',               desc: 'Охрана природы, Красная книга',     key: 'ecology',     done: false },
+        { icon: '🌍', cls: 'mint',  name: 'Страны и столицы',       desc: 'Материки, океаны, крупные страны',  key: 'world_geo',   done: false },
+        { icon: '☀️', cls: 'lav',   name: 'Природные явления',      desc: 'Смена сезонов, погода, климат',    key: 'nat_events',  done: false },
+        { divider: true, label: '🔄 Повторение · 3 класс' },
+        { icon: '🌐', cls: 'peach', name: 'Материки и части света', desc: '6 материков и 4 части света',      key: 'rv_cont',     done: false, review: true },
+        { icon: '💧', cls: 'mint',  name: 'Круговорот воды',        desc: 'Испарение → облака → осадки',      key: 'rv_water',    done: false, review: true },
+        { icon: '🌿', cls: 'lav',   name: 'Растения и животные',    desc: 'Группы, признаки, питание',        key: 'rv_nature',   done: false, review: true },
+        { icon: '⚗️', cls: 'pink',  name: 'Тела и вещества',        desc: 'Твёрдые, жидкие, газообразные',   key: 'rv_matter',   done: false, review: true },
+      ]
+    },
+
+    reading: {
+      title: 'Литературное чтение', sub: '7 тем · 4 класс', emoji: '📖',
+      items: [
+        { icon: '📜', cls: 'lav',   name: 'Устное народное творчество', desc: 'Былины, сказания, пословицы',   key: 'folklore',    done: false },
+        { icon: '🪆', cls: 'pink',  name: 'А.С. Пушкин',                desc: 'Сказки и стихи Пушкина',        key: 'pushkin',     done: false },
+        { icon: '🌍', cls: 'peach', name: 'Зарубежная литература',       desc: 'Андерсен, Перро, Твен',         key: 'foreign_lit', done: false },
+        { icon: '📝', cls: 'mint',  name: 'Рассказы и повести',          desc: 'Толстой, Чехов, Куприн',        key: 'stories_lit', done: false },
+        { icon: '🎶', cls: 'sky',   name: 'Лирика · Поэзия',             desc: 'Стихи о природе, образы',       key: 'poetry_lit',  done: false },
+        { icon: '🗂️', cls: 'lav',   name: 'Работа с текстом',            desc: 'План, главная мысль, пересказ', key: 'text_work',   done: false },
+        { icon: '📚', cls: 'pink',  name: 'Жанры литературы',            desc: 'Сказка, рассказ, басня, стих',  key: 'genres_lit',  done: false },
+        { divider: true, label: '🔄 Повторение · 3 класс' },
+        { icon: '🧙', cls: 'mint',  name: 'Народные сказки',             desc: 'Виды и признаки сказок',        key: 'rv_tales',    done: false, review: true },
+        { icon: '🦊', cls: 'peach', name: 'Басни Крылова',               desc: '«Ворона и Лисица», «Лебедь»',   key: 'rv_fables',   done: false, review: true },
+        { icon: '💬', cls: 'lav',   name: 'Пословицы и поговорки',       desc: 'Смысл и применение',            key: 'rv_proverbs', done: false, review: true },
+        { icon: '🔍', cls: 'pink',  name: 'Герои произведений',          desc: 'Характер, поступки, описание',  key: 'rv_heroes',   done: false, review: true },
       ]
     }
   };
@@ -1166,6 +1230,234 @@
           addBot('<span class="formula-pill mint">book → book<b>s</b> · cat → cat<b>s</b></span><span class="formula-pill mint" style="margin-top:6px">box → box<b>es</b> · bus → bus<b>ses</b></span><br><br><b>Исключения (учим наизусть!):</b><br>child → <b>children</b> · man → <b>men</b><br>woman → <b>women</b> · mouse → <b>mice</b><br>tooth → <b>teeth</b> · foot → <b>feet</b> 🌸');
           delay(() => {
             addBot('Как будет «дети» по-английски?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">childs</button><button class="answer-btn mint-style" onclick="check(this,true)">children</button></div>', 600);
+          });
+        });
+      },
+
+      // ══════════════════════════════════════════════
+      // ОКРУЖАЮЩИЙ МИР — 4 класс
+      // ══════════════════════════════════════════════
+
+      nature_zones: () => {
+        addBot('🗺️ Природные зоны России! Наша страна огромная — с севера на юг сменяются зоны 🌿');
+        delay(() => {
+          addBot('<div class="info-card"><div class="case-row"><span class="case-name">🧊 Арктика</span><span class="case-example">Вечный лёд, полярные медведи</span></div><div class="case-row"><span class="case-name">🌾 Тундра</span><span class="case-example">Мхи, олени, очень холодно</span></div><div class="case-row"><span class="case-name">🌲 Тайга</span><span class="case-example">Хвойные леса, медведи, волки</span></div><div class="case-row"><span class="case-name">🍂 Смешанный лес</span><span class="case-example">Ели + берёзы + дубы</span></div><div class="case-row"><span class="case-name">🌻 Степь</span><span class="case-example">Трава, суслики, жаркое лето</span></div><div class="case-row"><span class="case-name">🏜️ Пустыня</span><span class="case-example">Песок, верблюды, жара</span></div></div>');
+          delay(() => {
+            addBot('В какой зоне растут хвойные деревья?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Степь</button><button class="answer-btn mint-style" onclick="check(this,true)">Тайга</button></div>', 600);
+          });
+        });
+      },
+
+      russia_hist: () => {
+        addBot('🏰 История России! Путешествие сквозь века ✨');
+        delay(() => {
+          addBot('<div class="info-card"><div class="case-row"><span class="case-name">🛡️ Древняя Русь</span><span class="case-example">862 г. — Рюрик, первый князь</span></div><div class="case-row"><span class="case-name">⛪ Принятие христианства</span><span class="case-example">988 г. — Владимир Красное Солнышко</span></div><div class="case-row"><span class="case-name">🐴 Монголо-татары</span><span class="case-example">XIII в. — нашествие, 240 лет ига</span></div><div class="case-row"><span class="case-name">👑 Иван Грозный</span><span class="case-example">Первый царь России (1547)</span></div><div class="case-row"><span class="case-name">⛵ Пётр I</span><span class="case-example">Создал флот, открыл окно в Европу</span></div></div>');
+          delay(() => {
+            addBot('Кто был первым царём России?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Пётр I</button><button class="answer-btn mint-style" onclick="check(this,true)">Иван Грозный</button></div>', 600);
+          });
+        });
+      },
+
+      state_sym: () => {
+        addBot('🦅 Символы России — три главных символа нашей страны! 🇷🇺');
+        delay(() => {
+          addBot('<div class="info-card"><div class="case-row"><span class="case-name">🚩 Флаг</span><span class="case-example">Белый · Синий · Красный (сверху вниз)</span></div><div class="case-row"><span class="case-name">🦅 Герб</span><span class="case-example">Двуглавый орёл, Георгий Победоносец</span></div><div class="case-row"><span class="case-name">🎵 Гимн</span><span class="case-example">Слова Михалкова, музыка Александрова</span></div></div><br>Слушают гимн стоя, с поднятой головой — это знак уважения к Родине 🌸');
+          delay(() => {
+            addBot('Какой цвет верхней полосы флага России?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Красный</button><button class="answer-btn mint-style" onclick="check(this,true)">Белый</button></div>', 600);
+          });
+        });
+      },
+
+      human_body: () => {
+        addBot('🫀 Организм человека — слаженная машина из систем органов! ✨');
+        delay(() => {
+          addBot('<div class="info-card"><div class="case-row"><span class="case-name">🫀 Кровеносная</span><span class="case-example">Сердце + сосуды, переносит кислород</span></div><div class="case-row"><span class="case-name">🫁 Дыхательная</span><span class="case-example">Лёгкие, бронхи — вдох / выдох</span></div><div class="case-row"><span class="case-name">🦴 Опорно-двиг.</span><span class="case-example">Скелет + мышцы — держит форму</span></div><div class="case-row"><span class="case-name">🧠 Нервная</span><span class="case-example">Мозг + нервы — управляет всем</span></div><div class="case-row"><span class="case-name">🍎 Пищеварит.</span><span class="case-example">Желудок, кишечник — еда → энергия</span></div></div>');
+          delay(() => {
+            addBot('Какой орган управляет всем организмом?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Сердце</button><button class="answer-btn mint-style" onclick="check(this,true)">Мозг</button></div>', 600);
+          });
+        });
+      },
+
+      ecology: () => {
+        addBot('🌱 Экология — наука о том, как люди и природа живут вместе 🌍');
+        delay(() => {
+          addBot('Красная книга — список редких и исчезающих видов. Их нельзя трогать, охотиться, рвать! 🦁<br><br><b>Как мы помогаем природе:</b><br>🔁 Сортируем мусор → переработка<br>💧 Не загрязняем воду и почву<br>🌳 Сажаем деревья<br>🚗 Меньше выхлопных газов');
+          delay(() => {
+            addBot('Красная книга — это список...<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Вредных животных</button><button class="answer-btn mint-style" onclick="check(this,true)">Редких и исчезающих видов</button></div>', 600);
+          });
+        });
+      },
+
+      world_geo: () => {
+        addBot('🌍 Страны и столицы мира! Учим самые важные для 4 класса 🗺️');
+        delay(() => {
+          addBot('<div class="info-card"><div class="case-row"><span class="case-name">🇷🇺 Россия</span><span class="case-example">→ Москва (самая большая страна!)</span></div><div class="case-row"><span class="case-name">🇫🇷 Франция</span><span class="case-example">→ Париж · Эйфелева башня</span></div><div class="case-row"><span class="case-name">🇬🇧 Великобритания</span><span class="case-example">→ Лондон · Биг-Бен</span></div><div class="case-row"><span class="case-name">🇺🇸 США</span><span class="case-example">→ Вашингтон · Статуя Свободы</span></div><div class="case-row"><span class="case-name">🇨🇳 Китай</span><span class="case-example">→ Пекин · Великая стена</span></div></div>');
+          delay(() => {
+            addBot('Столица Франции?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Берлин</button><button class="answer-btn mint-style" onclick="check(this,true)">Париж</button></div>', 600);
+          });
+        });
+      },
+
+      nat_events: () => {
+        addBot('☀️ Природные явления — то, что происходит в природе независимо от нас 🌦️');
+        delay(() => {
+          addBot('<b>Смена сезонов — почему?</b><br>Земля вращается вокруг Солнца 🌍 и наклонена. Когда твоё полушарие ближе к Солнцу — лето. Дальше — зима!<br><br><b>Погода и климат:</b><br>🌤️ Погода — сегодня (меняется каждый день)<br>🌡️ Климат — в среднем за много лет (постоянный)');
+          delay(() => {
+            addBot('Что меняется каждый день — погода или климат?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,true)">Погода</button><button class="answer-btn mint-style" onclick="check(this,false)">Климат</button></div>', 600);
+          });
+        });
+      },
+
+      rv_cont: () => {
+        addBot('🔄 Повторяем материки и части света! 🌐');
+        delay(() => {
+          addBot('<b>6 материков (запомни!):</b><br><span class="formula-pill mint">Евразия · Африка · Северная Америка</span><span class="formula-pill mint" style="margin-top:6px">Южная Америка · Австралия · Антарктида</span><br><br><b>4 океана:</b> Тихий · Атлантический · Индийский · Северный Ледовитый 🌊');
+          delay(() => {
+            addBot('Самый маленький материк?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Антарктида</button><button class="answer-btn mint-style" onclick="check(this,true)">Австралия</button></div>', 600);
+          });
+        });
+      },
+
+      rv_water: () => {
+        addBot('🔄 Круговорот воды в природе — вечный цикл! 💧');
+        delay(() => {
+          addBot('<div class="info-card"><div class="case-row"><span class="case-name">1️⃣ Испарение</span><span class="case-example">Солнце нагревает воду → пар</span></div><div class="case-row"><span class="case-name">2️⃣ Конденсация</span><span class="case-example">Пар поднимается → облака</span></div><div class="case-row"><span class="case-name">3️⃣ Осадки</span><span class="case-example">Дождь или снег падает вниз</span></div><div class="case-row"><span class="case-name">4️⃣ Снова</span><span class="case-example">Вода попадает в реки → и снова испаряется</span></div></div>');
+          delay(() => {
+            addBot('Что происходит с водой первым в круговороте?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,true)">Испарение</button><button class="answer-btn mint-style" onclick="check(this,false)">Осадки</button></div>', 600);
+          });
+        });
+      },
+
+      rv_nature: () => {
+        addBot('🔄 Растения и животные — вспоминаем 3 класс! 🌿');
+        delay(() => {
+          addBot('<b>Растения:</b> корень → стебель → лист → цветок → плод → семя<br><br><b>Группы животных:</b><br>🐟 Рыбы — жабры, чешуя<br>🐸 Земноводные — и в воде, и на суше<br>🦎 Пресмыкающиеся — чешуя, холоднокровные<br>🐦 Птицы — перья, клюв<br>🐭 Млекопитающие — кормят молоком');
+          delay(() => {
+            addBot('Как дышат рыбы?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Лёгкими</button><button class="answer-btn mint-style" onclick="check(this,true)">Жабрами</button></div>', 600);
+          });
+        });
+      },
+
+      rv_matter: () => {
+        addBot('🔄 Тела, вещества, частицы — повторяем основы! ⚗️');
+        delay(() => {
+          addBot('<b>Тело</b> — предмет (стол, мяч, капля воды)<br><b>Вещество</b> — из чего сделано (дерево, вода, железо)<br><br><b>Три состояния вещества:</b><br>🧊 Твёрдое — держит форму (лёд)<br>💧 Жидкое — принимает форму сосуда (вода)<br>💨 Газообразное — заполняет всё пространство (пар)');
+          delay(() => {
+            addBot('Лёд — это...<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,true)">Твёрдое вещество</button><button class="answer-btn mint-style" onclick="check(this,false)">Жидкое вещество</button></div>', 600);
+          });
+        });
+      },
+
+      // ══════════════════════════════════════════════
+      // ЛИТЕРАТУРНОЕ ЧТЕНИЕ — 4 класс
+      // ══════════════════════════════════════════════
+
+      folklore: () => {
+        addBot('📜 Устное народное творчество — всё, что народ придумал сам, без автора! ✨');
+        delay(() => {
+          addBot('<div class="info-card"><div class="case-row"><span class="case-name">⚔️ Былины</span><span class="case-example">Стихи о богатырях: Илья Муромец, Добрыня</span></div><div class="case-row"><span class="case-name">🧙 Сказки</span><span class="case-example">Волшебные, бытовые, о животных</span></div><div class="case-row"><span class="case-name">💬 Пословицы</span><span class="case-example">«Без труда не вытащишь рыбку из пруда»</span></div><div class="case-row"><span class="case-name">🎭 Скороговорки</span><span class="case-example">Для развития речи: «Карл у Клары»...</span></div><div class="case-row"><span class="case-name">🎵 Частушки</span><span class="case-example">Весёлые короткие песенки</span></div></div>');
+          delay(() => {
+            addBot('Кто герои русских былин?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Колобок и Лиса</button><button class="answer-btn mint-style" onclick="check(this,true)">Богатыри</button></div>', 600);
+          });
+        });
+      },
+
+      pushkin: () => {
+        addBot('🪆 А.С. Пушкин — великий русский поэт и сказочник! Родился в 1799 году 🌸');
+        delay(() => {
+          addBot('<b>Сказки Пушкина (обязательно знать!):</b><br>🐠 «Сказка о рыбаке и рыбке» — о жадности<br>🐓 «Сказка о золотом петушке»<br>🌊 «Сказка о царе Салтане» — остров Буян<br>👸 «Сказка о мёртвой царевне и семи богатырях»<br>🐝 «Сказка о попе и работнике его Балде»<br><br>В стихах — «У Лукоморья дуб зелёный...» 🐱');
+          delay(() => {
+            addBot('В какой сказке Пушкина три желания исполняла рыбка?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,true)">«Сказка о рыбаке и рыбке»</button><button class="answer-btn mint-style" onclick="check(this,false)">«Сказка о царе Салтане»</button></div>', 600);
+          });
+        });
+      },
+
+      foreign_lit: () => {
+        addBot('🌍 Зарубежная литература — авторы из других стран, которых читают все дети мира! ✨');
+        delay(() => {
+          addBot('<div class="info-card"><div class="case-row"><span class="case-name">🧊 Ганс Андерсен</span><span class="case-example">«Снежная королева», «Русалочка», «Гадкий утёнок»</span></div><div class="case-row"><span class="case-name">🐺 Шарль Перро</span><span class="case-example">«Красная Шапочка», «Золушка», «Кот в сапогах»</span></div><div class="case-row"><span class="case-name">🏴‍☠️ Марк Твен</span><span class="case-example">«Том Сойер» — приключения мальчика</span></div><div class="case-row"><span class="case-name">🐻 Алан Милн</span><span class="case-example">«Вини-Пух» — медвежонок и его друзья</span></div></div>');
+          delay(() => {
+            addBot('Кто написал «Снежную королеву»?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,true)">Ганс Андерсен</button><button class="answer-btn mint-style" onclick="check(this,false)">Шарль Перро</button></div>', 600);
+          });
+        });
+      },
+
+      stories_lit: () => {
+        addBot('📝 Рассказы и повести — небольшие прозаические произведения с настоящими героями 📚');
+        delay(() => {
+          addBot('<div class="info-card"><div class="case-row"><span class="case-name">🦁 Л.Н. Толстой</span><span class="case-example">«Кавказский пленник», «Прыжок», «Акула»</span></div><div class="case-row"><span class="case-name">🐶 А.П. Чехов</span><span class="case-example">«Каштанка» — собака, которая нашла хозяина</span></div><div class="case-row"><span class="case-name">🐘 А.И. Куприн</span><span class="case-example">«Слон» — девочка и настоящий слон</span></div></div><br><b>Чем рассказ отличается от повести?</b><br>Рассказ — короткий (одно событие). Повесть — длиннее (несколько событий) 🌸');
+          delay(() => {
+            addBot('Кто написал «Каштанку»?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Толстой</button><button class="answer-btn mint-style" onclick="check(this,true)">Чехов</button></div>', 600);
+          });
+        });
+      },
+
+      poetry_lit: () => {
+        addBot('🎶 Лирика и поэзия — стихи, где главное не событие, а чувства и настроение 🌸');
+        delay(() => {
+          addBot('<b>Поэты, которых учим в 4 классе:</b><br>✍️ <b>Пушкин</b> — «Осень», «Зимнее утро»<br>✍️ <b>Лермонтов</b> — «Родина», «Парус»<br>✍️ <b>Тютчев</b> — «Весенние воды», «Листья»<br>✍️ <b>Фет</b> — «Я пришёл к тебе с приветом»<br><br><b>Средства выразительности:</b><br>🎨 Эпитет — красочное прилагательное (синее море)<br>🔄 Сравнение — как / словно (лёгкий как пёрышко)<br>🌟 Метафора — скрытое сравнение (золото листьев)');
+          delay(() => {
+            addBot('«Синее море» — это...<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,true)">Эпитет</button><button class="answer-btn mint-style" onclick="check(this,false)">Метафора</button></div>', 600);
+          });
+        });
+      },
+
+      text_work: () => {
+        addBot('🗂️ Работа с текстом — умения, которые нужны при чтении ЛЮБОГО произведения 📋');
+        delay(() => {
+          addBot('<div class="info-card"><div class="case-row"><span class="case-name">1️⃣ Тема</span><span class="case-example">О чём текст? (О дружбе, о природе...)</span></div><div class="case-row"><span class="case-name">2️⃣ Главная мысль</span><span class="case-example">Что хотел сказать автор? (Дружба важна!)</span></div><div class="case-row"><span class="case-name">3️⃣ План</span><span class="case-example">Делим на части, даём заголовки</span></div><div class="case-row"><span class="case-name">4️⃣ Пересказ</span><span class="case-example">Своими словами, без дословного копирования</span></div><div class="case-row"><span class="case-name">5️⃣ Отношение</span><span class="case-example">Твоё мнение: нравится? Почему?</span></div></div>');
+          delay(() => {
+            addBot('Главная мысль — это...<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Пересказ сюжета</button><button class="answer-btn mint-style" onclick="check(this,true)">Что хотел сказать автор</button></div>', 600);
+          });
+        });
+      },
+
+      genres_lit: () => {
+        addBot('📚 Жанры литературы — каждое произведение принадлежит к своему жанру! 🌸');
+        delay(() => {
+          addBot('<div class="info-card"><div class="case-row"><span class="case-name">🧙 Сказка</span><span class="case-example">Волшебство, добро побеждает зло</span></div><div class="case-row"><span class="case-name">📖 Рассказ</span><span class="case-example">Реальные герои, одно событие</span></div><div class="case-row"><span class="case-name">🦊 Басня</span><span class="case-example">Короткая история-урок, часто животные</span></div><div class="case-row"><span class="case-name">🎶 Стихотворение</span><span class="case-example">Рифма, ритм, выражает чувства</span></div><div class="case-row"><span class="case-name">⚔️ Былина</span><span class="case-example">Стих о подвигах богатырей</span></div></div>');
+          delay(() => {
+            addBot('«Ворона и Лисица» — это...<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Сказка</button><button class="answer-btn mint-style" onclick="check(this,true)">Басня</button></div>', 600);
+          });
+        });
+      },
+
+      rv_tales: () => {
+        addBot('🔄 Народные сказки — самый древний жанр! Никто не знает кто их придумал 🧙');
+        delay(() => {
+          addBot('<b>Три вида народных сказок:</b><br><br>🐺 <b>О животных</b> — животные говорят и ведут себя как люди («Колобок», «Теремок»)<br><br>🔮 <b>Волшебные</b> — есть чудеса, волшебные предметы («Иван-Царевич», «Жар-птица»)<br><br>👨‍👩‍👧 <b>Бытовые</b> — обычные люди, ум побеждает силу («Каша из топора»)');
+          delay(() => {
+            addBot('«Иван-Царевич и Жар-птица» — это...<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Бытовая сказка</button><button class="answer-btn mint-style" onclick="check(this,true)">Волшебная сказка</button></div>', 600);
+          });
+        });
+      },
+
+      rv_fables: () => {
+        addBot('🔄 Басни Крылова — короткие поучительные истории! 🦊');
+        delay(() => {
+          addBot('<b>Иван Андреевич Крылов (1769–1844)</b><br>«Дедушка Крылов» — так его любовно называли<br><br><b>Знаменитые басни:</b><br>🦁 «Ворона и Лисица» — лесть и глупость<br>🎻 «Стрекоза и Муравей» — труд и лень<br>🦢 «Лебедь, Щука и Рак» — все тянут в разные стороны<br>🪳 «Квартет» — без умения мало пользы<br><br><b>Мораль</b> — главный урок басни, обычно в конце 🌸');
+          delay(() => {
+            addBot('Чему учит басня «Стрекоза и Муравей»?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Дружбе</button><button class="answer-btn mint-style" onclick="check(this,true)">Трудолюбию</button></div>', 600);
+          });
+        });
+      },
+
+      rv_proverbs: () => {
+        addBot('🔄 Пословицы и поговорки — народная мудрость в одной фразе! 💬');
+        delay(() => {
+          addBot('<b>Знаменитые пословицы:</b><br><br>📚 «Учение — свет, а неучение — тьма»<br>🐟 «Без труда не вытащишь рыбку из пруда»<br>👫 «Один за всех и все за одного»<br>🌱 «Что посеешь, то и пожнёшь»<br>🐦 «Не спеши языком, торопись делом»<br><br><b>Чем поговорка отличается от пословицы?</b><br>Пословица — законченная мысль (учат). Поговорка — просто образное выражение (не поучает) 🌸');
+          delay(() => {
+            addBot('Что такое пословица?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,true)">Законченная мудрая мысль</button><button class="answer-btn mint-style" onclick="check(this,false)">Скороговорка</button></div>', 600);
+          });
+        });
+      },
+
+      rv_heroes: () => {
+        addBot('🔄 Герои произведений — умеем описывать и понимать характер! 🔍');
+        delay(() => {
+          addBot('<b>Как описать литературного героя:</b><br><br>1️⃣ <b>Внешность</b> — как выглядит<br>2️⃣ <b>Характер</b> — добрый/злой, смелый/трусливый, умный/хитрый<br>3️⃣ <b>Поступки</b> — что делает (по поступкам судим о характере!)<br>4️⃣ <b>Речь</b> — как говорит, что говорит<br>5️⃣ <b>Отношение автора</b> — осуждает или восхищается?<br><br>💡 Совет: не говори «хороший» или «плохой» — объясни <i>почему</i> с примером из текста 🌸');
+          delay(() => {
+            addBot('По чему лучше всего определить характер героя?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">По внешности</button><button class="answer-btn mint-style" onclick="check(this,true)">По поступкам</button></div>', 600);
           });
         });
       },
