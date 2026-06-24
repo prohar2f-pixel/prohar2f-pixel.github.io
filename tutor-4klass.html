@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Звёздочка — твой репетитор</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pink: #F8A4C8;
+    --pink-light: #FDE8F3;
+    --pink-soft: #FFF0F8;
+    --pink-mid: #F4C2DA;
+    --lavender: #E8D5F0;
+    --lavender-mid: #D4B8E8;
+    --mint: #D4F0E8;
+    --peach: #FFE0CC;
+    --sky: #D0EEFF;
+    --sky-mid: #A8D8F8;
+    --text: #5A3050;
+    --text-soft: #9B6080;
+    --white: #FFFFFF;
+  }
+
+  body {
+    font-family: -apple-system, 'SF Pro Rounded', 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #FFE8F4 0%, #F0E8FF 50%, #E8F4FF 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .phone {
+    width: 375px;
+    height: 812px;
+    background: var(--pink-soft);
+    border-radius: 44px;
+    box-shadow: 0 40px 100px rgba(200, 100, 160, 0.25), 0 0 0 1px rgba(255,255,255,0.8);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flowers {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .flower {
+    position: absolute;
+    font-size: 18px;
+    opacity: 0.15;
+    animation: floatFlower 6s ease-in-out infinite;
+  }
+
+  @keyframes floatFlower {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(15deg); }
+  }
+
+  .screen {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
+    z-index: 1;
+  }
+
+  .screen.hidden { transform: translateX(100%); opacity: 0; pointer-events: none; }
+
+  /* ============ ЭКРАН 1: Главный ============ */
+  #screen-home { background: transparent; padding: 0; }
+
+  .home-header {
+    padding: 48px 20px 12px;
+    text-align: center;
+    position: relative;
+  }
+
+  .home-avatar {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #F8A4C8, #D4A0F0);
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    box-shadow: 0 8px 28px rgba(248, 164, 200, 0.5);
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 8px 28px rgba(248,164,200,0.5); }
+    50% { box-shadow: 0 8px 36px rgba(212,160,240,0.7); }
+  }
+
+  .home-title { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+  .home-sub { font-size: 13px; color: var(--text-soft); margin-top: 3px; }
+
+  .home-greeting {
+    margin: 10px 20px;
+    background: white;
+    border-radius: 20px;
+    padding: 13px 16px;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.5;
+    box-shadow: 0 4px 16px rgba(248, 164, 200, 0.2);
+    position: relative;
+  }
+
+  .home-greeting::before {
+    content: '💬';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    font-size: 20px;
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 20px;
+    margin: 10px 0 8px;
+  }
+
+  .subjects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 20px 20px;
+    overflow-y: auto;
+    flex: 1;
+    scrollbar-width: none;
+  }
+  .subjects-grid::-webkit-scrollbar { display: none; }
+
+  .subject-card {
+    border-radius: 24px;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .subject-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+  .subject-card:active { transform: scale(0.97); }
+
+  .subject-card.math { background: linear-gradient(145deg, #FFF0F8, #FFE4F4); }
+  .subject-card.russian { background: linear-gradient(145deg, #F0EEFF, #E8E0FF); }
+  .subject-card.english { background: linear-gradient(145deg, #ECFFF8, #D8FFE8); }
+
+  .subject-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+  .math .subject-icon { background: rgba(248,164,200,0.25); }
+  .russian .subject-icon { background: rgba(196,160,240,0.25); }
+  .english .subject-icon { background: rgba(96,208,160,0.25); }
+
+  .subject-info { flex: 1; }
+
+  .subject-title { font-size: 17px; font-weight: 700; color: var(--text); }
+  .subject-desc { font-size: 12px; color: var(--text-soft); margin-top: 3px; }
+
+  .subject-stars {
+    display: flex;
+    gap: 2px;
+    margin-top: 6px;
+  }
+
+  .star { font-size: 14px; }
+
+  .subject-arrow { font-size: 22px; color: var(--pink); flex-shrink: 0; }
+
+  /* Мотивашка */
+  .motivation {
+    margin: 0 20px 14px;
+    background: linear-gradient(135deg, #FFF3CC, #FFE8B0);
+    border-radius: 16px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #7A5A10;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(255,200,0,0.2);
+  }
+
+  /* ============ ЭКРАН 2: Предмет ============ */
+  #screen-topic { background: var(--pink-soft); }
+
+  .topic-header {
+    padding: 52px 20px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .back-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    color: var(--text);
+    flex-shrink: 0;
+    transition: transform 0.15s;
+  }
+  .back-btn:active { transform: scale(0.9); }
+
+  .topic-header-info { flex: 1; }
+  .topic-header-title { font-size: 20px; font-weight: 700; color: var(--text); }
+  .topic-header-sub { font-size: 13px; color: var(--text-soft); margin-top: 2px; }
+
+  .subtopics {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: none;
+  }
+  .subtopics::-webkit-scrollbar { display: none; }
+
+  .subtopic-item {
+    background: white;
+    border-radius: 18px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .subtopic-item:hover { transform: translateX(4px); box-shadow: 0 4px 16px rgba(248,164,200,0.25); }
+  .subtopic-item:active { transform: scale(0.97); }
+
+  .subtopic-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .subtopic-icon.pink { background: var(--pink-light); }
+  .subtopic-icon.lav { background: var(--lavender); }
+  .subtopic-icon.mint { background: var(--mint); }
+  .subtopic-icon.peach { background: var(--peach); }
+  .subtopic-icon.sky { background: var(--sky); }
+
+  .subtopic-info { flex: 1; }
+  .subtopic-name { font-size: 15px; font-weight: 600; color: var(--text); }
+  .subtopic-desc { font-size: 12px; color: var(--text-soft); margin-top: 2px; }
+  .subtopic-arrow { font-size: 18px; color: var(--pink); }
+  .subtopic-done {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: linear-gradient(135deg, #F8A4C8, #D4A0F0);
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; flex-shrink: 0;
+  }
+
+  .subtopic-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 4px;
+    margin-top: 4px;
+  }
+  .subtopic-divider-line {
+    flex: 1;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, #F4C2DA, transparent);
+  }
+  .subtopic-divider-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+    background: linear-gradient(135deg, #FFF0CC, #FFE4A8);
+    padding: 3px 10px;
+    border-radius: 10px;
+    color: #8A6020;
+  }
+
+  .subtopic-item.review {
+    background: linear-gradient(145deg, #FFFAF0, #FFF5DD);
+    border: 1.5px dashed #F0D080;
+  }
+  .subtopic-item.review:hover {
+    box-shadow: 0 4px 16px rgba(240,200,80,0.25);
+  }
+
+  /* ============ ЭКРАН 3: Чат ============ */
+  #screen-chat { background: var(--pink-soft); }
+
+  .chat-header {
+    padding: 52px 16px 12px;
+    background: white;
+    border-bottom: 1px solid #FFE0F0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 2px 12px rgba(248,164,200,0.15);
+    flex-shrink: 0;
+  }
+
+  .chat-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, #F8A4C8, #D4A0F0);
+    display: flex; align-items: center; justify-content: center; font-size: 20px;
+  }
+
+  .chat-header-name { font-size: 16px; font-weight: 700; color: var(--text); }
+  .chat-header-topic { font-size: 12px; color: var(--text-soft); margin-top: 1px; }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    scrollbar-width: none;
+  }
+  .chat-messages::-webkit-scrollbar { display: none; }
+
+  .chat-msg { display: flex; gap: 8px; align-items: flex-end; animation: fadeUp 0.3s ease; }
+  .chat-msg.user { flex-direction: row-reverse; }
+
+  .msg-ava {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, #F8A4C8, #D4A0F0);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+
+  .bubble {
+    max-width: 260px;
+    padding: 11px 15px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--text);
+  }
+
+  .chat-msg.bot .bubble {
+    background: white;
+    border-radius: 18px; border-bottom-left-radius: 5px;
+    box-shadow: 0 2px 8px rgba(248,164,200,0.2);
+  }
+
+  .chat-msg.user .bubble {
+    background: linear-gradient(135deg, #F8A4C8, #D4A0F0);
+    border-radius: 18px; border-bottom-right-radius: 5px;
+    color: white;
+    box-shadow: 0 4px 12px rgba(248,164,200,0.4);
+  }
+
+  .msg-time { font-size: 11px; color: #C0A0B8; margin-top: 3px; }
+  .chat-msg.user .msg-time { text-align: right; }
+
+  .formula-pill {
+    display: block;
+    background: var(--pink-light);
+    border: 1.5px solid var(--pink);
+    border-radius: 10px;
+    padding: 7px 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: var(--text);
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  .formula-pill.lav {
+    background: var(--lavender);
+    border-color: var(--lavender-mid);
+  }
+
+  .formula-pill.mint {
+    background: var(--mint);
+    border-color: #90D8B8;
+  }
+
+  .info-card {
+    background: white;
+    border-radius: 16px;
+    padding: 14px 16px;
+    box-shadow: 0 4px 16px rgba(248,164,200,0.15);
+    margin-top: 4px;
+  }
+
+  .info-card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+  }
+
+  .case-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid #FFE0F0;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .case-row:last-child { border-bottom: none; }
+  .case-num { font-weight: 700; color: var(--pink); width: 22px; flex-shrink: 0; }
+  .case-name { font-weight: 600; width: 90px; flex-shrink: 0; }
+  .case-q { color: var(--text-soft); flex: 1; }
+
+  .answer-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .answer-btn {
+    padding: 11px 8px;
+    border: 2px solid var(--pink-mid);
+    border-radius: 13px;
+    background: var(--pink-light);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .answer-btn:hover { background: var(--pink-mid); }
+  .answer-btn.correct { background: #D4F0E8; border-color: #80C8A8; color: #2A7A5A; }
+  .answer-btn.wrong { background: #FFE8E8; border-color: #F0A0A0; color: #A04040; }
+
+  .answer-btn.lav-style { border-color: var(--lavender-mid); background: var(--lavender); }
+  .answer-btn.mint-style { border-color: #90D8B8; background: var(--mint); }
+
+  .typing-bubble {
+    background: white;
+    border-radius: 18px; border-bottom-left-radius: 5px;
+    padding: 12px 16px;
+    display: flex; gap: 5px; align-items: center;
+    box-shadow: 0 2px 8px rgba(248,164,200,0.2);
+    width: fit-content;
+  }
+
+  .t-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--pink);
+    animation: tdot 1.2s ease infinite;
+  }
+  .t-dot:nth-child(2) { animation-delay: 0.2s; }
+  .t-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes tdot {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  .input-area {
+    padding: 10px 12px 28px;
+    background: white;
+    border-top: 1px solid #FFE0F0;
+    display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+  }
+
+  .msg-input {
+    flex: 1;
+    background: var(--pink-light);
+    border: none; border-radius: 22px;
+    padding: 10px 16px;
+    font-size: 14px; color: var(--text); outline: none;
+    font-family: inherit; resize: none;
+  }
+  .msg-input::placeholder { color: #C0A0B8; }
+
+  .btn-send {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, #F8A4C8, #E8A0E0);
+    border: none; cursor: pointer; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(248,164,200,0.4);
+    transition: transform 0.15s; flex-shrink: 0; color: white;
+  }
+  .btn-send:active { transform: scale(0.9); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <div class="flowers" id="flowers"></div>
+
+  <!-- ===== ЭКРАН 1: Главный ===== -->
+  <div class="screen" id="screen-home">
+
+    <div class="home-header">
+      <div class="home-avatar">⭐</div>
+      <div class="home-title" id="homeTitle">Привет! 🌸</div>
+      <div class="home-sub">Твой помощник Звёздочка</div>
+    </div>
+
+    <div class="home-greeting">
+      Давай вместе готовиться к 4-му классу и станем отличницей! Выбери предмет — я всё объясню 💕
+    </div>
+
+    <div class="motivation">
+      <span style="font-size:20px">🏆</span>
+      <span>Цель: <b>пятёрки</b> по русскому, математике и английскому!</span>
+    </div>
+
+    <div class="section-label">Выбери предмет</div>
+
+    <div class="subjects-grid">
+
+      <div class="subject-card math" onclick="goToSubject('math')">
+        <div class="subject-icon">🔢</div>
+        <div class="subject-info">
+          <div class="subject-title">Математика</div>
+          <div class="subject-desc">7 тем · учи.ру · 4 класс</div>
+          <div class="subject-stars">
+            <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star" style="opacity:0.3">⭐</span>
+          </div>
+        </div>
+        <div class="subject-arrow">›</div>
+      </div>
+
+      <div class="subject-card russian" onclick="goToSubject('russian')">
+        <div class="subject-icon">📚</div>
+        <div class="subject-info">
+          <div class="subject-title">Русский язык</div>
+          <div class="subject-desc">7 тем · учи.ру · 4 класс</div>
+          <div class="subject-stars">
+            <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star" style="opacity:0.3">⭐</span>
+          </div>
+        </div>
+        <div class="subject-arrow">›</div>
+      </div>
+
+      <div class="subject-card english" onclick="goToSubject('english')">
+        <div class="subject-icon">🌍</div>
+        <div class="subject-info">
+          <div class="subject-title">Английский язык</div>
+          <div class="subject-desc">7 тем · Spotlight 4</div>
+          <div class="subject-stars">
+            <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star" style="opacity:0.3">⭐</span>
+          </div>
+        </div>
+        <div class="subject-arrow">›</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== ЭКРАН 2: Темы предмета ===== -->
+  <div class="screen hidden" id="screen-topic">
+
+    <div class="topic-header">
+      <div class="back-btn" onclick="goBack('screen-home')">←</div>
+      <div class="topic-header-info">
+        <div class="topic-header-title" id="topicTitle">Математика</div>
+        <div class="topic-header-sub" id="topicSub">Выбери тему</div>
+      </div>
+      <div style="font-size:28px" id="topicEmoji">🔢</div>
+    </div>
+
+    <div class="subtopics" id="subtopicsList"></div>
+
+  </div>
+
+  <!-- ===== ЭКРАН 3: Чат ===== -->
+  <div class="screen hidden" id="screen-chat">
+
+    <div class="chat-header">
+      <div class="back-btn" onclick="goBack('screen-topic')" style="width:32px;height:32px;">←</div>
+      <div class="chat-avatar">⭐</div>
+      <div>
+        <div class="chat-header-name">Звёздочка</div>
+        <div class="chat-header-topic" id="chatTopicLabel">Умножение</div>
+      </div>
+    </div>
+
+    <div class="chat-messages" id="chatMessages"></div>
+
+    <div class="input-area">
+      <textarea class="msg-input" id="chatInput" placeholder="Спроси что-нибудь..." rows="1"
+        onkeydown="handleKey(event)"></textarea>
+      <button class="btn-send" onclick="sendMsg()">➤</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  // Имя — можно поменять на настоящее имя
+  const CHILD_NAME = 'Кристина';
+
+  // Установить приветствие
+  if (CHILD_NAME) {
+    document.getElementById('homeTitle').textContent = 'Привет, ' + CHILD_NAME + '! 🌸';
+  }
+
+  // Цветочки
+  const flowerEmojis = ['🌸','🌺','🌷','🌼','⭐','🌸','💫','🌸'];
+  const positions = [
+    {top:'5%',left:'3%'}, {top:'8%',right:'4%'},
+    {top:'18%',left:'1%'}, {top:'22%',right:'2%'},
+    {top:'38%',left:'2%'}, {top:'42%',right:'3%'},
+    {top:'58%',left:'1%'}, {top:'62%',right:'2%'},
+    {top:'75%',left:'3%'}, {top:'78%',right:'3%'},
+    {top:'88%',left:'2%'}, {top:'91%',right:'4%'},
+  ];
+
+  const flowersEl = document.getElementById('flowers');
+  positions.forEach((pos, i) => {
+    const f = document.createElement('div');
+    f.className = 'flower';
+    f.textContent = flowerEmojis[i % flowerEmojis.length];
+    Object.assign(f.style, pos);
+    f.style.animationDelay = (i * 0.5) + 's';
+    f.style.animationDuration = (5 + i * 0.3) + 's';
+    flowersEl.appendChild(f);
+  });
+
+  // ─── Данные предметов ────────────────────────────────────────────
+
+  const subjectsData = {
+    math: {
+      title: 'Математика',
+      sub: '7 тем · 4 класс · учи.ру',
+      emoji: '🔢',
+      items: [
+        { icon: '🔢', cls: 'pink',  name: 'Многозначные числа',   desc: 'Миллион, разряды, сравнение',     key: 'bignum',    done: false },
+        { icon: '✖️', cls: 'lav',   name: 'Умножение в столбик',  desc: 'На 2- и 3-значное число',          key: 'mult_col',  done: false },
+        { icon: '➗', cls: 'peach', name: 'Деление в столбик',    desc: 'С остатком, на 2-значное',         key: 'div_col',   done: false },
+        { icon: '📝', cls: 'mint',  name: 'Текстовые задачи',     desc: 'На движение, в несколько действий',key: 'tasks',     done: false },
+        { icon: '🍕', cls: 'sky',   name: 'Дроби и доли',         desc: 'Что такое доля, сравнение дробей', key: 'fractions', done: false },
+        { icon: '⬛', cls: 'pink',  name: 'Площадь и периметр',   desc: 'Единицы площади, формулы',         key: 'area_perim',done: false },
+        { icon: '⚖️', cls: 'lav',   name: 'Уравнения',            desc: 'Нахождение неизвестного',          key: 'equations', done: false },
+        { divider: true, label: '🔄 Повторение · 3 класс' },
+        { icon: '✖️', cls: 'peach', name: 'Таблица умножения',    desc: 'На 2–9, наизусть',                 key: 'rv_mult',   done: false, review: true },
+        { icon: '🔢', cls: 'mint',  name: 'Числа до 1000',        desc: 'Разряды, сравнение, счёт',         key: 'rv_num',    done: false, review: true },
+        { icon: '📋', cls: 'lav',   name: 'Порядок действий',     desc: 'Скобки и правила',                 key: 'rv_order',  done: false, review: true },
+        { icon: '📏', cls: 'pink',  name: 'Единицы длины',        desc: 'мм, см, дм, м, км — перевод',     key: 'rv_units',  done: false, review: true },
+      ]
+    },
+    russian: {
+      title: 'Русский язык',
+      sub: '7 тем · 4 класс · учи.ру',
+      emoji: '📚',
+      items: [
+        { icon: '🔤', cls: 'pink',  name: 'Безударные гласные',   desc: 'Проверочное слово в корне',        key: 'vowels',    done: false },
+        { icon: '🔍', cls: 'lav',   name: 'Состав слова',         desc: 'Приставка, корень, суффикс',       key: 'morphem',   done: false },
+        { icon: '💬', cls: 'mint',  name: 'Части речи',           desc: 'Сущ., прил., глагол, числит.',     key: 'speech',    done: false },
+        { icon: '📐', cls: 'peach', name: 'Падежи',               desc: '6 падежей и вопросы к ним',        key: 'cases',     done: false },
+        { icon: '🌀', cls: 'sky',   name: 'Спряжение глаголов',   desc: '1 и 2 спряжение, окончания',       key: 'verbs',     done: false },
+        { icon: '📋', cls: 'pink',  name: 'Члены предложения',    desc: 'Главные и второстепенные',         key: 'syntax',    done: false },
+        { icon: '✏️', cls: 'lav',   name: 'Орфография',           desc: 'Правописание приставок и суффикс', key: 'ortho',     done: false },
+        { divider: true, label: '🔄 Повторение · 3 класс' },
+        { icon: '🌿', cls: 'mint',  name: 'Однокоренные слова',   desc: 'Корень, родственные слова',        key: 'rv_roots',  done: false, review: true },
+        { icon: '📌', cls: 'peach', name: 'Жи-ши, ча-ща, чу-щу', desc: 'Главные орфограммы',               key: 'rv_spell',  done: false, review: true },
+        { icon: '🔀', cls: 'lav',   name: 'Разделительный Ь',     desc: 'Когда пишется ь перед е,ё,ю,я,и', key: 'rv_soft',   done: false, review: true },
+        { icon: '❓', cls: 'pink',  name: 'Виды предложений',     desc: 'По цели высказывания',             key: 'rv_sent',   done: false, review: true },
+      ]
+    },
+    english: {
+      title: 'Английский язык',
+      sub: '7 тем · 4 класс · Spotlight 4',
+      emoji: '🌍',
+      items: [
+        { icon: '👨‍👩‍👧', cls: 'mint',  name: 'Семья и друзья',      desc: 'Module 1 · Family & Friends',      key: 'family_en', done: false },
+        { icon: '⏰', cls: 'pink',  name: 'Мой день',             desc: 'Module 2 · Present Simple',         key: 'my_day',    done: false },
+        { icon: '🍽️', cls: 'peach', name: 'Еда',                 desc: 'Module 3 · Food & Drinks',          key: 'food',      done: false },
+        { icon: '🐘', cls: 'lav',   name: 'Животные',            desc: 'Module 4 · At the Zoo',             key: 'animals_en',done: false },
+        { icon: '📖', cls: 'sky',   name: 'Прошедшее время',     desc: 'Module 5 · Past Simple',            key: 'past_simple',done: false },
+        { icon: '🏡', cls: 'mint',  name: 'Места',               desc: 'Module 6 · Places & Prepositions',  key: 'places',    done: false },
+        { icon: '🎉', cls: 'pink',  name: 'Праздники',           desc: 'Module 7 · Holidays',               key: 'holidays',  done: false },
+        { divider: true, label: '🔄 Повторение · 3 класс' },
+        { icon: '🧩', cls: 'mint',  name: 'Have got',             desc: 'I have got / She has got',          key: 'rv_have',   done: false, review: true },
+        { icon: '💪', cls: 'lav',   name: 'Can / Can\'t',         desc: 'Умения и возможности',              key: 'rv_can',    done: false, review: true },
+        { icon: '🏠', cls: 'peach', name: 'There is / There are', desc: 'Описание места',                   key: 'rv_there',  done: false, review: true },
+        { icon: '📦', cls: 'pink',  name: 'Plural nouns',         desc: 'Множественное число -s/-es',        key: 'rv_plural', done: false, review: true },
+      ]
+    }
+  };
+
+  let currentSubject = null;
+
+  function goToSubject(key) {
+    currentSubject = key;
+    const data = subjectsData[key];
+    document.getElementById('topicTitle').textContent = data.title;
+    document.getElementById('topicSub').textContent = data.sub;
+    document.getElementById('topicEmoji').textContent = data.emoji;
+
+    const list = document.getElementById('subtopicsList');
+    list.innerHTML = '';
+    data.items.forEach(item => {
+      if (item.divider) {
+        const div = document.createElement('div');
+        div.className = 'subtopic-divider';
+        div.innerHTML = `<div class="subtopic-divider-line"></div>
+          <div class="subtopic-divider-label">${item.label}</div>
+          <div class="subtopic-divider-line"></div>`;
+        list.appendChild(div);
+        return;
+      }
+      const el = document.createElement('div');
+      el.className = 'subtopic-item' + (item.review ? ' review' : '');
+      el.innerHTML = `
+        <div class="subtopic-icon ${item.cls}">${item.icon}</div>
+        <div class="subtopic-info">
+          <div class="subtopic-name">${item.name}</div>
+          <div class="subtopic-desc">${item.desc}</div>
+        </div>
+        ${item.done
+          ? '<div class="subtopic-done">✓</div>'
+          : '<div class="subtopic-arrow" style="${item.review ? "color:#D0A030" : ""}">›</div>'}
+      `;
+      el.onclick = () => goToChat(item);
+      list.appendChild(el);
+    });
+
+    showScreen('screen-topic');
+  }
+
+  function goToChat(item) {
+    document.getElementById('chatTopicLabel').textContent = item.name;
+    const messages = document.getElementById('chatMessages');
+    messages.innerHTML = '';
+    loadChatContent(item.key);
+    showScreen('screen-chat');
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  // ─── Контент чатов ────────────────────────────────────────────────
+
+  function loadChatContent(key) {
+    const m = document.getElementById('chatMessages');
+
+    const content = {
+
+      // ── МАТЕМАТИКА (учи.ру, 4 класс) ───────────
+      bignum: () => {
+        addBot('Многозначные числа — это числа больше 1000! 🔢<br><br>В 4 классе учимся читать числа <b>до 1 000 000</b> (один миллион)');
+        delay(() => {
+          const card = `<div class="info-card">
+            <div class="info-card-title">Классы и разряды</div>
+            <div class="case-row"><span class="case-num" style="width:80px">Миллионы</span><span class="case-q">1 000 000</span></div>
+            <div class="case-row"><span class="case-num" style="width:80px">Тысячи</span><span class="case-q">1 000 – 999 999</span></div>
+            <div class="case-row"><span class="case-num" style="width:80px">Единицы</span><span class="case-q">1 – 999</span></div>
+          </div>`;
+          addBotHTML(card);
+          delay(() => {
+            addBot('Число <b>374 825</b> — это:<br>374 тысячи и 825 единиц 🌸<br><br>Как читается число <b>508 060</b>?<div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">Пятьсот восемь шестьдесят</button><button class="answer-btn" onclick="check(this,true)">Пятьсот восемь тысяч шестьдесят</button></div>', 700);
+          });
+        });
+      },
+
+      mult_col: () => {
+        addBot('Умножение в столбик — важный навык для пятёрки! ✖️<br><br>Считаем <b>23 × 14</b> в столбик:');
+        delay(() => {
+          addBot('<span class="formula-pill">23 × 4 = 92 (множим на единицы)</span><span class="formula-pill" style="margin-top:6px">23 × 10 = 230 (множим на десятки)</span><span class="formula-pill lav" style="margin-top:6px">92 + 230 = 322 ✓</span><br><br>Пишем 230 со сдвигом на 1 разряд влево!');
+          delay(() => {
+            addBot('Реши в уме или на бумаге: <b>34 × 12 = ?</b><div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">396</button><button class="answer-btn" onclick="check(this,true)">408</button></div>', 700);
+          });
+        });
+      },
+
+      div_col: () => {
+        addBot('Деление в столбик — делаем шаг за шагом! ➗<br><br>Считаем <b>96 ÷ 4</b>:');
+        delay(() => {
+          addBot('1️⃣ Смотрим на первую цифру: 9 ÷ 4 = <b>2</b> (остаток 1)<br>2️⃣ Опускаем следующую: 16 ÷ 4 = <b>4</b><br>3️⃣ Ответ: <b>24</b><br><br><span class="formula-pill">96 ÷ 4 = 24</span>');
+          delay(() => {
+            addBot('А с остатком — <b>85 ÷ 6</b>:<br>6 × 14 = 84, остаток 1<br><span class="formula-pill lav">85 ÷ 6 = 14 (ост. 1)</span>');
+            delay(() => {
+              addBot('Твоя задача! 💕<br><b>72 ÷ 8 = ?</b><div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">8</button><button class="answer-btn" onclick="check(this,true)">9</button></div>', 600);
+            });
+          });
+        });
+      },
+
+      tasks: () => {
+        addBot('Текстовые задачи решаем <b>строго по плану</b> — так не запутаешься! 📝');
+        delay(() => {
+          addBot('<b>3 шага к решению:</b><br>1️⃣ <b>Условие</b> — что дано?<br>2️⃣ <b>Вопрос</b> — что найти?<br>3️⃣ <b>Решение</b> — какое действие?<br><br><b>Задача на движение:</b><br>Велосипедист едет 12 км/ч. За 3 часа какое расстояние проедет?');
+          delay(() => {
+            addBot('<span class="formula-pill">Расстояние = скорость × время</span><span class="formula-pill mint" style="margin-top:6px">12 × 3 = 36 км ✓</span>');
+            delay(() => {
+              addBot('Машина едет 60 км/ч, 2 часа. Сколько км проехала?<div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">30 км</button><button class="answer-btn" onclick="check(this,true)">120 км</button></div>', 600);
+            });
+          });
+        });
+      },
+
+      fractions: () => {
+        addBot('Дробь — это часть целого! 🍕<br><br>Если пицца разрезана на <b>8 кусков</b>, и ты съела <b>3</b> — это дробь <b>3/8</b>');
+        delay(() => {
+          addBot('<span class="formula-pill">3/8 → 3 — числитель (взяли), 8 — знаменатель (всего частей)</span><br><br><b>Сравниваем дроби с одним знаменателем:</b><br>3/8 < 5/8 (больше числитель — больше дробь) 🌸');
+          delay(() => {
+            addBot('Что больше? 💕<div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">2/6</button><button class="answer-btn" onclick="check(this,true)">5/6</button></div>', 600);
+          });
+        });
+      },
+
+      area_perim: () => {
+        addBot('Площадь и периметр — разные вещи! Не перепутай 😊<br><br>📏 <b>Периметр</b> — длина границы фигуры<br>⬛ <b>Площадь</b> — сколько места внутри');
+        delay(() => {
+          addBot('<span class="formula-pill">Периметр прямоугольника: P = (a + b) × 2</span><span class="formula-pill lav" style="margin-top:6px">Площадь прямоугольника: S = a × b</span><br><br>Комната 5 м × 3 м:<br>P = (5+3)×2 = <b>16 м</b><br>S = 5×3 = <b>15 м²</b>');
+          delay(() => {
+            addBot('Прямоугольник 7 м × 4 м. Чему равна площадь?<div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">22 м²</button><button class="answer-btn" onclick="check(this,true)">28 м²</button></div>', 700);
+          });
+        });
+      },
+
+      equations: () => {
+        addBot('Уравнение — это пример с неизвестным <b>х</b>! Наша задача — найти его 🔍');
+        delay(() => {
+          addBot('<b>Правила нахождения х:</b><br><br>x + 5 = 12 → x = 12 − 5 = <b>7</b><br>x − 8 = 14 → x = 14 + 8 = <b>22</b><br>x × 4 = 36 → x = 36 ÷ 4 = <b>9</b><br><br><span class="formula-pill">Переносим на другую сторону — меняем знак!</span>');
+          delay(() => {
+            addBot('Реши уравнение: <b>x + 15 = 42</b><div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">x = 57</button><button class="answer-btn" onclick="check(this,true)">x = 27</button></div>', 600);
+          });
+        });
+      },
+
+      // ── РУССКИЙ ЯЗЫК (учи.ру, 4 класс) ────────
+      vowels: () => {
+        addBot('Безударная гласная в корне — главная ловушка! Но есть секрет 🌸<br><br><b>Правило:</b> подбери проверочное слово, чтобы гласная стала <b>ударной</b>');
+        delay(() => {
+          addBot('Примеры:<br>🔹 гр<b>а</b>за? гр<b>о</b>за? → гр<b>о</b>зы — пишем <b>О</b><br>🔹 тр<b>а</b>ва? → тр<b>а</b>вы — пишем <b>А</b><br><br><span class="formula-pill">Нет ударения — ищи проверочное слово!</span>');
+          delay(() => {
+            addBot('Выбери правильное написание: «л..сной» (лес)<div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">лосной</button><button class="answer-btn" onclick="check(this,true)">лесной</button></div>', 600);
+          });
+        });
+      },
+
+      morphem: () => {
+        addBot('Разбор слова по составу — как конструктор! 🔍<br><br>В слове <b>подберёзовик</b> выделяем:');
+        delay(() => {
+          addBot('🟦 <b>под-</b> — приставка (часть перед корнем)<br>🟩 <b>берёз-</b> — корень (главная часть)<br>🟨 <b>-ов-ик</b> — суффиксы<br>🟥 <b>∅</b> — нулевое окончание<br><br><span class="formula-pill">приставка + корень + суффикс + окончание</span>');
+          delay(() => {
+            addBot('Что обозначает суффикс? 🌸<div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">Главная часть слова</button><button class="answer-btn" onclick="check(this,true)">Часть после корня, образует новые слова</button></div>', 600);
+          });
+        });
+      },
+
+      speech: () => {
+        addBot('Части речи — в 4 классе изучаем 4 главных! 💬');
+        delay(() => {
+          addBot('🔵 <b>Существительное</b> — кто? что? (кошка, счастье)<br>🟣 <b>Прилагательное</b> — какой? (пушистая, синий)<br>🟢 <b>Глагол</b> — что делает? (бежит, думает)<br>🟡 <b>Числительное</b> — сколько? (пять, третий)');
+          delay(() => {
+            addBot('<span class="formula-pill">пушистая кошка бежит в пятый раз</span><br><i>прил. + сущ. + глагол + числит.</i> 🌸');
+            delay(() => {
+              addBot('«Весёлый» — это какая часть речи?<div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">Существительное</button><button class="answer-btn" onclick="check(this,true)">Прилагательное</button></div>', 600);
+            });
+          });
+        });
+      },
+
+      cases: () => {
+        addBot('6 падежей — учим по вопросам и по порядку 📐<br><br>Запомни: <b>Иван Родил Девчонку — Велел Тащить Пелёнку</b> 😄');
+        delay(() => {
+          const card = `<div class="info-card">
+            <div class="info-card-title">6 падежей + предлоги</div>
+            <div class="case-row"><span class="case-num">И.</span><span class="case-name">Именит.</span><span class="case-q">Кто? Что? — без предлога</span></div>
+            <div class="case-row"><span class="case-num">Р.</span><span class="case-name">Родит.</span><span class="case-q">Кого? — у, от, из, без</span></div>
+            <div class="case-row"><span class="case-num">Д.</span><span class="case-name">Датель.</span><span class="case-q">Кому? — к, по</span></div>
+            <div class="case-row"><span class="case-num">В.</span><span class="case-name">Винит.</span><span class="case-q">Кого? Что? — в, на, за</span></div>
+            <div class="case-row"><span class="case-num">Т.</span><span class="case-name">Творит.</span><span class="case-q">Кем? — с, за, над</span></div>
+            <div class="case-row"><span class="case-num">П.</span><span class="case-name">Предлож.</span><span class="case-q">О ком? — о, в, на</span></div>
+          </div>`;
+          addBotHTML(card);
+          delay(() => {
+            addBot('«Думать <b>о маме</b>» — какой падеж?<div class="answer-btns"><button class="answer-btn lav-style" onclick="check(this,false)">Дательный</button><button class="answer-btn lav-style" onclick="check(this,true)">Предложный</button></div>', 700);
+          });
+        });
+      },
+
+      verbs: () => {
+        addBot('Спряжение глаголов — это как они меняются по лицам! 🌀<br><br>Есть 2 спряжения. Определяем по неопределённой форме:');
+        delay(() => {
+          addBot('<span class="formula-pill">II спряжение: глаголы на -ить<br>+ исключения: гнать, держать, дышать, слышать, видеть, обидеть, терпеть, зависеть, ненавидеть, вертеть, смотреть</span><span class="formula-pill lav" style="margin-top:6px">I спряжение: все остальные (-ать, -ять, -еть...)</span>');
+          delay(() => {
+            addBot('Глагол <b>писать</b> — какое спряжение?<div class="answer-btns"><button class="answer-btn" onclick="check(this,true)">I спряжение</button><button class="answer-btn" onclick="check(this,false)">II спряжение</button></div>', 700);
+          });
+        });
+      },
+
+      syntax: () => {
+        addBot('Члены предложения — главные и второстепенные 📋<br><br>⭐ <b>Главные члены:</b><br>— <b>Подлежащее</b> (кто? что?) — подчёркивается одной чертой<br>— <b>Сказуемое</b> (что делает?) — подчёркивается двумя чертами');
+        delay(() => {
+          addBot('Второстепенные:<br>— <b>Дополнение</b> (кого? чего?) — пунктир<br>— <b>Определение</b> (какой?) — волнистая линия<br>— <b>Обстоятельство</b> (где? когда?) — штрих-пунктир<br><br><span class="formula-pill">Кошка (подл.) мяукает (сказ.) громко.</span>');
+          delay(() => {
+            addBot('«Девочка читает книгу.» Что является подлежащим?<div class="answer-btns"><button class="answer-btn" onclick="check(this,true)">Девочка</button><button class="answer-btn" onclick="check(this,false)">Читает</button></div>', 600);
+          });
+        });
+      },
+
+      ortho: () => {
+        addBot('Орфография — правила написания слов! ✏️<br><br>В 4 классе главные темы:');
+        delay(() => {
+          addBot('📌 <b>Приставки на з/с:</b><br>Перед звонкими → <b>з</b>: раз-будить, без-дорожный<br>Перед глухими → <b>с</b>: рас-крыть, бес-крылый<br><br><span class="formula-pill">Звонкий согласный → з · Глухой → с</span>');
+          delay(() => {
+            addBot('📌 <b>Разделительные ъ и ь:</b><br>Ъ — после приставок на согласную: подъезд, съел<br>Ь — в остальных случаях: вьюга, семья 🌸');
+            delay(() => {
+              addBot('Как правильно написать?<div class="answer-btns"><button class="answer-btn" onclick="check(this,true)">разбудить</button><button class="answer-btn" onclick="check(this,false)">расбудить</button></div>', 600);
+            });
+          });
+        });
+      },
+
+      // ── АНГЛИЙСКИЙ (Spotlight 4) ────────────────
+      family_en: () => {
+        addBot('Module 1 — <b>Family & Friends</b> 👨‍👩‍👧<br><br>Учим слова про семью и описываем людей!');
+        delay(() => {
+          addBot('👨 father / dad — папа<br>👩 mother / mum — мама<br>👴 grandfather — дедушка<br>👵 grandmother — бабушка<br>👧 sister — сестра · 👦 brother — брат<br><br><span class="formula-pill mint">This is my family. I have a mum, a dad and a sister.</span>');
+          delay(() => {
+            addBot('<b>Описываем внешность:</b><br>tall — высокий · short — низкий<br>long hair — длинные волосы · blue eyes — голубые глаза<br><br>Как по-английски «сестра»? 🌸<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">brother</button><button class="answer-btn mint-style" onclick="check(this,true)">sister</button></div>', 700);
+          });
+        });
+      },
+
+      my_day: () => {
+        addBot('Module 2 — <b>My Day</b> ⏰<br><br>Рассказываем что делаем каждый день — Present Simple!');
+        delay(() => {
+          addBot('<b>Present Simple — правило:</b><br><span class="formula-pill mint">I / You / We / They + глагол</span><span class="formula-pill mint" style="margin-top:6px">He / She / It + глагол + <b>s/es</b></span><br><br>I wake up at 7. · She wake<b>s</b> up at 8.<br>I go to school. · He go<b>es</b> to school.');
+          delay(() => {
+            addBot('Отрицание: <b>don\'t / doesn\'t</b><br>I <b>don\'t</b> watch TV. · She <b>doesn\'t</b> play football.<br><br>Выбери правильный вариант: «He ___ football every day»<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">play</button><button class="answer-btn mint-style" onclick="check(this,true)">plays</button></div>', 700);
+          });
+        });
+      },
+
+      food: () => {
+        addBot('Module 3 — <b>Food & Drinks</b> 🍽️<br><br>Учим еду и напитки, говорим о вкусах!');
+        delay(() => {
+          addBot('🍎 apple — яблоко · 🥛 milk — молоко<br>🍞 bread — хлеб · 🧀 cheese — сыр<br>🥕 carrot — морковь · 🍗 chicken — курица<br>🍰 cake — торт · 🍊 orange — апельсин<br><br><span class="formula-pill mint">I like pizza. / I don\'t like fish.</span><span class="formula-pill mint" style="margin-top:6px">Do you like soup? — Yes, I do. / No, I don\'t.</span>');
+          delay(() => {
+            addBot('Как по-английски «молоко»? 🌸<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">water</button><button class="answer-btn mint-style" onclick="check(this,true)">milk</button></div>', 600);
+          });
+        });
+      },
+
+      animals_en: () => {
+        addBot('Module 4 — <b>At the Zoo</b> 🐘<br><br>Животные и их описание!');
+        delay(() => {
+          addBot('🦁 lion · 🐯 tiger · 🐘 elephant · 🦒 giraffe<br>🐍 snake · 🦜 parrot · 🐧 penguin · 🦊 fox<br>🐬 dolphin · 🦋 butterfly<br><br><b>Описываем животных:</b><br><span class="formula-pill mint">The elephant is big and grey.</span><span class="formula-pill mint" style="margin-top:6px">It has got a long trunk and big ears.</span>');
+          delay(() => {
+            addBot('Как по-английски «жираф»? 🌸<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">elephant</button><button class="answer-btn mint-style" onclick="check(this,true)">giraffe</button></div>', 600);
+          });
+        });
+      },
+
+      past_simple: () => {
+        addBot('Module 5 — <b>Past Simple</b> 📖<br><br>Рассказываем о том, что было — прошедшее время!');
+        delay(() => {
+          addBot('<b>Правильные глаголы:</b> добавляем <b>-ed</b><br>play → play<b>ed</b> · watch → watch<b>ed</b><br><br><b>Неправильные глаголы — учим наизусть!</b><br><span class="formula-pill mint">go → went · see → saw · eat → ate</span><span class="formula-pill mint" style="margin-top:6px">have → had · is/are → was/were</span>');
+          delay(() => {
+            addBot('Отрицание и вопрос: <b>didn\'t / did...?</b><br>I <b>didn\'t</b> go to school yesterday.<br><b>Did</b> you watch TV? — Yes, I did.<br><br>Как будет «I go» в прошедшем?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">I goed</button><button class="answer-btn mint-style" onclick="check(this,true)">I went</button></div>', 700);
+          });
+        });
+      },
+
+      places: () => {
+        addBot('Module 6 — <b>Places</b> 🏡<br><br>Учим места и предлоги!');
+        delay(() => {
+          addBot('🏫 school — школа · 🏥 hospital — больница<br>🏪 shop — магазин · 🌳 park — парк<br>🏛️ museum — музей · 🚉 station — станция<br><br><b>Предлоги места:</b><br><span class="formula-pill mint">in — в · on — на · under — под · next to — рядом с</span><span class="formula-pill mint" style="margin-top:6px">between — между · in front of — перед · behind — за</span>');
+          delay(() => {
+            addBot('«The cat is ___ the box» (кот внутри коробки)<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">on</button><button class="answer-btn mint-style" onclick="check(this,true)">in</button></div>', 600);
+          });
+        });
+      },
+
+      holidays: () => {
+        addBot('Module 7 — <b>Holidays</b> 🎉<br><br>Учим праздники и поздравления!');
+        delay(() => {
+          addBot('🎄 Christmas — Рождество<br>🎆 New Year — Новый год<br>🐣 Easter — Пасха<br>🎂 Birthday — День рождения<br>🎃 Halloween — Хэллоуин<br><br><span class="formula-pill mint">Happy New Year! — С Новым годом!</span><span class="formula-pill mint" style="margin-top:6px">Happy Birthday! — С днём рождения!</span><span class="formula-pill mint" style="margin-top:6px">Merry Christmas! — С Рождеством!</span>');
+          delay(() => {
+            addBot('Как поздравить с днём рождения? 🌸<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Happy New Year!</button><button class="answer-btn mint-style" onclick="check(this,true)">Happy Birthday!</button></div>', 600);
+          });
+        });
+      },
+
+      // ── ПОВТОРЕНИЕ МАТЕМАТИКИ (3 класс) ────────
+      rv_mult: () => {
+        addBot('🔄 Повторяем таблицу умножения — основа всей математики! ✖️<br><br>Знаешь ли ты все примеры наизусть? Проверим!');
+        delay(() => {
+          const card = `<div class="info-card">
+            <div class="info-card-title">Таблица умножения — подсказка</div>
+            <div class="case-row"><span class="case-num">×2</span><span class="case-q">2,4,6,8,10,12,14,16,18</span></div>
+            <div class="case-row"><span class="case-num">×3</span><span class="case-q">3,6,9,12,15,18,21,24,27</span></div>
+            <div class="case-row"><span class="case-num">×4</span><span class="case-q">4,8,12,16,20,24,28,32,36</span></div>
+            <div class="case-row"><span class="case-num">×5</span><span class="case-q">5,10,15,20,25,30,35,40,45</span></div>
+            <div class="case-row"><span class="case-num">×6</span><span class="case-q">6,12,18,24,30,36,42,48,54</span></div>
+            <div class="case-row"><span class="case-num">×7</span><span class="case-q">7,14,21,28,35,42,49,56,63</span></div>
+            <div class="case-row"><span class="case-num">×8</span><span class="case-q">8,16,24,32,40,48,56,64,72</span></div>
+            <div class="case-row"><span class="case-num">×9</span><span class="case-q">9,18,27,36,45,54,63,72,81</span></div>
+          </div>`;
+          addBotHTML(card);
+          delay(() => {
+            addBot('Сколько будет <b>7 × 8</b>? 🌸<div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">54</button><button class="answer-btn" onclick="check(this,true)">56</button></div>', 700);
+          });
+        });
+      },
+
+      rv_num: () => {
+        addBot('🔄 Повторяем числа до 1000! 🔢<br><br>В числе <b>748</b>:<br>🔹 7 — сотни (700)<br>🔹 4 — десятки (40)<br>🔹 8 — единицы (8)');
+        delay(() => {
+          addBot('<span class="formula-pill">748 = 700 + 40 + 8</span><br><br><b>Сравниваем числа:</b><br>Смотрим с самого большого разряда:<br>748 <b>></b> 659 (7 сотен > 6 сотен) 🌸');
+          delay(() => {
+            addBot('Какое число <b>больше</b>? 💕<div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">395</button><button class="answer-btn" onclick="check(this,true)">401</button></div>', 600);
+          });
+        });
+      },
+
+      rv_order: () => {
+        addBot('🔄 Порядок действий — кто первый? 📋<br><br>Запомни правило: сначала то, что в <b>скобках</b>, потом <b>×</b> и <b>÷</b>, в последнюю очередь <b>+</b> и <b>−</b>');
+        delay(() => {
+          addBot('<span class="formula-pill">2 + 3 × 4 = ?</span><br><br>❌ НЕ считаем 2+3=5, потом 5×4=20<br>✅ Сначала 3×4=12, потом 2+12 = <b>14</b>');
+          delay(() => {
+            addBot('<b>Реши: (8 + 2) × 3 = ?</b><div class="answer-btns"><button class="answer-btn" onclick="check(this,true)">30</button><button class="answer-btn" onclick="check(this,false)">14</button></div>', 600);
+          });
+        });
+      },
+
+      rv_units: () => {
+        addBot('🔄 Единицы длины — умеем переводить? 📏');
+        delay(() => {
+          const card = `<div class="info-card">
+            <div class="info-card-title">Единицы длины</div>
+            <div class="case-row"><span class="case-num" style="width:50px">1 км</span><span class="case-q">= 1000 м</span></div>
+            <div class="case-row"><span class="case-num" style="width:50px">1 м</span><span class="case-q">= 10 дм = 100 см</span></div>
+            <div class="case-row"><span class="case-num" style="width:50px">1 дм</span><span class="case-q">= 10 см</span></div>
+            <div class="case-row"><span class="case-num" style="width:50px">1 см</span><span class="case-q">= 10 мм</span></div>
+          </div>`;
+          addBotHTML(card);
+          delay(() => {
+            addBot('Сколько сантиметров в <b>3 дм</b>?<div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">3 см</button><button class="answer-btn" onclick="check(this,true)">30 см</button></div>', 600);
+          });
+        });
+      },
+
+      // ── ПОВТОРЕНИЕ РУССКОГО (3 класс) ───────────
+      rv_roots: () => {
+        addBot('🔄 Однокоренные слова — у них один и тот же корень! 🌿<br><br>Корень — это главная часть слова, которая несёт смысл');
+        delay(() => {
+          addBot('Группа однокоренных слов:<br>🌊 <b>вод</b>а · <b>вод</b>ный · под<b>вод</b>ный · <b>вод</b>опад<br><br>Все от корня <b>-вод-</b> 🌸<br><br><span class="formula-pill">Однокоренные = одинаковый корень + похожее значение</span>');
+          delay(() => {
+            addBot('Какое слово <b>НЕ</b> является однокоренным к слову «лес»?<div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">лесник</button><button class="answer-btn" onclick="check(this,true)">лестница</button></div>', 600);
+          });
+        });
+      },
+
+      rv_spell: () => {
+        addBot('🔄 Жи-ши, ча-ща, чу-щу — эти правила надо знать на автомате! ✏️');
+        delay(() => {
+          addBot('<span class="formula-pill">ЖИ-ШИ — пишем И: жить, шить, машина, ножи</span><span class="formula-pill lav" style="margin-top:6px">ЧА-ЩА — пишем А: чашка, роща, задача</span><span class="formula-pill mint" style="margin-top:6px">ЧУ-ЩУ — пишем У: чудо, щука, учу</span>');
+          delay(() => {
+            addBot('Как правильно написать? «ч..до»<div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">чодо</button><button class="answer-btn" onclick="check(this,true)">чудо</button></div>', 600);
+          });
+        });
+      },
+
+      rv_soft: () => {
+        addBot('🔄 Разделительный <b>Ь</b> — когда он нужен? 🔀<br><br>Ь пишется внутри слова (не после приставки!) перед буквами <b>е, ё, ю, я, и</b>');
+        delay(() => {
+          addBot('Примеры с Ь:<br>семья · вьюга · листья · соловьи · платье<br><br><span class="formula-pill">корень/суффикс + Ь + е,ё,ю,я,и</span><br><br>А <b>Ъ</b> — только после приставки:<br>подъезд · съел · объяснил 🌸');
+          delay(() => {
+            addBot('В каком слове нужен разделительный Ь?<div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">подъезд</button><button class="answer-btn" onclick="check(this,true)">вьюга</button></div>', 600);
+          });
+        });
+      },
+
+      rv_sent: () => {
+        addBot('🔄 Виды предложений по цели высказывания — 3 вида! ❓');
+        delay(() => {
+          addBot('💬 <b>Повествовательное</b> — рассказывает. Ставим точку.<br><i>Сегодня солнечный день.</i><br><br>❓ <b>Вопросительное</b> — спрашивает. Ставим ?<br><i>Ты сделала уроки?</i><br><br>❗ <b>Побудительное</b> — просит или приказывает. Ставим ! или точку.<br><i>Открой, пожалуйста, окно.</i>');
+          delay(() => {
+            addBot('«Какая сегодня погода?» — это какое предложение?<div class="answer-btns"><button class="answer-btn" onclick="check(this,false)">Повествовательное</button><button class="answer-btn" onclick="check(this,true)">Вопросительное</button></div>', 600);
+          });
+        });
+      },
+
+      // ── ПОВТОРЕНИЕ АНГЛИЙСКОГО (3 класс) ────────
+      rv_have: () => {
+        addBot('🔄 Have got — описываем что у нас есть! 🧩<br><br>Have got значит «иметь», «у меня есть»');
+        delay(() => {
+          addBot('<span class="formula-pill mint">I/You/We/They have got → I\'ve got</span><span class="formula-pill mint" style="margin-top:6px">He/She/It has got → She\'s got</span><br><br>Примеры:<br>I <b>have got</b> a cat. — У меня есть кот.<br>She <b>has got</b> blue eyes. — У неё голубые глаза. 🌸');
+          delay(() => {
+            addBot('«У него есть собака» — выбери правильный вариант:<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">He have got a dog.</button><button class="answer-btn mint-style" onclick="check(this,true)">He has got a dog.</button></div>', 600);
+          });
+        });
+      },
+
+      rv_can: () => {
+        addBot('🔄 Can / Can\'t — умения и возможности! 💪<br><br>Can = могу, умею · Can\'t = не могу, не умею');
+        delay(() => {
+          addBot('<span class="formula-pill mint">I can swim. — Я умею плавать.</span><span class="formula-pill mint" style="margin-top:6px">She can\'t fly. — Она не умеет летать.</span><br><br><b>Вопрос:</b> Can you dance? — Ты умеешь танцевать?<br><b>Ответ:</b> Yes, I can. / No, I can\'t. 🌸');
+          delay(() => {
+            addBot('Как спросить «Ты умеешь рисовать?»<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Do you draw?</button><button class="answer-btn mint-style" onclick="check(this,true)">Can you draw?</button></div>', 600);
+          });
+        });
+      },
+
+      rv_there: () => {
+        addBot('🔄 There is / There are — описываем что где находится! 🏠');
+        delay(() => {
+          addBot('<span class="formula-pill mint">There is + один предмет</span><span class="formula-pill mint" style="margin-top:6px">There are + много предметов</span><br><br>There <b>is</b> a cat on the sofa. — На диване <b>есть</b> кот.<br>There <b>are</b> books on the table. — На столе <b>есть</b> книги. 🌸<br><br>Отрицание: There isn\'t / There aren\'t');
+          delay(() => {
+            addBot('«В комнате есть два окна» — выбери:<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">There is two windows.</button><button class="answer-btn mint-style" onclick="check(this,true)">There are two windows.</button></div>', 600);
+          });
+        });
+      },
+
+      rv_plural: () => {
+        addBot('🔄 Plural nouns — множественное число! 📦<br><br>Добавляем <b>-s</b> или <b>-es</b> к существительному');
+        delay(() => {
+          addBot('<span class="formula-pill mint">book → book<b>s</b> · cat → cat<b>s</b></span><span class="formula-pill mint" style="margin-top:6px">box → box<b>es</b> · bus → bus<b>ses</b></span><br><br><b>Исключения (учим наизусть!):</b><br>child → <b>children</b> · man → <b>men</b><br>woman → <b>women</b> · mouse → <b>mice</b><br>tooth → <b>teeth</b> · foot → <b>feet</b> 🌸');
+          delay(() => {
+            addBot('Как будет «дети» по-английски?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">childs</button><button class="answer-btn mint-style" onclick="check(this,true)">children</button></div>', 600);
+          });
+        });
+      },
+
+    };
+
+    if (content[key]) content[key]();
+    else addBot('Давай разберём эту тему вместе! 💕<br>Задавай вопросы — я объясню 🌸');
+  }
+
+  // ─── Хелперы ─────────────────────────────────────────────────────
+
+  function addBot(html) {
+    const m = document.getElementById('chatMessages');
+    const el = document.createElement('div');
+    el.className = 'chat-msg bot';
+    el.innerHTML = `<div class="msg-ava">⭐</div>
+      <div><div class="bubble">${html}</div><div class="msg-time">${getTime()}</div></div>`;
+    m.appendChild(el);
+    m.scrollTop = m.scrollHeight;
+  }
+
+  function addBotHTML(html) {
+    const m = document.getElementById('chatMessages');
+    const el = document.createElement('div');
+    el.className = 'chat-msg bot';
+    el.innerHTML = `<div class="msg-ava">⭐</div><div>${html}</div>`;
+    m.appendChild(el);
+    m.scrollTop = m.scrollHeight;
+  }
+
+  function delay(fn, ms = 900) { setTimeout(fn, ms); }
+
+  function check(el, isCorrect) {
+    const btns = el.closest('.answer-btns').querySelectorAll('.answer-btn');
+    btns.forEach(b => b.disabled = true);
+    el.classList.add(isCorrect ? 'correct' : 'wrong');
+    if (!isCorrect) btns[1].classList.add('correct');
+
+    const messages = document.getElementById('chatMessages');
+    setTimeout(() => {
+      const reply = document.createElement('div');
+      reply.className = 'chat-msg bot';
+      reply.innerHTML = isCorrect
+        ? `<div class="msg-ava">⭐</div><div><div class="bubble">✅ Правильно! Молодец! 🌸<br>Отличница растёт!</div><div class="msg-time">${getTime()}</div></div>`
+        : `<div class="msg-ava">⭐</div><div><div class="bubble">Почти! Посмотри правило выше и попробуй ещё раз 💕<br>У тебя обязательно получится!</div><div class="msg-time">${getTime()}</div></div>`;
+      messages.appendChild(reply);
+      messages.scrollTop = messages.scrollHeight;
+    }, 400);
+  }
+
+  function sendMsg() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    const messages = document.getElementById('chatMessages');
+    const userEl = document.createElement('div');
+    userEl.className = 'chat-msg user';
+    userEl.innerHTML = `<div><div class="bubble">${text}</div><div class="msg-time">${getTime()}</div></div>`;
+    messages.appendChild(userEl);
+    input.value = '';
+    messages.scrollTop = messages.scrollHeight;
+
+    const typingEl = document.createElement('div');
+    typingEl.className = 'chat-msg bot';
+    typingEl.id = 'typing-now';
+    typingEl.innerHTML = `<div class="msg-ava">⭐</div>
+      <div class="typing-bubble"><div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div></div>`;
+    messages.appendChild(typingEl);
+    messages.scrollTop = messages.scrollHeight;
+
+    const replies = [
+      'Хороший вопрос! Посмотри правило выше — там есть ответ 🌸',
+      'Разберём вместе! Прочитай объяснение ещё раз и попробуй задачку 💕',
+      'Ты молодец что спрашиваешь! Вернись к правилу и попробуй снова 🌟',
+      'Не бойся ошибаться — ошибки помогают учиться! Попробуй ещё раз 💪',
+    ];
+
+    setTimeout(() => {
+      document.getElementById('typing-now')?.remove();
+      const reply = document.createElement('div');
+      reply.className = 'chat-msg bot';
+      reply.innerHTML = `<div class="msg-ava">⭐</div>
+        <div><div class="bubble">${replies[Math.floor(Math.random() * replies.length)]}</div>
+        <div class="msg-time">${getTime()}</div></div>`;
+      messages.appendChild(reply);
+      messages.scrollTop = messages.scrollHeight;
+    }, 1500);
+  }
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+  }
+
+  function goBack(toScreen) { showScreen(toScreen); }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
+  }
+
+  function getTime() {
+    const now = new Date();
+    return now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
+  }
+</script>
+
+</body>
+</html>
