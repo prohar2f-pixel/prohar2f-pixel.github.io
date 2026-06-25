@@ -1572,12 +1572,15 @@
 
   function showBookChat(book) {
     const q = encodeURIComponent(book.title);
+    const readUrl = book.read_url.includes('youtube')
+      ? 'https://litres.ru/search/?q=' + q
+      : book.read_url;
     addBot('📚 <b>' + book.title + '</b><br><i>' + book.author + '</i>');
     delay(() => {
       addBot(book.description + ' 🌸');
       delay(() => {
         addBot('Выбери как познакомиться с книгой:<div class="book-links">' +
-          '<a href="' + book.read_url + '" target="_blank" class="book-link-btn">📖 Читать онлайн</a>' +
+          '<a href="' + readUrl + '" target="_blank" class="book-link-btn">📖 Читать онлайн</a>' +
           '<a href="https://knigavuhe.org/?s=' + q + '" target="_blank" class="book-link-btn">🎧 Слушать · knigavuhe.org</a>' +
           '<a href="https://rutube.ru/search/?query=' + q + '" target="_blank" class="book-link-btn">🎬 Смотреть · Rutube</a>' +
           '</div>', 600);
