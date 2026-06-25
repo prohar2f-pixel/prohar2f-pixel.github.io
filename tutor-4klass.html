@@ -338,6 +338,13 @@
     box-shadow: 0 4px 16px rgba(240,200,80,0.25);
   }
 
+  /* ── Анимация звёздочек ── */
+  .star-burst { position: fixed; pointer-events: none; z-index: 9999; font-size: 22px; animation: starFly 1s ease-out forwards; }
+  @keyframes starFly {
+    0%   { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-90px) scale(1.6); }
+  }
+
   /* ============ ЭКРАН 3: Чат ============ */
   #screen-chat { background: var(--pink-soft); }
 
@@ -850,11 +857,13 @@
     },
 
     summer: {
-      title: 'Читай-лето 2026', sub: '32 книги · список на лето', emoji: '☀️',
+      title: 'Читай-лето 2026', sub: '32 книги · план на лето', emoji: '☀️',
       items: [
+        { divider: true, label: '☀️ Июнь · 25-30 июня · 3 книги' },
         { icon: '🌸', cls: 'pink',  name: 'Аленький цветочек',           desc: 'Аксаков С.Т.',          key: 'bk_1',  done: false },
         { icon: '🐴', cls: 'lav',   name: 'Конь с розовой гривой',       desc: 'Астафьев В.П.',         key: 'bk_2',  done: false },
         { icon: '💎', cls: 'peach', name: 'Серебряное копытце',          desc: 'Бажов П.П.',            key: 'bk_3',  done: false },
+        { divider: true, label: '🌞 Июль · 1-31 июля · 16 книг' },
         { icon: '🚀', cls: 'mint',  name: 'Приключения Алисы',           desc: 'Булычёв К.',            key: 'bk_4',  done: false },
         { icon: '🤖', cls: 'sky',   name: 'Приключения Электроника',     desc: 'Велтистов Е.С.',        key: 'bk_5',  done: false },
         { icon: '🌹', cls: 'pink',  name: 'Сказка о жабе и розе',       desc: 'Гаршин В.М.',           key: 'bk_6',  done: false },
@@ -871,6 +880,7 @@
         { icon: '💍', cls: 'lav',   name: 'Волшебное кольцо',            desc: 'Платонов А.П.',         key: 'bk_17', done: false },
         { icon: '🐔', cls: 'peach', name: 'Курица на столбах',           desc: 'Пришвин М.М.',          key: 'bk_18', done: false },
         { icon: '🐓', cls: 'mint',  name: 'Сказка о золотом петушке',    desc: 'Пушкин А.С.',           key: 'bk_19', done: false },
+        { divider: true, label: '🏖️ Август · 1-24 августа · 13 книг' },
         { icon: '🦆', cls: 'sky',   name: 'Утёнок',                      desc: 'Солженицын А.И.',       key: 'bk_20', done: false },
         { icon: '⚔️', cls: 'pink',  name: 'Илья Муромец',                desc: 'Толстой А.К.',          key: 'bk_21', done: false },
         { icon: '📖', cls: 'lav',   name: 'Рассказы и сказки',           desc: 'Толстой Л.Н.',          key: 'bk_22', done: false },
@@ -878,13 +888,13 @@
         { icon: '🐎', cls: 'mint',  name: 'Слепая лошадь',               desc: 'Ушинский К.Д.',         key: 'bk_24', done: false },
         { icon: '🎄', cls: 'sky',   name: 'Серебряная ёлка',             desc: 'Чёрный С.',             key: 'bk_25', done: false },
         { icon: '🏃', cls: 'pink',  name: 'Беглец',                      desc: 'Чехов А.П.',            key: 'bk_26', done: false },
-        { divider: true, label: '🌍 Зарубежная литература' },
         { icon: '🧜', cls: 'lav',   name: 'Русалочка',                   desc: 'Андерсен Г.Х.',         key: 'bk_27', done: false },
         { icon: '🦌', cls: 'peach', name: 'Бемби',                       desc: 'Зальтен Ф.',            key: 'bk_28', done: false },
         { icon: '🦢', cls: 'mint',  name: 'Путешествие Нильса...',       desc: 'Лагерлёф С.',           key: 'bk_29', done: false },
         { icon: '⚓', cls: 'sky',   name: 'Путешествие Гулливера',       desc: 'Свифт Д.',              key: 'bk_30', done: false },
         { icon: '🛖', cls: 'pink',  name: 'Приключения Тома Сойера',     desc: 'Твен М.',               key: 'bk_31', done: false },
         { icon: '🧙', cls: 'lav',   name: 'Хоббит, или Туда и обратно', desc: 'Толкиен Д.',            key: 'bk_32', done: false },
+        { divider: true, label: '😴 25-31 августа · Отдых заслужен!' },
       ]
     }
   };
@@ -1606,19 +1616,41 @@
 
   function delay(fn, ms = 900) { setTimeout(fn, ms); }
 
+  function spawnStars(x, y) {
+    const emojis = ['⭐','✨','🌟','💫','🌸'];
+    for (let i = 0; i < 7; i++) {
+      const s = document.createElement('div');
+      s.className = 'star-burst';
+      s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      s.style.left = (x + (Math.random() - 0.5) * 120) + 'px';
+      s.style.top  = (y + (Math.random() - 0.5) * 60)  + 'px';
+      s.style.animationDelay = (Math.random() * 0.25) + 's';
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 1200);
+    }
+  }
+
   function check(el, isCorrect) {
     const btns = el.closest('.answer-btns').querySelectorAll('.answer-btn');
     btns.forEach(b => b.disabled = true);
     el.classList.add(isCorrect ? 'correct' : 'wrong');
-    if (!isCorrect) btns[1].classList.add('correct');
+    if (!isCorrect) {
+      // подсвечиваем правильный ответ (первая кнопка с correct)
+      btns.forEach(b => { if (b.dataset.correct === 'true') b.classList.add('correct'); });
+    }
+
+    if (isCorrect) {
+      const r = el.getBoundingClientRect();
+      spawnStars(r.left + r.width / 2, r.top);
+    }
 
     const messages = document.getElementById('chatMessages');
     setTimeout(() => {
       const reply = document.createElement('div');
       reply.className = 'chat-msg bot';
       reply.innerHTML = isCorrect
-        ? `<div class="msg-ava">⭐</div><div><div class="bubble">✅ Правильно! Молодец! 🌸<br>Отличница растёт!</div><div class="msg-time">${getTime()}</div></div>`
-        : `<div class="msg-ava">⭐</div><div><div class="bubble">Почти! Посмотри правило выше и попробуй ещё раз 💕<br>У тебя обязательно получится!</div><div class="msg-time">${getTime()}</div></div>`;
+        ? `<div class="msg-ava">⭐</div><div><div class="bubble">✅ Правильно, Кристина! 🌟<br>Так держать — отличница растёт! 🌸</div><div class="msg-time">${getTime()}</div></div>`
+        : `<div class="msg-ava">⭐</div><div><div class="bubble">Почти! Посмотри правило выше и попробуй снова 💕<br>У тебя обязательно получится!</div><div class="msg-time">${getTime()}</div></div>`;
       messages.appendChild(reply);
       messages.scrollTop = messages.scrollHeight;
     }, 400);
