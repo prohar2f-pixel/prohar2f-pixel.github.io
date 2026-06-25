@@ -1571,11 +1571,16 @@
   // ─── Хелперы ─────────────────────────────────────────────────────
 
   function showBookChat(book) {
+    const q = encodeURIComponent(book.title);
     addBot('📚 <b>' + book.title + '</b><br><i>' + book.author + '</i>');
     delay(() => {
       addBot(book.description + ' 🌸');
       delay(() => {
-        addBot('Выбери как познакомиться с книгой:<div class="book-links"><a href="' + book.read_url + '" target="_blank" class="book-link-btn">📖 Читать</a><a href="' + book.audio_url + '" target="_blank" class="book-link-btn">🎧 Слушать</a><a href="' + book.video_url + '" target="_blank" class="book-link-btn">🎬 Смотреть</a></div>', 600);
+        addBot('Выбери как познакомиться с книгой:<div class="book-links">' +
+          '<a href="' + book.read_url + '" target="_blank" class="book-link-btn">📖 Читать онлайн</a>' +
+          '<a href="https://knigavuhe.org/?s=' + q + '" target="_blank" class="book-link-btn">🎧 Слушать · knigavuhe.org</a>' +
+          '<a href="https://rutube.ru/search/?query=' + q + '" target="_blank" class="book-link-btn">🎬 Смотреть · Rutube</a>' +
+          '</div>', 600);
       });
     });
   }
