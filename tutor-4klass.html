@@ -331,6 +331,9 @@
     background: linear-gradient(145deg, #FFFAF0, #FFF5DD);
     border: 1.5px dashed #F0D080;
   }
+  .book-links { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .book-link-btn { display: block; padding: 10px 16px; border-radius: 12px; background: linear-gradient(135deg, #FFF0CC, #FFE4A8); color: #8B6914; font-weight: 600; text-decoration: none; text-align: center; font-size: 14px; transition: opacity .15s; }
+  .book-link-btn:hover { opacity: .8; }
   .subtopic-item.review:hover {
     box-shadow: 0 4px 16px rgba(240,200,80,0.25);
   }
@@ -631,7 +634,7 @@
         <div class="subject-icon">☀️</div>
         <div class="subject-info">
           <div class="subject-title">Читай-лето 2026</div>
-          <div class="subject-desc">10 книг · список на лето</div>
+          <div class="subject-desc">32 книги · список на лето</div>
           <div class="subject-stars">
             <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span>
           </div>
@@ -712,6 +715,42 @@
     f.style.animationDuration = (5 + i * 0.3) + 's';
     flowersEl.appendChild(f);
   });
+
+  // ─── Книги «Читай-лето» ──────────────────────────────────────────
+  const summerBooks = [
+    { key:'bk_1',  author:'Аксаков С.Т.',      title:'Аленький цветочек',           description:'Волшебная сказка о красавице и чудовище, о настоящей любви и верности.',                                              read_url:'https://ru.wikisource.org/wiki/%D0%90%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D0%B9_%D1%86%D0%B2%D0%B5%D1%82%D0%BE%D1%87%D0%B5%D0%BA_(%D0%90%D0%BA%D1%81%D0%B0%D0%BA%D0%BE%D0%B2)', audio_url:'https://www.youtube.com/watch?v=XeR5rfZeHHM', video_url:'https://www.youtube.com/watch?v=1FtcZy6fow0' },
+    { key:'bk_2',  author:'Астафьев В.П.',      title:'Конь с розовой гривой',       description:'Рассказ о мальчике из сибирской деревни, который обманул бабушку и понял, как важна честность.',                     read_url:'https://skazki.rustih.ru/viktor-astafev-kon-s-rozovoj-grivoj/', audio_url:'https://www.youtube.com/watch?v=NaQbBzVc3oM', video_url:'https://www.youtube.com/watch?v=Jsw7ECIoBeE' },
+    { key:'bk_3',  author:'Бажов П.П.',          title:'Серебряное копытце',          description:'Уральская сказка о волшебном козлике, который выбивал копытцем драгоценные камни.',                                   read_url:'https://nukadeti.ru/skazki/bazhov-serebryanoe-kopytce', audio_url:'https://www.youtube.com/watch?v=ouyuOggn6y4', video_url:'https://www.youtube.com/watch?v=kYAHhoiLlKg' },
+    { key:'bk_4',  author:'Булычёв К.',           title:'Приключения Алисы',           description:'Фантастические истории о девочке из будущего Алисе Селезнёвой и её невероятных приключениях.',                       read_url:'https://www.rusf.ru/kb/stories/puteshestvie_alisy/text-01.htm', audio_url:'https://www.youtube.com/watch?v=NqkTND2ZMvI', video_url:'https://www.youtube.com/watch?v=9nDzHqR9yv0' },
+    { key:'bk_5',  author:'Велтистов Е.С.',       title:'Приключения Электроника',     description:'Фантастическая повесть о мальчике-роботе Электронике и его двойнике Серёже Сыроежкине.',                             read_url:'https://libcat.ru/knigi/detskaya-literatura/detskaya-fantastika/90754-evgenij-veltistov-priklyucheniya-elektronika.html', audio_url:'https://www.youtube.com/watch?v=s_8_7ZuWIzw', video_url:'https://www.youtube.com/watch?v=4QwFv_QYp7k' },
+    { key:'bk_6',  author:'Гаршин В.М.',          title:'Сказка о жабе и розе',       description:'Грустная и красивая история о цветке розы, чья жизнь была наполнена добром и красотой.',                             read_url:'https://ilibrary.ru/text/4439/p.1/index.html', audio_url:'https://www.youtube.com/watch?v=Ahn_nAzXDk8', video_url:'https://www.youtube.com/watch?v=GwH9OmPdny4' },
+    { key:'bk_7',  author:'Георгиев С.Г.',        title:'Домик солнечного зайца',      description:'Добрые истории о солнечном зайчике и его друзьях.',                                                                  read_url:'https://www.youtube.com/results?search_query=Георгиев+Домик+солнечного+зайца+читать', audio_url:'https://www.youtube.com/results?search_query=Георгиев+Домик+солнечного+зайца+аудиокнига', video_url:'https://www.youtube.com/results?search_query=Георгиев+Домик+солнечного+зайца' },
+    { key:'bk_8',  author:'Горький М.',            title:'Про Иванушку-дурачка',       description:'Народная сказка в пересказе Горького о добром Иванушке, который оказался мудрее всех.',                              read_url:'https://deti-online.com/skazki/sbornik-skazok/pro-ivanushku-durachka/', audio_url:'https://www.youtube.com/watch?v=PzaMWF3mfgg', video_url:'https://www.youtube.com/watch?v=PMyrIpAJe5Q' },
+    { key:'bk_9',  author:'Даль В.И.',             title:'Про мышь зубастую...',       description:'Народная сказка о мышке и воробье — забавная история о дружбе и взаимовыручке.',                                    read_url:'https://nukadeti.ru/skazki/pro-mysh-zubastuyu-da-pro-vorobya-bogatogo', audio_url:'https://www.youtube.com/watch?v=ckXwFWvecmE', video_url:'https://www.youtube.com/results?search_query=Даль+мышь+зубастая+воробей+богатый+мультфильм' },
+    { key:'bk_10', author:'Драгунский В.Ю.',       title:'На Садовой большое движение', description:'Смешной рассказ из «Денискиных рассказов» о том, как Дениска и Мишка устроили переполох на улице.',               read_url:'https://nukadeti.ru/skazki/dragunskij-na-sadovoj-bolshoe-dvizhenie', audio_url:'https://www.youtube.com/watch?v=ptkPdHbrOJU', video_url:'https://www.youtube.com/watch?v=icwYK2dO1Mo' },
+    { key:'bk_11', author:'Зощенко М.М.',          title:'Галоши и мороженое',          description:'Весёлый рассказ о том, как мальчик обменял галоши на мороженое и что из этого вышло.',                             read_url:'https://nukadeti.ru/skazki/zoshhenko-galoshi-i-morozhenoe', audio_url:'https://www.youtube.com/watch?v=jAUn2MNJO7w', video_url:'https://www.youtube.com/watch?v=vwDStZPMcEA' },
+    { key:'bk_12', author:'Иванов С.А.',           title:'Зимняя девочка',              description:'Сказочная история о девочке, рождённой зимой, и её необычных способностях.',                                       read_url:'https://www.youtube.com/results?search_query=Иванов+Зимняя+девочка+читать', audio_url:'https://www.youtube.com/results?search_query=Иванов+Зимняя+девочка+аудиокнига', video_url:'https://www.youtube.com/results?search_query=Иванов+Зимняя+девочка' },
+    { key:'bk_13', author:'Лермонтов М.Ю.',        title:'Три пальмы',                  description:'Поэтическая легенда о трёх гордых пальмах, просивших у Бога посетителей, и об их горькой судьбе.',                 read_url:'https://ilibrary.ru/text/1037/p.1/index.html', audio_url:'https://www.youtube.com/watch?v=yMc9NJfpfTo', video_url:'https://www.youtube.com/watch?v=I_uLm9rJFFw' },
+    { key:'bk_14', author:'Лесков Н.С.',           title:'Лев старца Герасима',         description:'Трогательная история о монахе Герасиме и прирученном им льве — о верности и доброте.',                            read_url:'https://www.booksite.ru/fulltext/1/001/001/224/46.htm', audio_url:'https://www.youtube.com/watch?v=FbFHhBhOS4U', video_url:'https://www.youtube.com/watch?v=aRA-6IoIbH0' },
+    { key:'bk_15', author:'Одоевский В.Ф.',        title:'Город в табакерке',           description:'Удивительная сказка о мальчике Мише, который попал внутрь музыкальной табакерки.',                                  read_url:'https://ilibrary.ru/text/1048/p.1/index.html', audio_url:'https://www.youtube.com/watch?v=PyPvGjT892s', video_url:'https://www.youtube.com/watch?v=F5Sjlsk-b7o' },
+    { key:'bk_16', author:'Паустовский К.Г.',      title:'Заячьи лапы',                 description:'Добрый рассказ о мальчике, который спас зайца с обожжёнными лапами.',                                              read_url:'https://nukadeti.ru/skazki/paustovskij-zayachi-lapy', audio_url:'https://www.youtube.com/watch?v=yR8ArH_RuCQ', video_url:'https://www.youtube.com/watch?v=gN8PAlJ2KYE' },
+    { key:'bk_17', author:'Платонов А.П.',         title:'Волшебное кольцо',            description:'Сказка о Семёне, который купил кошку и змею, а взамен получил волшебное кольцо.',                                  read_url:'https://ilibrary.ru/text/2377/p.1/index.html', audio_url:'https://www.youtube.com/watch?v=Z5z5Go2y4Bw', video_url:'https://www.youtube.com/watch?v=IJjCh0wgP-U' },
+    { key:'bk_18', author:'Пришвин М.М.',          title:'Курица на столбах',           description:'Весёлые рассказы о природе и животных от великого писателя-натуралиста.',                                           read_url:'https://lukoshko.net/story/kurica-na-stolbah.htm', audio_url:'https://www.youtube.com/watch?v=Lg88LCS0ZdI', video_url:'https://www.youtube.com/results?search_query=Пришвин+Курица+на+столбах+мультфильм' },
+    { key:'bk_19', author:'Пушкин А.С.',           title:'Сказка о золотом петушке',    description:'Сказка о царе Дадоне, волшебном петушке и мудреце — о жадности и невыполненных обещаниях.',                       read_url:'https://ilibrary.ru/text/458/p.1/index.html', audio_url:'https://www.youtube.com/watch?v=Yq2YIP57wXQ', video_url:'https://www.youtube.com/watch?v=3ZYPSso6jJE' },
+    { key:'bk_20', author:'Солженицын А.И.',       title:'Утёнок',                      description:'Маленькие рассказы-миниатюры о красоте природы и жизни.',                                                           read_url:'https://skazki.rustih.ru/aleksandr-solzhenicyn-utyonok-kroxotki/', audio_url:'https://www.youtube.com/watch?v=YR7r8SuTgUo', video_url:'https://www.youtube.com/watch?v=rEvZFevS1YE' },
+    { key:'bk_21', author:'Толстой А.К.',          title:'Илья Муромец',                description:'История о богатыре Илье Муромце — его чудесном исцелении и ратных подвигах на Руси.',                               read_url:'https://ilibrary.ru/text/4329/p.1/index.html', audio_url:'https://www.youtube.com/watch?v=BDnhnBOhYCY', video_url:'https://www.youtube.com/watch?v=ULR5WN6OvVc' },
+    { key:'bk_22', author:'Толстой Л.Н.',          title:'Рассказы и сказки',           description:'Добрые и мудрые рассказы великого писателя о природе, животных и людях.',                                           read_url:'https://deti-online.com/skazki/lev-tolstoy/akula/', audio_url:'https://www.youtube.com/watch?v=XwuUA4yxENw', video_url:'https://www.youtube.com/watch?v=1cdaEsZ_Qlg' },
+    { key:'bk_23', author:'Тургенев И.С.',         title:'Собака',                      description:'Короткий рассказ о странном случае: мужчина и его пёс испугались одного и того же.',                                read_url:'https://ilibrary.ru/text/1849/p.1/index.html', audio_url:'https://www.youtube.com/watch?v=AQtLbNrfnRc', video_url:'https://www.youtube.com/watch?v=iHYg7BYBi3M' },
+    { key:'bk_24', author:'Ушинский К.Д.',         title:'Слепая лошадь',               description:'Поучительная история о верной лошади и неблагодарном хозяине — о памяти и справедливости.',                        read_url:'https://mishka-knizhka.ru/rasskazy-dlya-detej/rasskazy-ushinskogo/slepaja-loshad/', audio_url:'https://www.youtube.com/watch?v=yn_fYRyruZM', video_url:'https://www.youtube.com/watch?v=BMEbPWvAefo' },
+    { key:'bk_25', author:'Чёрный С.',              title:'Серебряная ёлка',             description:'Новогодняя история о детях, лесных зверятах и волшебной ёлке.',                                                    read_url:'https://skazki.rustih.ru/sasha-chernyj-serebryanaya-yolka/', audio_url:'https://www.youtube.com/watch?v=7-c54S8h1hM', video_url:'https://www.youtube.com/watch?v=W6sujS6NEAg' },
+    { key:'bk_26', author:'Чехов А.П.',            title:'Беглец',                      description:'Рассказ о маленьком Пашке, которого мама привела в больницу — смешной и трогательный.',                            read_url:'https://ilibrary.ru/text/1145/p.1/index.html', audio_url:'https://www.youtube.com/watch?v=9wZDFQzcjKY', video_url:'https://www.youtube.com/results?search_query=Чехов+Беглец+мультфильм' },
+    { key:'bk_27', author:'Андерсен Г.Х.',         title:'Русалочка',                   description:'Волшебная сказка о маленькой русалке, которая мечтала стать человеком ради любви.',                                 read_url:'https://www.kostyor.ru/tales/tale68.html', audio_url:'https://www.youtube.com/watch?v=WNVSdEFZ_qY', video_url:'https://www.youtube.com/watch?v=WtVOdsB3Pf0' },
+    { key:'bk_28', author:'Зальтен Ф.',            title:'Бемби',                       description:'История маленького оленёнка Бемби, его взросления и познания жизни лесного мира.',                                  read_url:'https://skazki.rustih.ru/feliks-zalten-bembi/', audio_url:'https://www.youtube.com/watch?v=ayMbLCqitzI', video_url:'https://www.youtube.com/watch?v=Ss7Ie2ijn8Y' },
+    { key:'bk_29', author:'Лагерлёф С.',           title:'Путешествие Нильса...',        description:'Приключения шведского мальчика Нильса, которого гном уменьшил и он улетел с гусями.',                              read_url:'https://nukadeti.ru/audioskazki/chudesnoe-puteshestvie-nilsa-s-dikimi-gusyami', audio_url:'https://www.youtube.com/watch?v=9ggfgbJgC1o', video_url:'https://www.youtube.com/watch?v=NgRFVckpGhA' },
+    { key:'bk_30', author:'Свифт Д.',              title:'Путешествие Гулливера',        description:'Приключения капитана Гулливера в стране лилипутов и великанов.',                                                   read_url:'https://azbyka.ru/fiction/puteshestvija-gullivera-dzhonatan-svift/3/', audio_url:'https://www.youtube.com/watch?v=2XyXGVpNFVc', video_url:'https://www.youtube.com/watch?v=14aDtfvW4Xc' },
+    { key:'bk_31', author:'Твен М.',               title:'Приключения Тома Сойера',      description:'История о непослушном и озорном Томе Сойере и его приключениях на Миссисипи.',                                    read_url:'https://classica-online.ru/catalog/priklyucheniya-toma-soyera-mark-twain-1/', audio_url:'https://www.youtube.com/watch?v=ePlyHfVJVCA', video_url:'https://www.youtube.com/watch?v=MVJuvc6-UxY' },
+    { key:'bk_32', author:'Толкиен Д.',            title:'Хоббит, или Туда и обратно',  description:'Приключения хоббита Бильбо Бэггинса, который отправился с гномами в опасное путешествие за сокровищами.',          read_url:'https://libcat.ru/knigi/fantastika-i-fjentezi/fentezi/174203-dzhon-tolkien-hobbit-ili-tuda-i-obratno.html', audio_url:'https://www.youtube.com/watch?v=NGE2Y1IvjzQ', video_url:'https://www.youtube.com/watch?v=p7pWlcYDAa8' },
+  ];
 
   // ─── Данные предметов ────────────────────────────────────────────
 
@@ -811,19 +850,41 @@
     },
 
     summer: {
-      title: 'Читай-лето 2026', sub: '10 книг · список на лето', emoji: '☀️',
+      title: 'Читай-лето 2026', sub: '32 книги · список на лето', emoji: '☀️',
       items: [
-        { icon: '🌊', cls: 'sky',   name: 'Сказка о царе Салтане',     desc: 'А.С. Пушкин · сказка в стихах',   key: 'bk_saltan',   done: false },
-        { icon: '🏔️', cls: 'lav',   name: 'Кавказский пленник',        desc: 'Л.Н. Толстой · рассказ о дружбе', key: 'bk_kavkaz',   done: false },
-        { icon: '🦊', cls: 'peach', name: 'Басни',                     desc: 'И.А. Крылов · мудрые истории',    key: 'bk_krylov',   done: false },
-        { icon: '🤸', cls: 'mint',  name: 'Витя Малеев в школе и дома', desc: 'Н.Н. Носов · смешная повесть',   key: 'bk_vitya',    done: false },
-        { icon: '⭐', cls: 'pink',  name: 'Тимур и его команда',       desc: 'А.П. Гайдар · о добрых делах',    key: 'bk_timur',    done: false },
-        { icon: '🌿', cls: 'sky',   name: 'Мещёрская сторона',         desc: 'К.Г. Паустовский · рассказы о природе', key: 'bk_paust', done: false },
-        { icon: '💎', cls: 'lav',   name: 'Цветик-семицветик',         desc: 'В.П. Катаев · о добре и желаниях', key: 'bk_flower',  done: false },
-        { divider: true, label: '🎁 Бонус · читай если захочется' },
-        { icon: '🧙', cls: 'mint',  name: 'Волшебник Изумрудного города', desc: 'А.М. Волков · Элли и Тотошка', key: 'bk_wizard',   done: false, review: true },
-        { icon: '🌨️', cls: 'peach', name: 'Снежная королева',          desc: 'Г.Х. Андерсен · Кай и Герда',    key: 'bk_snow',     done: false, review: true },
-        { icon: '🛖', cls: 'pink',  name: 'Приключения Тома Сойера',   desc: 'М. Твен · мальчишеские приключения', key: 'bk_tom',   done: false, review: true },
+        { icon: '🌸', cls: 'pink',  name: 'Аленький цветочек',           desc: 'Аксаков С.Т.',          key: 'bk_1',  done: false },
+        { icon: '🐴', cls: 'lav',   name: 'Конь с розовой гривой',       desc: 'Астафьев В.П.',         key: 'bk_2',  done: false },
+        { icon: '💎', cls: 'peach', name: 'Серебряное копытце',          desc: 'Бажов П.П.',            key: 'bk_3',  done: false },
+        { icon: '🚀', cls: 'mint',  name: 'Приключения Алисы',           desc: 'Булычёв К.',            key: 'bk_4',  done: false },
+        { icon: '🤖', cls: 'sky',   name: 'Приключения Электроника',     desc: 'Велтистов Е.С.',        key: 'bk_5',  done: false },
+        { icon: '🌹', cls: 'pink',  name: 'Сказка о жабе и розе',       desc: 'Гаршин В.М.',           key: 'bk_6',  done: false },
+        { icon: '🐰', cls: 'lav',   name: 'Домик солнечного зайца',      desc: 'Георгиев С.Г.',         key: 'bk_7',  done: false },
+        { icon: '🧙', cls: 'peach', name: 'Про Иванушку-дурачка',        desc: 'Горький М.',            key: 'bk_8',  done: false },
+        { icon: '🐭', cls: 'mint',  name: 'Про мышь зубастую...',        desc: 'Даль В.И.',             key: 'bk_9',  done: false },
+        { icon: '🚗', cls: 'sky',   name: 'На Садовой большое движение', desc: 'Драгунский В.Ю.',       key: 'bk_10', done: false },
+        { icon: '😄', cls: 'pink',  name: 'Галоши и мороженое',          desc: 'Зощенко М.М.',          key: 'bk_11', done: false },
+        { icon: '❄️', cls: 'lav',   name: 'Зимняя девочка',              desc: 'Иванов С.А.',           key: 'bk_12', done: false },
+        { icon: '🌴', cls: 'peach', name: 'Три пальмы',                  desc: 'Лермонтов М.Ю.',        key: 'bk_13', done: false },
+        { icon: '🦁', cls: 'mint',  name: 'Лев старца Герасима',         desc: 'Лесков Н.С.',           key: 'bk_14', done: false },
+        { icon: '🎵', cls: 'sky',   name: 'Город в табакерке',           desc: 'Одоевский В.Ф.',        key: 'bk_15', done: false },
+        { icon: '🐇', cls: 'pink',  name: 'Заячьи лапы',                 desc: 'Паустовский К.Г.',      key: 'bk_16', done: false },
+        { icon: '💍', cls: 'lav',   name: 'Волшебное кольцо',            desc: 'Платонов А.П.',         key: 'bk_17', done: false },
+        { icon: '🐔', cls: 'peach', name: 'Курица на столбах',           desc: 'Пришвин М.М.',          key: 'bk_18', done: false },
+        { icon: '🐓', cls: 'mint',  name: 'Сказка о золотом петушке',    desc: 'Пушкин А.С.',           key: 'bk_19', done: false },
+        { icon: '🦆', cls: 'sky',   name: 'Утёнок',                      desc: 'Солженицын А.И.',       key: 'bk_20', done: false },
+        { icon: '⚔️', cls: 'pink',  name: 'Илья Муромец',                desc: 'Толстой А.К.',          key: 'bk_21', done: false },
+        { icon: '📖', cls: 'lav',   name: 'Рассказы и сказки',           desc: 'Толстой Л.Н.',          key: 'bk_22', done: false },
+        { icon: '🐕', cls: 'peach', name: 'Собака',                      desc: 'Тургенев И.С.',         key: 'bk_23', done: false },
+        { icon: '🐎', cls: 'mint',  name: 'Слепая лошадь',               desc: 'Ушинский К.Д.',         key: 'bk_24', done: false },
+        { icon: '🎄', cls: 'sky',   name: 'Серебряная ёлка',             desc: 'Чёрный С.',             key: 'bk_25', done: false },
+        { icon: '🏃', cls: 'pink',  name: 'Беглец',                      desc: 'Чехов А.П.',            key: 'bk_26', done: false },
+        { divider: true, label: '🌍 Зарубежная литература' },
+        { icon: '🧜', cls: 'lav',   name: 'Русалочка',                   desc: 'Андерсен Г.Х.',         key: 'bk_27', done: false },
+        { icon: '🦌', cls: 'peach', name: 'Бемби',                       desc: 'Зальтен Ф.',            key: 'bk_28', done: false },
+        { icon: '🦢', cls: 'mint',  name: 'Путешествие Нильса...',       desc: 'Лагерлёф С.',           key: 'bk_29', done: false },
+        { icon: '⚓', cls: 'sky',   name: 'Путешествие Гулливера',       desc: 'Свифт Д.',              key: 'bk_30', done: false },
+        { icon: '🛖', cls: 'pink',  name: 'Приключения Тома Сойера',     desc: 'Твен М.',               key: 'bk_31', done: false },
+        { icon: '🧙', cls: 'lav',   name: 'Хоббит, или Туда и обратно', desc: 'Толкиен Д.',            key: 'bk_32', done: false },
       ]
     }
   };
@@ -881,6 +942,12 @@
 
   function loadChatContent(key) {
     const m = document.getElementById('chatMessages');
+
+    // Книги «Читай-лето» обрабатываются единым шаблоном
+    if (key.startsWith('bk_')) {
+      const book = summerBooks.find(b => b.key === key);
+      if (book) { showBookChat(book); return; }
+    }
 
     const content = {
 
@@ -1493,109 +1560,7 @@
         });
       },
 
-      // ══════════════════════════════════════════════
-      // ЧИТАЙ-ЛЕТО 2026
-      // ══════════════════════════════════════════════
-
-      bk_saltan: () => {
-        addBot('🌊 «Сказка о царе Салтане» — Александр Сергеевич Пушкин ✨');
-        delay(() => {
-          addBot('Царь Салтан женился на девице и уехал на войну. Злые сёстры написали ему ложное письмо — и молодую царицу с сыном (Гвидоном) бросили в бочке в море 🌊<br><br>Гвидон вырос, попал на остров, спас <b>Царевну-лебедь</b> от злого коршуна. Лебедь стала его женой. В конце царь Салтан нашёл жену и сына, а злые сёстры были посрамлены 🌸<br><br><i>Главная мысль:</i> зло наказывается, добро и верность побеждают');
-          delay(() => {
-            addBot('Кого спас царевич Гвидон на острове?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Золотую рыбку</button><button class="answer-btn mint-style" onclick="check(this,true)">Царевну-лебедь</button></div>', 600);
-          });
-        });
-      },
-
-      bk_kavkaz: () => {
-        addBot('🏔️ «Кавказский пленник» — Лев Николаевич Толстой ✨');
-        delay(() => {
-          addBot('Офицер Жилин попал в плен к горцам на Кавказе. Вместе с ним в плену оказался Костылин — толстый и ленивый офицер 🏔️<br><br>Жилин не стал сидеть сложа руки: подружился с татарской девочкой <b>Диной</b>, которая тайно носила ему лепёшки. Жилин бежал, Костылин отстал и попал в плен снова.<br><br><i>Главная мысль:</i> сила воли, дружба и доброта помогают выжить даже в самых трудных ситуациях 🌸');
-          delay(() => {
-            addBot('Кто помог Жилину бежать из плена?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Костылин</button><button class="answer-btn mint-style" onclick="check(this,true)">Дина</button></div>', 600);
-          });
-        });
-      },
-
-      bk_krylov: () => {
-        addBot('🦊 Басни Ивана Андреевича Крылова — читаем и понимаем мораль! ✨');
-        delay(() => {
-          addBot('<b>Самые известные басни:</b><br><br>🦁🦊 <b>«Ворона и Лисица»</b><br>Лиса похвалила пение вороны — та открыла клюв и уронила сыр. <i>Мораль: лесть опасна</i><br><br>🎻🐜 <b>«Стрекоза и Муравей»</b><br>Стрекоза пела всё лето, а муравей работал. Зимой стрекоза осталась ни с чем. <i>Мораль: трудись заранее</i><br><br>🦢🦈🦞 <b>«Лебедь, Щука и Рак»</b><br>Каждый тянул воз в свою сторону — воз ни с места. <i>Мораль: нужно действовать сообща</i>');
-          delay(() => {
-            addBot('В чём мораль басни «Ворона и Лисица»?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Не давай еду незнакомцам</button><button class="answer-btn mint-style" onclick="check(this,true)">Лесть опасна — не верь лжецам</button></div>', 600);
-          });
-        });
-      },
-
-      bk_vitya: () => {
-        addBot('🤸 «Витя Малеев в школе и дома» — Николай Носов ✨');
-        delay(() => {
-          addBot('Витя Малеев — школьник, который плохо учится. Его друг Костя отличник, но зато дома ничего не делает по хозяйству 😄<br><br>Они решают вместе исправиться: Витя подтягивает учёбу, Костя начинает помогать маме. По дороге — смешные приключения, ошибки и важные уроки 🌸<br><br>Носов писал для детей с юмором — читать легко и весело!<br><br><i>Главная мысль:</i> дружба, честность и труд помогают стать лучше');
-          delay(() => {
-            addBot('Кто из друзей плохо учился в школе?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,true)">Витя Малеев</button><button class="answer-btn mint-style" onclick="check(this,false)">Костя</button></div>', 600);
-          });
-        });
-      },
-
-      bk_timur: () => {
-        addBot('⭐ «Тимур и его команда» — Аркадий Гайдар ✨');
-        delay(() => {
-          addBot('Тимур — обычный мальчик, но тайно организовал команду, которая помогает семьям красноармейцев: колет дрова, носит воду, делает добрые дела анонимно 🌟<br><br>Девочка Женя узнала о команде и сначала не поняла Тимура, но потом стала его другом и помощником.<br><br><i>Главная мысль:</i> делай добро тихо, не ради похвалы — это и есть настоящая доброта 🌸');
-          delay(() => {
-            addBot('Что делала команда Тимура?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Устраивала соревнования</button><button class="answer-btn mint-style" onclick="check(this,true)">Тайно помогала семьям солдат</button></div>', 600);
-          });
-        });
-      },
-
-      bk_paust: () => {
-        addBot('🌿 Рассказы о природе — Константин Георгиевич Паустовский ✨');
-        delay(() => {
-          addBot('Паустовский писал о русской природе так красиво, что хочется сразу выйти в лес! 🌲<br><br><b>Рассказы для 4 класса:</b><br>🐈 <b>«Кот-ворюга»</b> — кот воровал еду, но стал защитником двора<br>🐸 <b>«Заячьи лапы»</b> — дед спас зайца и заяц вернул долг<br>🌸 <b>«Тёплый хлеб»</b> — мальчик обидел коня и вся деревня стала это исправлять<br><br><i>Главная мысль:</i> человек — часть природы, нужно жить с ней в мире');
-          delay(() => {
-            addBot('Как называется рассказ Паустовского про кота-воришку?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,true)">«Кот-ворюга»</button><button class="answer-btn mint-style" onclick="check(this,false)">«Заячьи лапы»</button></div>', 600);
-          });
-        });
-      },
-
-      bk_flower: () => {
-        addBot('💎 «Цветик-семицветик» — Валентин Катаев ✨');
-        delay(() => {
-          addBot('Девочке Жене волшебница подарила цветок с семью лепестками — каждый исполняет одно желание 🌸<br><br>Женя тратила лепестки по одному на мелочи: игрушки, путешествия, выбраться с Северного полюса...<br><br>Остался <b>последний лепесток</b> — и Женя пожелала, чтобы выздоровел больной мальчик Витя 💙<br><br><i>Главная мысль:</i> самое ценное желание — сделать счастливым другого человека');
-          delay(() => {
-            addBot('На что Женя потратила последний лепесток?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Купить игрушки</button><button class="answer-btn mint-style" onclick="check(this,true)">Вылечить больного мальчика</button></div>', 600);
-          });
-        });
-      },
-
-      bk_wizard: () => {
-        addBot('🧙 «Волшебник Изумрудного города» — Александр Волков ✨');
-        delay(() => {
-          addBot('Девочку Элли с собачкой Тотошкой ураган унёс в волшебную страну. Чтобы вернуться домой, ей нужно дойти до Изумрудного города к Волшебнику Гудвину 🌈<br><br><b>Друзья по дороге:</b><br>🎃 Страшила — хочет мозги<br>🪓 Железный Дровосек — хочет сердце<br>🦁 Трусливый Лев — хочет смелость<br><br><i>Главная мысль:</i> всё что нужно — уже есть внутри тебя, нужно только поверить 🌸');
-          delay(() => {
-            addBot('Что хотел получить Страшила?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,true)">Мозги</button><button class="answer-btn mint-style" onclick="check(this,false)">Сердце</button></div>', 600);
-          });
-        });
-      },
-
-      bk_snow: () => {
-        addBot('🌨️ «Снежная королева» — Ганс Христиан Андерсен ✨');
-        delay(() => {
-          addBot('Злой тролль разбил зеркало — осколки попали в глаза и сердце мальчика Кая, и он стал холодным и злым. Снежная королева увезла его в свой ледяной дворец ❄️<br><br>Девочка Герда отправилась искать друга. Она прошла через все испытания — помогли принцы, разбойники, олень...<br><br>Слёзы Герды растопили лёд в сердце Кая 💙<br><br><i>Главная мысль:</i> настоящая дружба и любовь сильнее любого колдовства');
-          delay(() => {
-            addBot('Что растопило лёд в сердце Кая?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Тепло дворца</button><button class="answer-btn mint-style" onclick="check(this,true)">Слёзы Герды</button></div>', 600);
-          });
-        });
-      },
-
-      bk_tom: () => {
-        addBot('🛖 «Приключения Тома Сойера» — Марк Твен ✨');
-        delay(() => {
-          addBot('Том Сойер — мальчишка из американского городка, который не любит ни школу, ни работу, но обожает приключения! 😄<br><br><b>Самые известные сцены:</b><br>🖌️ Том заставил других мальчишек покрасить забор вместо него — хитростью!<br>🏴‍☠️ Том, Гек и Джо сбежали на остров, чтобы стать пиратами<br>🕯️ В пещере Том и Бекки заблудились — это самый страшный момент книги<br><br><i>Главная мысль:</i> дружба, честность и смелость помогают пережить самые невероятные приключения 🌸');
-          delay(() => {
-            addBot('Что Том Сойер хитростью заставил сделать других мальчиков?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,true)">Покрасить забор</button><button class="answer-btn mint-style" onclick="check(this,false)">Помыть посуду</button></div>', 600);
-          });
-        });
-      },
+      // bk_* ключи обрабатываются через showBookChat() выше
 
     };
 
@@ -1604,6 +1569,16 @@
   }
 
   // ─── Хелперы ─────────────────────────────────────────────────────
+
+  function showBookChat(book) {
+    addBot('📚 <b>' + book.title + '</b><br><i>' + book.author + '</i>');
+    delay(() => {
+      addBot(book.description + ' 🌸');
+      delay(() => {
+        addBot('Выбери как познакомиться с книгой:<div class="book-links"><a href="' + book.read_url + '" target="_blank" class="book-link-btn">📖 Читать</a><a href="' + book.audio_url + '" target="_blank" class="book-link-btn">🎧 Слушать</a><a href="' + book.video_url + '" target="_blank" class="book-link-btn">🎬 Смотреть</a></div>', 600);
+      });
+    });
+  }
 
   function addBot(html) {
     const m = document.getElementById('chatMessages');
