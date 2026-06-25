@@ -169,6 +169,7 @@
   .subject-card.english { background: linear-gradient(145deg, #ECFFF8, #D8FFE8); }
   .subject-card.science { background: linear-gradient(145deg, #ECFFF0, #D8F4E0); }
   .subject-card.reading { background: linear-gradient(145deg, #FFF8EC, #FFEFD0); }
+  .subject-card.summer { background: linear-gradient(145deg, #FFFBDE, #FFF0A0); border: 1.5px solid #FFD93D; }
 
   .subject-icon {
     width: 56px;
@@ -185,6 +186,7 @@
   .english .subject-icon { background: rgba(96,208,160,0.25); }
   .science .subject-icon { background: rgba(60,180,100,0.2); }
   .reading .subject-icon { background: rgba(255,160,60,0.2); }
+  .summer .subject-icon { background: rgba(255,200,0,0.25); }
 
   .subject-info { flex: 1; }
 
@@ -625,6 +627,18 @@
         <div class="subject-arrow">›</div>
       </div>
 
+      <div class="subject-card summer" onclick="goToSubject('summer')">
+        <div class="subject-icon">☀️</div>
+        <div class="subject-info">
+          <div class="subject-title">Читай-лето 2026</div>
+          <div class="subject-desc">10 книг · список на лето</div>
+          <div class="subject-stars">
+            <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span>
+          </div>
+        </div>
+        <div class="subject-arrow">›</div>
+      </div>
+
     </div>
   </div>
 
@@ -793,6 +807,23 @@
         { icon: '🦊', cls: 'peach', name: 'Басни Крылова',               desc: '«Ворона и Лисица», «Лебедь»',   key: 'rv_fables',   done: false, review: true },
         { icon: '💬', cls: 'lav',   name: 'Пословицы и поговорки',       desc: 'Смысл и применение',            key: 'rv_proverbs', done: false, review: true },
         { icon: '🔍', cls: 'pink',  name: 'Герои произведений',          desc: 'Характер, поступки, описание',  key: 'rv_heroes',   done: false, review: true },
+      ]
+    },
+
+    summer: {
+      title: 'Читай-лето 2026', sub: '10 книг · список на лето', emoji: '☀️',
+      items: [
+        { icon: '🌊', cls: 'sky',   name: 'Сказка о царе Салтане',     desc: 'А.С. Пушкин · сказка в стихах',   key: 'bk_saltan',   done: false },
+        { icon: '🏔️', cls: 'lav',   name: 'Кавказский пленник',        desc: 'Л.Н. Толстой · рассказ о дружбе', key: 'bk_kavkaz',   done: false },
+        { icon: '🦊', cls: 'peach', name: 'Басни',                     desc: 'И.А. Крылов · мудрые истории',    key: 'bk_krylov',   done: false },
+        { icon: '🤸', cls: 'mint',  name: 'Витя Малеев в школе и дома', desc: 'Н.Н. Носов · смешная повесть',   key: 'bk_vitya',    done: false },
+        { icon: '⭐', cls: 'pink',  name: 'Тимур и его команда',       desc: 'А.П. Гайдар · о добрых делах',    key: 'bk_timur',    done: false },
+        { icon: '🌿', cls: 'sky',   name: 'Мещёрская сторона',         desc: 'К.Г. Паустовский · рассказы о природе', key: 'bk_paust', done: false },
+        { icon: '💎', cls: 'lav',   name: 'Цветик-семицветик',         desc: 'В.П. Катаев · о добре и желаниях', key: 'bk_flower',  done: false },
+        { divider: true, label: '🎁 Бонус · читай если захочется' },
+        { icon: '🧙', cls: 'mint',  name: 'Волшебник Изумрудного города', desc: 'А.М. Волков · Элли и Тотошка', key: 'bk_wizard',   done: false, review: true },
+        { icon: '🌨️', cls: 'peach', name: 'Снежная королева',          desc: 'Г.Х. Андерсен · Кай и Герда',    key: 'bk_snow',     done: false, review: true },
+        { icon: '🛖', cls: 'pink',  name: 'Приключения Тома Сойера',   desc: 'М. Твен · мальчишеские приключения', key: 'bk_tom',   done: false, review: true },
       ]
     }
   };
@@ -1458,6 +1489,110 @@
           addBot('<b>Как описать литературного героя:</b><br><br>1️⃣ <b>Внешность</b> — как выглядит<br>2️⃣ <b>Характер</b> — добрый/злой, смелый/трусливый, умный/хитрый<br>3️⃣ <b>Поступки</b> — что делает (по поступкам судим о характере!)<br>4️⃣ <b>Речь</b> — как говорит, что говорит<br>5️⃣ <b>Отношение автора</b> — осуждает или восхищается?<br><br>💡 Совет: не говори «хороший» или «плохой» — объясни <i>почему</i> с примером из текста 🌸');
           delay(() => {
             addBot('По чему лучше всего определить характер героя?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">По внешности</button><button class="answer-btn mint-style" onclick="check(this,true)">По поступкам</button></div>', 600);
+          });
+        });
+      },
+
+      // ══════════════════════════════════════════════
+      // ЧИТАЙ-ЛЕТО 2026
+      // ══════════════════════════════════════════════
+
+      bk_saltan: () => {
+        addBot('🌊 «Сказка о царе Салтане» — Александр Сергеевич Пушкин ✨');
+        delay(() => {
+          addBot('Царь Салтан женился на девице и уехал на войну. Злые сёстры написали ему ложное письмо — и молодую царицу с сыном (Гвидоном) бросили в бочке в море 🌊<br><br>Гвидон вырос, попал на остров, спас <b>Царевну-лебедь</b> от злого коршуна. Лебедь стала его женой. В конце царь Салтан нашёл жену и сына, а злые сёстры были посрамлены 🌸<br><br><i>Главная мысль:</i> зло наказывается, добро и верность побеждают');
+          delay(() => {
+            addBot('Кого спас царевич Гвидон на острове?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Золотую рыбку</button><button class="answer-btn mint-style" onclick="check(this,true)">Царевну-лебедь</button></div>', 600);
+          });
+        });
+      },
+
+      bk_kavkaz: () => {
+        addBot('🏔️ «Кавказский пленник» — Лев Николаевич Толстой ✨');
+        delay(() => {
+          addBot('Офицер Жилин попал в плен к горцам на Кавказе. Вместе с ним в плену оказался Костылин — толстый и ленивый офицер 🏔️<br><br>Жилин не стал сидеть сложа руки: подружился с татарской девочкой <b>Диной</b>, которая тайно носила ему лепёшки. Жилин бежал, Костылин отстал и попал в плен снова.<br><br><i>Главная мысль:</i> сила воли, дружба и доброта помогают выжить даже в самых трудных ситуациях 🌸');
+          delay(() => {
+            addBot('Кто помог Жилину бежать из плена?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Костылин</button><button class="answer-btn mint-style" onclick="check(this,true)">Дина</button></div>', 600);
+          });
+        });
+      },
+
+      bk_krylov: () => {
+        addBot('🦊 Басни Ивана Андреевича Крылова — читаем и понимаем мораль! ✨');
+        delay(() => {
+          addBot('<b>Самые известные басни:</b><br><br>🦁🦊 <b>«Ворона и Лисица»</b><br>Лиса похвалила пение вороны — та открыла клюв и уронила сыр. <i>Мораль: лесть опасна</i><br><br>🎻🐜 <b>«Стрекоза и Муравей»</b><br>Стрекоза пела всё лето, а муравей работал. Зимой стрекоза осталась ни с чем. <i>Мораль: трудись заранее</i><br><br>🦢🦈🦞 <b>«Лебедь, Щука и Рак»</b><br>Каждый тянул воз в свою сторону — воз ни с места. <i>Мораль: нужно действовать сообща</i>');
+          delay(() => {
+            addBot('В чём мораль басни «Ворона и Лисица»?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Не давай еду незнакомцам</button><button class="answer-btn mint-style" onclick="check(this,true)">Лесть опасна — не верь лжецам</button></div>', 600);
+          });
+        });
+      },
+
+      bk_vitya: () => {
+        addBot('🤸 «Витя Малеев в школе и дома» — Николай Носов ✨');
+        delay(() => {
+          addBot('Витя Малеев — школьник, который плохо учится. Его друг Костя отличник, но зато дома ничего не делает по хозяйству 😄<br><br>Они решают вместе исправиться: Витя подтягивает учёбу, Костя начинает помогать маме. По дороге — смешные приключения, ошибки и важные уроки 🌸<br><br>Носов писал для детей с юмором — читать легко и весело!<br><br><i>Главная мысль:</i> дружба, честность и труд помогают стать лучше');
+          delay(() => {
+            addBot('Кто из друзей плохо учился в школе?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,true)">Витя Малеев</button><button class="answer-btn mint-style" onclick="check(this,false)">Костя</button></div>', 600);
+          });
+        });
+      },
+
+      bk_timur: () => {
+        addBot('⭐ «Тимур и его команда» — Аркадий Гайдар ✨');
+        delay(() => {
+          addBot('Тимур — обычный мальчик, но тайно организовал команду, которая помогает семьям красноармейцев: колет дрова, носит воду, делает добрые дела анонимно 🌟<br><br>Девочка Женя узнала о команде и сначала не поняла Тимура, но потом стала его другом и помощником.<br><br><i>Главная мысль:</i> делай добро тихо, не ради похвалы — это и есть настоящая доброта 🌸');
+          delay(() => {
+            addBot('Что делала команда Тимура?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Устраивала соревнования</button><button class="answer-btn mint-style" onclick="check(this,true)">Тайно помогала семьям солдат</button></div>', 600);
+          });
+        });
+      },
+
+      bk_paust: () => {
+        addBot('🌿 Рассказы о природе — Константин Георгиевич Паустовский ✨');
+        delay(() => {
+          addBot('Паустовский писал о русской природе так красиво, что хочется сразу выйти в лес! 🌲<br><br><b>Рассказы для 4 класса:</b><br>🐈 <b>«Кот-ворюга»</b> — кот воровал еду, но стал защитником двора<br>🐸 <b>«Заячьи лапы»</b> — дед спас зайца и заяц вернул долг<br>🌸 <b>«Тёплый хлеб»</b> — мальчик обидел коня и вся деревня стала это исправлять<br><br><i>Главная мысль:</i> человек — часть природы, нужно жить с ней в мире');
+          delay(() => {
+            addBot('Как называется рассказ Паустовского про кота-воришку?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,true)">«Кот-ворюга»</button><button class="answer-btn mint-style" onclick="check(this,false)">«Заячьи лапы»</button></div>', 600);
+          });
+        });
+      },
+
+      bk_flower: () => {
+        addBot('💎 «Цветик-семицветик» — Валентин Катаев ✨');
+        delay(() => {
+          addBot('Девочке Жене волшебница подарила цветок с семью лепестками — каждый исполняет одно желание 🌸<br><br>Женя тратила лепестки по одному на мелочи: игрушки, путешествия, выбраться с Северного полюса...<br><br>Остался <b>последний лепесток</b> — и Женя пожелала, чтобы выздоровел больной мальчик Витя 💙<br><br><i>Главная мысль:</i> самое ценное желание — сделать счастливым другого человека');
+          delay(() => {
+            addBot('На что Женя потратила последний лепесток?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Купить игрушки</button><button class="answer-btn mint-style" onclick="check(this,true)">Вылечить больного мальчика</button></div>', 600);
+          });
+        });
+      },
+
+      bk_wizard: () => {
+        addBot('🧙 «Волшебник Изумрудного города» — Александр Волков ✨');
+        delay(() => {
+          addBot('Девочку Элли с собачкой Тотошкой ураган унёс в волшебную страну. Чтобы вернуться домой, ей нужно дойти до Изумрудного города к Волшебнику Гудвину 🌈<br><br><b>Друзья по дороге:</b><br>🎃 Страшила — хочет мозги<br>🪓 Железный Дровосек — хочет сердце<br>🦁 Трусливый Лев — хочет смелость<br><br><i>Главная мысль:</i> всё что нужно — уже есть внутри тебя, нужно только поверить 🌸');
+          delay(() => {
+            addBot('Что хотел получить Страшила?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,true)">Мозги</button><button class="answer-btn mint-style" onclick="check(this,false)">Сердце</button></div>', 600);
+          });
+        });
+      },
+
+      bk_snow: () => {
+        addBot('🌨️ «Снежная королева» — Ганс Христиан Андерсен ✨');
+        delay(() => {
+          addBot('Злой тролль разбил зеркало — осколки попали в глаза и сердце мальчика Кая, и он стал холодным и злым. Снежная королева увезла его в свой ледяной дворец ❄️<br><br>Девочка Герда отправилась искать друга. Она прошла через все испытания — помогли принцы, разбойники, олень...<br><br>Слёзы Герды растопили лёд в сердце Кая 💙<br><br><i>Главная мысль:</i> настоящая дружба и любовь сильнее любого колдовства');
+          delay(() => {
+            addBot('Что растопило лёд в сердце Кая?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,false)">Тепло дворца</button><button class="answer-btn mint-style" onclick="check(this,true)">Слёзы Герды</button></div>', 600);
+          });
+        });
+      },
+
+      bk_tom: () => {
+        addBot('🛖 «Приключения Тома Сойера» — Марк Твен ✨');
+        delay(() => {
+          addBot('Том Сойер — мальчишка из американского городка, который не любит ни школу, ни работу, но обожает приключения! 😄<br><br><b>Самые известные сцены:</b><br>🖌️ Том заставил других мальчишек покрасить забор вместо него — хитростью!<br>🏴‍☠️ Том, Гек и Джо сбежали на остров, чтобы стать пиратами<br>🕯️ В пещере Том и Бекки заблудились — это самый страшный момент книги<br><br><i>Главная мысль:</i> дружба, честность и смелость помогают пережить самые невероятные приключения 🌸');
+          delay(() => {
+            addBot('Что Том Сойер хитростью заставил сделать других мальчиков?<div class="answer-btns"><button class="answer-btn mint-style" onclick="check(this,true)">Покрасить забор</button><button class="answer-btn mint-style" onclick="check(this,false)">Помыть посуду</button></div>', 600);
           });
         });
       },
