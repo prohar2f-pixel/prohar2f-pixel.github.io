@@ -948,6 +948,7 @@
   let taskIndex = 0;           // Индекс текущего задания
   let mistakesCount = 0;       // Количество ошибок на текущем уровне
   let correctCount = 0;        // Количество правильных ответов на текущем уровне
+  let shownTasks = {};         // Отслеживание показанных задач {topic_level: [indexes]}
 
   // ─── БАЗА ЗАДАЧ (100+ заданий на тему) ───────────────────────────────
 
@@ -1153,7 +1154,7 @@
     const tasks = tasksDatabase[currentTopic];
     if (!tasks) return;
 
-    // Ищем задачу нужного уровня сложности
+    // Ищем задачи нужного уровня сложности
     const levelTasks = tasks.filter(t => t.level === currentDifficulty);
     if (levelTasks.length === 0) {
       // Переходим на следующий уровень
@@ -1161,6 +1162,8 @@
         currentDifficulty++;
         mistakesCount = 0;
         correctCount = 0;
+        const key = currentTopic + '_' + (currentDifficulty - 1);
+        delete shownTasks[key]; // Очищаем историю для нового уровня
         addBot(`🎉 Отлично! Переходим на уровень ${currentDifficulty}! Задания будут сложнее 💪`);
         delay(() => showNextTask(), 800);
       } else {
@@ -1169,9 +1172,26 @@
       return;
     }
 
-    // Выбираем случайную задачу этого уровня
-    const task = levelTasks[Math.floor(Math.random() * levelTasks.length)];
-    taskIndex++;
+    // Отслеживание показанных задач этого уровня
+    const key = currentTopic + '_' + currentDifficulty;
+    if (!shownTasks[key]) shownTasks[key] = [];
+
+    // Если показали все задачи этого уровня, сбросим и начнём заново
+    if (shownTasks[key].length >= levelTasks.length) {
+      shownTasks[key] = [];
+    }
+
+    // Выбираем задачу, которая ещё не была показана
+    let task, taskIndex;
+    do {
+      taskIndex = Math.floor(Math.random() * levelTasks.length);
+      task = levelTasks[taskIndex];
+    } while (shownTasks[key].includes(taskIndex) && shownTasks[key].length < levelTasks.length);
+
+    // Запоминаем, что эту задачу показали
+    if (!shownTasks[key].includes(taskIndex)) {
+      shownTasks[key].push(taskIndex);
+    }
 
     // Показываем задачу
     const rule = `<span class="formula-pill">${task.rule}</span>`;
