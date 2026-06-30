@@ -1175,8 +1175,9 @@
 
     // Показываем задачу
     const rule = `<span class="formula-pill">${task.rule}</span>`;
-    const taskHtml = `${task.q}<br><br>${rule}<br><br><input type="text" id="userAnswer" class="task-input" placeholder="Введи ответ..." onkeydown="if(event.key==='Enter') checkTask()">
-      <button onclick="checkTask()" class="task-submit">Проверить</button>`;
+    const uniqueId = 'userAnswer_' + Date.now();
+    const taskHtml = `${task.q}<br><br>${rule}<br><br><input type="text" id="${uniqueId}" class="task-input" placeholder="Введи ответ..." onkeydown="if(event.key==='Enter') checkTaskNew('${uniqueId}')">
+      <button onclick="checkTaskNew('${uniqueId}')" class="task-submit">Проверить</button>`;
 
     addBotHTML(`<div class="task-container">${taskHtml}</div>`);
 
@@ -1184,8 +1185,13 @@
     window.currentTask = task;
   }
 
-  function checkTask() {
-    const input = document.getElementById('userAnswer');
+  function checkTaskNew(inputId) {
+    const input = document.getElementById(inputId);
+    if (!input) {
+      addBot('Ошибка! Перезагрузи страницу 💕');
+      return;
+    }
+
     const userAnswer = input.value.trim().toLowerCase();
     const correctAnswer = window.currentTask.a.toLowerCase();
 
@@ -1195,7 +1201,9 @@
     }
 
     input.disabled = true;
-    document.querySelector('.task-submit').disabled = true;
+    const taskContainer = input.closest('.task-container');
+    const submitBtn = taskContainer.querySelector('.task-submit');
+    submitBtn.disabled = true;
 
     // Простая проверка (можно улучшить для разных типов ответов)
     const isCorrect = userAnswer === correctAnswer ||
