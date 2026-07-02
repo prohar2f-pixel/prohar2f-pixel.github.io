@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Звёздочка — твой репетитор</title>
+<script src="https://st.max.ru/js/max-web-app.js" defer></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -2530,7 +2531,7 @@
 
   function goToChat(item) {
     currentTopic = item.key;
-    currentDifficulty = 1;
+    currentDifficulty = progress.levels[item.key] || 1;  // Продолжаем с сохранённого уровня
     taskIndex = 0;
     mistakesCount = 0;
     correctCount = 0;
@@ -2559,7 +2560,11 @@
       return;
     }
 
-    addBot('🌟 Начинаем изучение! Я буду давать тебе задания по нарастанию сложности.<br>Если ошибёшься — разберём правило и попробуем снова! 💕');
+    if (currentDifficulty > 1) {
+      addBot(`🌟 С возвращением! Продолжаем с уровня ${currentDifficulty}! 💕`);
+    } else {
+      addBot('🌟 Начинаем изучение! Я буду давать тебе задания по нарастанию сложности.<br>Если ошибёшься — разберём правило и попробуем снова! 💕');
+    }
     delay(() => {
       showNextTask();
     }, 800);
@@ -2575,6 +2580,7 @@
       // Переходим на следующий уровень
       if (currentDifficulty < 10) {
         currentDifficulty++;
+        rememberLevel();
         mistakesCount = 0;
         correctCount = 0;
         const key = currentTopic + '_' + (currentDifficulty - 1);
@@ -2654,6 +2660,7 @@
       if (correctCount >= 3) {
         delay(() => {
           currentDifficulty++;
+          rememberLevel();
           mistakesCount = 0;
           correctCount = 0;
           addBot(`🎉 Уровень ${currentDifficulty - 1} пройден! Переходим на уровень ${currentDifficulty}! 💪`);
@@ -3432,6 +3439,12 @@
   function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
     document.getElementById(id).classList.remove('hidden');
+    // В MAX показываем родную кнопку «Назад» на внутренних экранах
+    if (window.WebApp?.BackButton) {
+      try {
+        if (id === 'screen-home') { WebApp.BackButton.hide(); } else { WebApp.BackButton.show(); }
+      } catch (e) {}
+    }
   }
 
   function goBack(toScreen) { showScreen(toScreen); }
@@ -3444,6 +3457,66 @@
     const now = new Date();
     return now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
   }
+
+  // ─── ПРОГРЕСС: сохранение уровней между занятиями ────────────────────
+  // В браузере — localStorage, внутри MAX — дополнительно DeviceStorage.
+
+  const PROGRESS_KEY = 'zvezdochka_progress';
+  let progress = { levels: {} };
+
+  try {
+    const raw = localStorage.getItem(PROGRESS_KEY);
+    if (raw) progress = JSON.parse(raw);
+  } catch (e) {}
+  if (!progress.levels) progress.levels = {};
+
+  function saveProgress() {
+    const raw = JSON.stringify(progress);
+    try { localStorage.setItem(PROGRESS_KEY, raw); } catch (e) {}
+    if (window.WebApp?.DeviceStorage) {
+      try { WebApp.DeviceStorage.setItem(PROGRESS_KEY, raw).catch(() => {}); } catch (e) {}
+    }
+  }
+
+  function rememberLevel() {
+    if (!currentTopic || currentTopic.startsWith('bk_')) return;
+    if ((progress.levels[currentTopic] || 1) < currentDifficulty) {
+      progress.levels[currentTopic] = currentDifficulty;
+      saveProgress();
+    }
+  }
+
+  // ─── MAX: интеграция с мессенджером (в браузере ничего не делает) ────
+
+  window.addEventListener('DOMContentLoaded', () => {
+    if (!window.WebApp) return;
+
+    // Подтягиваем прогресс из хранилища MAX (если там уровни выше)
+    if (WebApp.DeviceStorage) {
+      try {
+        WebApp.DeviceStorage.getItem(PROGRESS_KEY).then(res => {
+          if (!res || !res.value) return;
+          const saved = JSON.parse(res.value);
+          Object.entries(saved.levels || {}).forEach(([topic, level]) => {
+            if ((progress.levels[topic] || 1) < level) progress.levels[topic] = level;
+          });
+        }).catch(() => {});
+      } catch (e) {}
+    }
+
+    // Родная кнопка «Назад»: чат → тема → главный экран
+    if (WebApp.BackButton) {
+      try {
+        WebApp.BackButton.onClick(() => {
+          if (!document.getElementById('screen-chat').classList.contains('hidden')) {
+            goBack('screen-topic');
+          } else {
+            goBack('screen-home');
+          }
+        });
+      } catch (e) {}
+    }
+  });
 </script>
 
 </body>
