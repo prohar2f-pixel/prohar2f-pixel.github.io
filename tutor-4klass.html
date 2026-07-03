@@ -3686,16 +3686,16 @@
       shownTasks[key].push(taskIndex);
     }
 
-    // Показываем задачу
-    const rule = `<span class="formula-pill">${task.rule}</span>`;
+    // Показываем задачу (подсказку-правило покажем только после ошибки)
     const uniqueId = 'userAnswer_' + Date.now();
-    const taskHtml = `${task.q}<br><br>${rule}<br><br><input type="text" id="${uniqueId}" class="task-input" placeholder="Введи ответ..." onkeydown="if(event.key==='Enter') checkTaskNew('${uniqueId}')">
+    const taskHtml = `${task.q}<br><br><input type="text" id="${uniqueId}" class="task-input" placeholder="Введи ответ..." onkeydown="if(event.key==='Enter') checkTaskNew('${uniqueId}')">
       <button onclick="checkTaskNew('${uniqueId}')" class="task-submit">Проверить</button>`;
 
     addBotHTML(`<div class="task-container">${taskHtml}</div>`);
 
-    // Запоминаем правильный ответ
+    // Запоминаем правильный ответ и число попыток
     window.currentTask = task;
+    window.taskAttempts = 0;
   }
 
   function checkTaskNew(inputId) {
@@ -3742,18 +3742,21 @@
         delay(() => showNextTask(), 1500);
       }
     } else {
-      mistakesCount++;
-      addBot(`❌ Ошибка! Правильный ответ: <b>${window.currentTask.a}</b><br><br>📚 Правило:<br>${window.currentTask.explain}`);
+      window.taskAttempts++;
 
-      // Если 2+ ошибки на этом уровне, показываем подробное объяснение
-      if (mistakesCount >= 2) {
-        delay(() => {
-          addBot('Давай ещё раз разберём это правило внимательнее 💕');
-          delay(() => showNextTask(), 800);
-        }, 1200);
+      if (window.taskAttempts === 1) {
+        // Первая ошибка: подсказка и вторая попытка на этой же задаче
+        addBot(`🤔 Не совсем! Вот подсказка:<br><span class="formula-pill">${window.currentTask.rule}</span><br>Попробуй ещё раз! 💪`);
+        input.value = '';
+        input.disabled = false;
+        submitBtn.disabled = false;
+        input.focus();
       } else {
+        // Вторая ошибка: показываем ответ и разбор, идём дальше
+        mistakesCount++;
+        addBot(`❌ Правильный ответ: <b>${window.currentTask.a}</b><br><br>📚 Разбор:<br>${window.currentTask.explain}`);
         delay(() => {
-          addBot('Попробуй ещё раз эту же задачу или похожую 💪');
+          addBot(mistakesCount >= 2 ? 'Давай разберём это правило внимательнее 💕' : 'Ничего страшного, попробуем похожую задачу 💪');
           delay(() => showNextTask(), 800);
         }, 1200);
       }
