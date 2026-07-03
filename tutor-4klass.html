@@ -336,7 +336,7 @@
   .book-link-btn { display: block; padding: 10px 16px; border-radius: 12px; background: linear-gradient(135deg, #FFF0CC, #FFE4A8); color: #8B6914; font-weight: 600; text-decoration: none; text-align: center; font-size: 14px; transition: opacity .15s; border: none; cursor: pointer; font-family: inherit; width: 100%; box-sizing: border-box; }
 
   /* ─── Встроенный просмотр книги: текст / аудио / видео ─── */
-  .media-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--pink-soft); z-index: 50; display: none; flex-direction: column; }
+  .media-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--pink-soft); z-index: 999; display: none; flex-direction: column; }
   .media-overlay.open { display: flex; }
   .media-header { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--white); box-shadow: 0 2px 12px rgba(200,100,160,0.15); flex-shrink: 0; }
   .media-title { font-size: 14px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
