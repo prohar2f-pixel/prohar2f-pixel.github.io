@@ -333,7 +333,20 @@
     border: 1.5px dashed #F0D080;
   }
   .book-links { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
-  .book-link-btn { display: block; padding: 10px 16px; border-radius: 12px; background: linear-gradient(135deg, #FFF0CC, #FFE4A8); color: #8B6914; font-weight: 600; text-decoration: none; text-align: center; font-size: 14px; transition: opacity .15s; }
+  .book-link-btn { display: block; padding: 10px 16px; border-radius: 12px; background: linear-gradient(135deg, #FFF0CC, #FFE4A8); color: #8B6914; font-weight: 600; text-decoration: none; text-align: center; font-size: 14px; transition: opacity .15s; border: none; cursor: pointer; font-family: inherit; width: 100%; box-sizing: border-box; }
+
+  /* ─── Встроенный просмотр книги: текст / аудио / видео ─── */
+  .media-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--pink-soft); z-index: 50; display: none; flex-direction: column; }
+  .media-overlay.open { display: flex; }
+  .media-header { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--white); box-shadow: 0 2px 12px rgba(200,100,160,0.15); flex-shrink: 0; }
+  .media-title { font-size: 14px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .media-content { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; background: #000; }
+  .media-content.reading { background: var(--pink-soft); }
+  .media-content iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .tale-text { padding: 18px 20px 48px; font-size: 16px; line-height: 1.7; color: var(--text); }
+  .tale-text h2 { font-size: 20px; margin-bottom: 4px; color: var(--text); }
+  .tale-text .tale-author { color: var(--text-soft); font-size: 13px; margin-bottom: 16px; }
+  .tale-text p { margin-bottom: 12px; }
   .book-link-btn:hover { opacity: .8; }
   .subtopic-item.review:hover {
     box-shadow: 0 4px 16px rgba(240,200,80,0.25);
@@ -734,6 +747,15 @@
 
   </div>
 
+  <!-- Встроенный просмотр книги (текст / аудио / видео) -->
+  <div class="media-overlay" id="mediaOverlay">
+    <div class="media-header">
+      <div class="back-btn" onclick="closeMedia()" style="width:32px;height:32px;">←</div>
+      <div class="media-title" id="mediaTitle"></div>
+    </div>
+    <div class="media-content" id="mediaContent"></div>
+  </div>
+
 </div>
 
 <script>
@@ -769,12 +791,12 @@
 
   // ─── Книги «Читай-лето» ──────────────────────────────────────────
   const summerBooks = [
-    { key:'bk_1',  author:'Аксаков С.Т.',      title:'Аленький цветочек',           description:'Волшебная сказка о красавице и чудовище, о настоящей любви и верности.',                                              read_url:'https://ru.wikisource.org/wiki/%D0%90%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D0%B9_%D1%86%D0%B2%D0%B5%D1%82%D0%BE%D1%87%D0%B5%D0%BA_(%D0%90%D0%BA%D1%81%D0%B0%D0%BA%D0%BE%D0%B2)', audio_url:'https://www.youtube.com/watch?v=XeR5rfZeHHM', video_url:'https://www.youtube.com/watch?v=1FtcZy6fow0' },
-    { key:'bk_2',  author:'Астафьев В.П.',      title:'Конь с розовой гривой',       description:'Рассказ о мальчике из сибирской деревни, который обманул бабушку и понял, как важна честность.',                     read_url:'https://skazki.rustih.ru/viktor-astafev-kon-s-rozovoj-grivoj/', audio_url:'https://www.youtube.com/watch?v=NaQbBzVc3oM', video_url:'https://www.youtube.com/watch?v=Jsw7ECIoBeE' },
-    { key:'bk_3',  author:'Бажов П.П.',          title:'Серебряное копытце',          description:'Уральская сказка о волшебном козлике, который выбивал копытцем драгоценные камни.',                                   read_url:'https://nukadeti.ru/skazki/bazhov-serebryanoe-kopytce', audio_url:'https://www.youtube.com/watch?v=ouyuOggn6y4', video_url:'https://www.youtube.com/watch?v=kYAHhoiLlKg' },
-    { key:'bk_4',  author:'Булычёв К.',           title:'Приключения Алисы',           description:'Фантастические истории о девочке из будущего Алисе Селезнёвой и её невероятных приключениях.',                       read_url:'https://www.rusf.ru/kb/stories/puteshestvie_alisy/text-01.htm', audio_url:'https://www.youtube.com/watch?v=NqkTND2ZMvI', video_url:'https://www.youtube.com/watch?v=9nDzHqR9yv0' },
-    { key:'bk_5',  author:'Велтистов Е.С.',       title:'Приключения Электроника',     description:'Фантастическая повесть о мальчике-роботе Электронике и его двойнике Серёже Сыроежкине.',                             read_url:'https://libcat.ru/knigi/detskaya-literatura/detskaya-fantastika/90754-evgenij-veltistov-priklyucheniya-elektronika.html', audio_url:'https://www.youtube.com/watch?v=s_8_7ZuWIzw', video_url:'https://www.youtube.com/watch?v=4QwFv_QYp7k' },
-    { key:'bk_6',  author:'Гаршин В.М.',          title:'Сказка о жабе и розе',       description:'Грустная и красивая история о цветке розы, чья жизнь была наполнена добром и красотой.',                             read_url:'https://ilibrary.ru/text/4439/p.1/index.html', audio_url:'https://www.youtube.com/watch?v=Ahn_nAzXDk8', video_url:'https://www.youtube.com/watch?v=GwH9OmPdny4' },
+    { key:'bk_1',  author:'Аксаков С.Т.',      title:'Аленький цветочек',           description:'Волшебная сказка о красавице и чудовище, о настоящей любви и верности.',                                              read_url:'https://ru.wikisource.org/wiki/%D0%90%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D0%B9_%D1%86%D0%B2%D0%B5%D1%82%D0%BE%D1%87%D0%B5%D0%BA_(%D0%90%D0%BA%D1%81%D0%B0%D0%BA%D0%BE%D0%B2)', tale:true, rutube_audio:'8cb5465c433e5a52cca30ef8b607ca2e', rutube_video:'78c3beeda310a1421da094737096746b' },
+    { key:'bk_2',  author:'Астафьев В.П.',      title:'Конь с розовой гривой',       description:'Рассказ о мальчике из сибирской деревни, который обманул бабушку и понял, как важна честность.',                     read_url:'https://skazki.rustih.ru/viktor-astafev-kon-s-rozovoj-grivoj/', rutube_audio:'359c821a1644e5829138ae7e05b60895', no_video:true },
+    { key:'bk_3',  author:'Бажов П.П.',          title:'Серебряное копытце',          description:'Уральская сказка о волшебном козлике, который выбивал копытцем драгоценные камни.',                                   read_url:'https://nukadeti.ru/skazki/bazhov-serebryanoe-kopytce', tale:true, rutube_audio:'d2d868c7b6cf1f86198dec7c69b41ab6', rutube_video:'d78ad4629fd7567431ffda032ceb7d23' },
+    { key:'bk_4',  author:'Булычёв К.',           title:'Приключения Алисы',           description:'Фантастические истории о девочке из будущего Алисе Селезнёвой и её невероятных приключениях.',                       read_url:'https://www.rusf.ru/kb/stories/puteshestvie_alisy/text-01.htm', rutube_audio:'646e80793a07ded3edcbc02b8b768a21', rutube_video:'779fba6bde4a6887ce72ab08c4873fdb' },
+    { key:'bk_5',  author:'Велтистов Е.С.',       title:'Приключения Электроника',     description:'Фантастическая повесть о мальчике-роботе Электронике и его двойнике Серёже Сыроежкине.',                             read_url:'https://libcat.ru/knigi/detskaya-literatura/detskaya-fantastika/90754-evgenij-veltistov-priklyucheniya-elektronika.html', rutube_audio:'607c7efa3ecf034d1ba6a758bfa67a7d', rutube_video:'a7334f4918823c1ac20b87e9449cf38b' },
+    { key:'bk_6',  author:'Гаршин В.М.',          title:'Сказка о жабе и розе',       description:'Грустная и красивая история о цветке розы, чья жизнь была наполнена добром и красотой.',                             read_url:'https://ilibrary.ru/text/4439/p.1/index.html', tale:true, rutube_audio:'1e68c6169b4bd30b982e0b8628a643ba', no_video:true },
     { key:'bk_7',  author:'Георгиев С.Г.',        title:'Домик солнечного зайца',      description:'Добрые истории о солнечном зайчике и его друзьях.',                                                                  read_url:'https://yandex.ru/search/?text=%D0%93%D0%B5%D0%BE%D1%80%D0%B3%D0%B8%D0%B5%D0%B2+%D0%94%D0%BE%D0%BC%D0%B8%D0%BA+%D1%81%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D0%BE%D0%B3%D0%BE+%D0%B7%D0%B0%D0%B9%D1%86%D0%B0+%D1%87%D0%B8%D1%82%D0%B0%D1%82%D1%8C+%D0%BE%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD', audio_url:'', video_url:'' },
     { key:'bk_8',  author:'Горький М.',            title:'Про Иванушку-дурачка',       description:'Народная сказка в пересказе Горького о добром Иванушке, который оказался мудрее всех.',                              read_url:'https://deti-online.com/skazki/sbornik-skazok/pro-ivanushku-durachka/', audio_url:'https://www.youtube.com/watch?v=PzaMWF3mfgg', video_url:'https://www.youtube.com/watch?v=PMyrIpAJe5Q' },
     { key:'bk_9',  author:'Даль В.И.',             title:'Про мышь зубастую...',       description:'Народная сказка о мышке и воробье — забавная история о дружбе и взаимовыручке.',                                    read_url:'https://nukadeti.ru/skazki/pro-mysh-zubastuyu-da-pro-vorobya-bogatogo', audio_url:'https://www.youtube.com/watch?v=ckXwFWvecmE', video_url:'https://www.youtube.com/results?search_query=Даль+мышь+зубастая+воробей+богатый+мультфильм' },
@@ -4401,13 +4423,63 @@
     delay(() => {
       addBot(book.description + ' 🌸');
       delay(() => {
-        addBot('Выбери как познакомиться с книгой:<div class="book-links">' +
-          '<a href="' + book.read_url + '" target="_blank" class="book-link-btn">📖 Читать онлайн</a>' +
-          '<a href="https://yandex.ru/search/?text=' + q + '+%D0%B0%D1%83%D0%B4%D0%B8%D0%BE%D0%BA%D0%BD%D0%B8%D0%B3%D0%B0+%D1%81%D0%BB%D1%83%D1%88%D0%B0%D1%82%D1%8C+%D0%B1%D0%B5%D1%81%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D0%BE" target="_blank" class="book-link-btn">🎧 Слушать · Яндекс</a>' +
-          '<a href="https://rutube.ru/search/?query=' + q + '" target="_blank" class="book-link-btn">🎬 Смотреть · Rutube</a>' +
-          '</div>', 600);
+        let btns = '<div class="book-links">';
+
+        // Читать: вшитый текст (открывается внутри), иначе внешняя ссылка
+        if (book.tale) {
+          btns += '<button class="book-link-btn" onclick="openBookText(\'' + book.key + '\', \'' + book.title + '\')">📖 Читать сказку</button>';
+        } else {
+          btns += '<a href="' + book.read_url + '" target="_blank" class="book-link-btn">📖 Читать · откроется в браузере</a>';
+        }
+
+        // Слушать: встроенный плеер, иначе поиск
+        if (book.rutube_audio) {
+          btns += '<button class="book-link-btn" onclick="openBookMedia(\'' + book.rutube_audio + '\', \'🎧 ' + book.title + '\')">🎧 Слушать</button>';
+        } else {
+          btns += '<a href="https://yandex.ru/search/?text=' + q + '+%D0%B0%D1%83%D0%B4%D0%B8%D0%BE%D0%BA%D0%BD%D0%B8%D0%B3%D0%B0" target="_blank" class="book-link-btn">🎧 Слушать · Яндекс</a>';
+        }
+
+        // Смотреть: встроенный плеер; если экранизации нет — кнопки нет
+        if (book.rutube_video) {
+          btns += '<button class="book-link-btn" onclick="openBookMedia(\'' + book.rutube_video + '\', \'🎬 ' + book.title + '\')">🎬 Смотреть</button>';
+        } else if (!book.no_video) {
+          btns += '<a href="https://rutube.ru/search/?query=' + q + '" target="_blank" class="book-link-btn">🎬 Смотреть · Rutube</a>';
+        }
+
+        btns += '</div>';
+        addBot('Выбери, как познакомиться с книгой:' + btns, 600);
       });
     });
+  }
+
+  // ─── Встроенный просмотр: всё открывается внутри приложения ────────
+
+  function openMediaOverlay(title) {
+    document.getElementById('mediaTitle').textContent = title;
+    document.getElementById('mediaOverlay').classList.add('open');
+  }
+
+  function openBookMedia(rutubeId, title) {
+    openMediaOverlay(title);
+    const c = document.getElementById('mediaContent');
+    c.classList.remove('reading');
+    c.innerHTML = '<iframe src="https://rutube.ru/play/embed/' + rutubeId + '" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>';
+  }
+
+  function openBookText(key, title) {
+    openMediaOverlay(title);
+    const c = document.getElementById('mediaContent');
+    c.classList.add('reading');
+    c.innerHTML = '<div class="tale-text">Загружаю сказку... 🌸</div>';
+    fetch('tales/' + key + '.html')
+      .then(r => { if (!r.ok) throw new Error(); return r.text(); })
+      .then(html => { c.innerHTML = '<div class="tale-text">' + html + '</div>'; c.scrollTop = 0; })
+      .catch(() => { c.innerHTML = '<div class="tale-text">Не получилось загрузить 😢<br>Проверь интернет и попробуй ещё раз.</div>'; });
+  }
+
+  function closeMedia() {
+    document.getElementById('mediaOverlay').classList.remove('open');
+    document.getElementById('mediaContent').innerHTML = ''; // останавливает видео и звук
   }
 
   function addBot(html) {
@@ -4579,10 +4651,15 @@
       } catch (e) {}
     }
 
-    // Родная кнопка «Назад»: чат → тема → главный экран
+    // Родная кнопка «Назад»: просмотр книги → чат → тема → главный экран
     if (WebApp.BackButton) {
       try {
         WebApp.BackButton.onClick(() => {
+          const overlay = document.getElementById('mediaOverlay');
+          if (overlay && overlay.classList.contains('open')) {
+            closeMedia();
+            return;
+          }
           if (!document.getElementById('screen-chat').classList.contains('hidden')) {
             goBack('screen-topic');
           } else {
