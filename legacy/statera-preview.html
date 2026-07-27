@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Statera Expert — Бухгалтерский аутсорсинг для крупного бизнеса</title>
+<meta name="description" content="8 лет, 15 штатных бухгалтеров, 100+ компаний. Бухгалтерский аутсорсинг для компаний, которые не доверяют учёт случайным людям.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080D1A;--bg2:#0D1526;--bg3:#121D35;
+  --card:#141E30;--card2:#1A2640;
+  --gold:#C4A35A;--gold2:#D4B87A;
+  --gold-dim:rgba(196,163,90,.15);--gold-line:rgba(196,163,90,.3);
+  --text:#F0EAE0;--text2:#A0B0C8;--text3:#506070;
+  --border:rgba(255,255,255,.07);--border-g:rgba(196,163,90,.2);
+  --r:4px;--r2:8px;--max:1200px;--tr:.3s cubic-bezier(.4,0,.2,1)
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;font-weight:400;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;font:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* UTILS */
+.label{font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--gold)}
+.gline{display:block;width:40px;height:2px;background:var(--gold);margin-bottom:16px}
+.h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:600;line-height:1.15}
+.sub{font-size:1rem;color:var(--text2);line-height:1.75;max-width:560px}
+.fade{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.fade.on{opacity:1;transform:none}
+.fade:nth-child(1){transition-delay:0s}
+.fade:nth-child(2){transition-delay:.1s}
+.fade:nth-child(3){transition-delay:.2s}
+.fade:nth-child(4){transition-delay:.3s}
+.fade:nth-child(5){transition-delay:.4s}
+
+/* HEADER */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,13,26,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:var(--tr)}
+.hdr-in{display:flex;align-items:center;justify-content:space-between;height:72px;gap:32px}
+.logo{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.logo-mark{width:34px;height:34px;background:var(--gold);clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);flex-shrink:0}
+.logo-text{display:flex;flex-direction:column}
+.logo-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;letter-spacing:.05em;line-height:1}
+.logo-sub{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);margin-top:2px}
+nav{display:flex;align-items:center;gap:28px;flex:1;justify-content:center}
+nav a{font-size:.875rem;font-weight:500;color:var(--text2);letter-spacing:.02em;transition:color var(--tr);position:relative}
+nav a::after{content:'';position:absolute;bottom:-4px;left:0;right:100%;height:1px;background:var(--gold);transition:right var(--tr)}
+nav a:hover{color:var(--text)}
+nav a:hover::after{right:0}
+.hdr-btns{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.btn-msg{width:36px;height:36px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text2);transition:var(--tr);font-size:15px}
+.btn-msg:hover{background:var(--gold-dim);border-color:var(--gold-line);color:var(--gold)}
+.btn-call{display:flex;align-items:center;gap:8px;padding:8px 18px;background:var(--gold);color:#080D1A;font-size:.875rem;font-weight:700;border-radius:var(--r);transition:var(--tr)}
+.btn-call:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 4px 20px rgba(196,163,90,.4)}
+.burger{display:none;flex-direction:column;gap:5px;padding:8px}
+.burger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:72px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 70% 50%,rgba(196,163,90,.06) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 20% 80%,rgba(21,80,150,.08) 0%,transparent 60%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%)}
+.hero-in{position:relative;z-index:2;padding:48px 0 40px;display:grid;grid-template-columns:1fr 320px;gap:48px;align-items:center}
+.hero-left{display:flex;flex-direction:column}
+.hero-card{background:var(--card);border:1px solid var(--border-g);border-radius:var(--r2);padding:24px;opacity:0;animation:fadeUp .8s ease forwards .5s}
+.hc-lbl{font-size:.6875rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.hc-person{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.hc-div{height:1px;background:var(--border);margin-bottom:14px}
+.hc-tags{display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
+.hc-tag{display:flex;align-items:center;gap:8px;font-size:.8125rem;color:var(--text2)}
+.hc-tag::before{content:'';display:block;width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.hero-brow{display:flex;align-items:center;gap:12px;margin-bottom:18px;opacity:0;animation:fadeUp .8s ease forwards .2s}
+.hero-brow-line{width:32px;height:1px;background:var(--gold)}
+.hero-brow-txt{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4.5vw,3.75rem);font-weight:600;line-height:1.1;max-width:820px;margin-bottom:16px;opacity:0;animation:fadeUp .8s ease forwards .4s}
+.hero-h1 em{font-style:italic;color:var(--gold)}
+.hero-desc{font-size:1rem;color:var(--text2);max-width:520px;line-height:1.7;margin-bottom:24px;opacity:0;animation:fadeUp .8s ease forwards .6s}
+.hero-acts{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px;opacity:0;animation:fadeUp .8s ease forwards .8s}
+.btn-prim{display:inline-flex;align-items:center;gap:10px;padding:12px 24px;background:var(--gold);color:#080D1A;font-size:.9375rem;font-weight:700;border-radius:var(--r);transition:var(--tr)}
+.btn-prim:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 8px 32px rgba(196,163,90,.35)}
+.btn-sec{display:inline-flex;align-items:center;gap:10px;padding:12px 24px;background:transparent;color:var(--text2);font-size:.9375rem;font-weight:500;border-radius:var(--r);border:1px solid var(--border);transition:var(--tr)}
+.btn-sec:hover{color:var(--text);border-color:var(--border-g);background:rgba(196,163,90,.05)}
+.stats{grid-column:1/-1;display:flex;border-top:1px solid var(--border);padding-top:28px;opacity:0;animation:fadeUp .8s ease forwards 1s}
+.stat{flex:1;padding-right:32px;border-right:1px solid var(--border);margin-right:32px}
+.stat:last-child{border-right:none;margin-right:0;padding-right:0}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:2.75rem;font-weight:700;color:var(--gold);line-height:1;margin-bottom:4px}
+.stat-l{font-size:.8125rem;color:var(--text2);font-weight:500}
+
+/* CLIENTS */
+.clients{padding:52px 0;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.clients-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+.clients-ttl{font-size:.75rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text3)}
+.clients-disc{font-size:.75rem;color:var(--text3);display:flex;align-items:center;gap:6px}
+.clients-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.client-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:18px 22px;transition:var(--tr)}
+.client-card:hover{border-color:var(--border-g);background:var(--card2)}
+.cl-ind{font-size:.6875rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.cl-name{font-size:.9375rem;font-weight:600;color:var(--text);margin-bottom:4px}
+.cl-size{font-size:.8125rem;color:var(--text2)}
+
+/* TEAM */
+.team{padding:64px 0}
+.sec-hdr{margin-bottom:32px}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:24px}
+.team-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;transition:var(--tr)}
+.team-card:hover{border-color:var(--border-g);transform:translateY(-3px);box-shadow:0 16px 32px rgba(0,0,0,.4)}
+.team-photo{width:100%;height:180px;background:var(--bg3);display:flex;align-items:center;justify-content:center}
+.team-av{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dim),rgba(196,163,90,.08));border:2px solid var(--gold-line);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.375rem;font-weight:600;color:var(--gold)}
+.team-info{padding:14px 16px}
+.team-name{font-size:.9375rem;font-weight:600;margin-bottom:3px}
+.team-role{font-size:.8125rem;color:var(--gold);font-weight:500;margin-bottom:4px}
+.team-exp{font-size:.75rem;color:var(--text3);margin-bottom:8px}
+.team-spec{font-size:.8125rem;color:var(--text2);line-height:1.45}
+.team-foot{display:flex;align-items:center;justify-content:space-between}
+.arr{display:inline-flex;align-items:center;gap:8px;font-size:.875rem;font-weight:600;color:var(--gold);transition:gap var(--tr)}
+.arr:hover{gap:12px}
+
+/* SERVICES */
+.services{padding:64px 0;background:var(--bg2)}
+.svc-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;background:var(--border);border-radius:var(--r2);overflow:hidden}
+.svc{grid-column:span 2;background:var(--bg2);padding:22px 24px;transition:var(--tr);cursor:pointer}
+.svc:nth-child(4),.svc:nth-child(5){grid-column:span 3}
+.svc:hover{background:var(--card)}
+.svc-n{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--text3);line-height:1;margin-bottom:12px;transition:color var(--tr)}
+.svc:hover .svc-n{color:var(--gold-line)}
+.svc-ico{width:38px;height:38px;background:var(--gold-dim);border:1px solid var(--gold-line);border-radius:var(--r);display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-size:16px;transition:var(--tr)}
+.svc:hover .svc-ico{background:var(--gold);border-color:var(--gold)}
+.svc-name{font-size:.9375rem;font-weight:600;margin-bottom:6px;line-height:1.3}
+.svc-desc{font-size:.8125rem;color:var(--text2);line-height:1.6}
+
+/* INDUSTRIES */
+.ind{padding:56px 0}
+.ind-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:28px}
+.ind-item{display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 14px;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);text-align:center;transition:var(--tr)}
+.ind-item:hover{border-color:var(--border-g);background:var(--card2)}
+.ind-ico{display:flex;align-items:center;justify-content:center;color:var(--gold)}
+.ind-name{font-size:.875rem;font-weight:600}
+.ind-cnt{font-size:.75rem;color:var(--text3)}
+
+/* REVIEWS */
+.reviews{padding:64px 0;background:var(--bg2)}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.rev-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:24px 28px;display:flex;flex-direction:column;transition:var(--tr)}
+.rev-card:hover{border-color:var(--border-g)}
+.rev-q{font-family:'Cormorant Garamond',serif;font-size:3.5rem;line-height:.6;color:var(--gold-line);margin-bottom:12px;display:block}
+.rev-txt{font-size:.875rem;color:var(--text2);line-height:1.7;flex:1;margin-bottom:16px;font-style:italic}
+.rev-auth{display:flex;align-items:center;gap:12px}
+.rev-ava{width:38px;height:38px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--gold-line);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:.875rem;font-weight:600;color:var(--gold);flex-shrink:0}
+.rev-name{font-size:.9375rem;font-weight:600}
+.rev-pos{font-size:.8125rem;color:var(--text3)}
+
+/* CTA */
+.cta{padding:64px 0;background:var(--bg3);border-top:1px solid var(--border-g);position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;top:-50%;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(196,163,90,.06) 0%,transparent 70%);pointer-events:none}
+.cta-in{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative}
+.cta-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.75rem,3vw,2.375rem);font-weight:600;line-height:1.2;margin-bottom:12px}
+.cta-desc{font-size:.9375rem;color:var(--text2);line-height:1.7;margin-bottom:22px}
+.cta-ph{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:600;color:var(--gold);letter-spacing:.02em}
+.msng{display:flex;gap:10px;margin-top:12px}
+.msng-btn{display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);font-size:.875rem;font-weight:500;color:var(--text2);transition:var(--tr)}
+.msng-btn:hover{border-color:var(--border-g);color:var(--text)}
+.cta-trust{display:flex;flex-direction:column;gap:10px;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+.cta-trust-item{display:flex;align-items:center;gap:10px;font-size:.8125rem;color:var(--text2)}
+.cta-trust-item svg{flex-shrink:0;color:var(--gold)}
+.form{background:var(--card);border:1px solid var(--border-g);border-radius:var(--r2);padding:28px 32px}
+.form-h{font-family:'Cormorant Garamond',serif;font-size:1.375rem;font-weight:600;margin-bottom:4px}
+.form-s{font-size:.875rem;color:var(--text2);margin-bottom:16px}
+.fgrp{margin-bottom:10px}
+.flbl{display:block;font-size:.8125rem;font-weight:500;color:var(--text2);margin-bottom:5px}
+.finp,.ftxt{width:100%;padding:10px 13px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-family:'Manrope',sans-serif;font-size:.875rem;transition:var(--tr);outline:none}
+.finp:focus,.ftxt:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(196,163,90,.1)}
+.ftxt{resize:vertical;min-height:72px}
+.fsub{width:100%;padding:11px;background:var(--gold);color:#080D1A;font-size:.9375rem;font-weight:700;border-radius:var(--r);transition:var(--tr);margin-top:6px}
+.fsub:hover{background:var(--gold2);box-shadow:0 4px 20px rgba(196,163,90,.4)}
+.fprivacy{margin-top:10px;font-size:.75rem;color:var(--text3);text-align:center}
+.fprivacy a{color:var(--gold)}
+
+/* FOOTER */
+.footer{background:var(--bg);border-top:1px solid var(--border);padding:44px 0 32px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:40px;margin-bottom:36px}
+.footer-tag{font-size:.875rem;color:var(--text3);line-height:1.65;max-width:260px;margin-top:18px}
+.fcol-t{font-size:.8125rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:18px}
+.flinks{display:flex;flex-direction:column;gap:11px}
+.flinks a{font-size:.9375rem;color:var(--text2);transition:color var(--tr)}
+.flinks a:hover{color:var(--gold)}
+.fci{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px}
+.fci-ico{color:var(--gold);flex-shrink:0;margin-top:2px;font-size:13px;width:18px}
+.fci-txt{font-size:.875rem;color:var(--text2);line-height:1.5}
+.footer-bot{border-top:1px solid var(--border);padding-top:28px;display:flex;align-items:center;justify-content:space-between}
+.fcopy{font-size:.8125rem;color:var(--text3)}
+.fpol{font-size:.8125rem;color:var(--text3);transition:color var(--tr)}
+.fpol:hover{color:var(--gold)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero-in{grid-template-columns:1fr}
+  .hero-card{display:none}
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .svc,.svc:nth-child(4),.svc:nth-child(5){grid-column:span 1}
+  .footer-grid{grid-template-columns:repeat(2,1fr)}
+  .ind-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:768px){
+  nav{display:none}
+  .burger{display:flex}
+  .stats{flex-direction:column;gap:24px}
+  .stat{border-right:none;padding-right:0;margin-right:0;border-bottom:1px solid var(--border);padding-bottom:24px}
+  .stat:last-child{border-bottom:none;padding-bottom:0}
+  .team-grid{grid-template-columns:1fr 1fr}
+  .rev-grid{grid-template-columns:1fr}
+  .cta-in{grid-template-columns:1fr;gap:40px}
+  .footer-grid{grid-template-columns:1fr}
+  .clients-grid{grid-template-columns:repeat(2,1fr)}
+  .svc-grid{grid-template-columns:1fr}
+  .ind-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:480px){
+  .team-grid{grid-template-columns:1fr}
+  .hero-acts{flex-direction:column}
+  .btn-prim,.btn-sec{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr" id="hdr">
+<div class="wrap"><div class="hdr-in">
+  <a href="/" class="logo">
+    <div class="logo-mark"></div>
+    <div class="logo-text">
+      <span class="logo-name">Statera Expert</span>
+      <span class="logo-sub">Бухгалтерский аутсорсинг</span>
+    </div>
+  </a>
+  <nav>
+    <a href="#team">Команда</a>
+    <a href="#services">Услуги</a>
+    <a href="#cases">Кейсы</a>
+    <a href="#reviews">Отзывы</a>
+    <a href="#contacts">Контакты</a>
+  </nav>
+  <div class="hdr-btns">
+    <a href="https://wa.me/79001234567" class="btn-msg" title="WhatsApp">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </a>
+    <a href="https://t.me/statera_expert" class="btn-msg" title="Telegram">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+    </a>
+    <a href="tel:+79001234567" class="btn-call">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .97h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 006.18 6.18l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Позвонить
+    </a>
+    <button class="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+  </div>
+</div></div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="wrap"><div class="hero-in">
+    <div class="hero-left">
+      <div class="hero-brow">
+        <div class="hero-brow-line"></div>
+        <span class="hero-brow-txt">Москва · с 2016 года</span>
+      </div>
+      <h1 class="hero-h1">
+        Statera Expert — бухгалтерский аутсорсинг для компаний, которые не доверяют учёт <em>случайным людям</em>
+      </h1>
+      <p class="hero-desc">15 штатных бухгалтеров с узкой специализацией. Прямой контакт с ведущим специалистом без менеджеров и очередей.</p>
+      <div class="hero-acts">
+        <a href="#contacts" class="btn-prim">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .97h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 006.18 6.18l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          Связаться с ведущим бухгалтером
+        </a>
+        <a href="#team" class="btn-sec">
+          Наша команда
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hc-lbl">Ваш ведущий специалист</div>
+        <div class="hc-person">
+          <div class="team-av" style="width:52px;height:52px;font-size:1.125rem;flex-shrink:0">АС</div>
+          <div>
+            <div style="font-size:.9375rem;font-weight:600;color:var(--text)">Анна Соколова</div>
+            <div style="font-size:.8125rem;color:var(--gold);margin-top:2px">Ведущий бухгалтер</div>
+            <div style="font-size:.75rem;color:var(--text3);margin-top:2px">14 лет · ИПБ, ACCA DipIFR</div>
+          </div>
+        </div>
+        <div class="hc-div"></div>
+        <div class="hc-tags">
+          <div class="hc-tag">Производственные холдинги</div>
+          <div class="hc-tag">Многоуровневые группы компаний</div>
+          <div class="hc-tag">Восстановление запущенного учёта</div>
+          <div class="hc-tag">Клиенты с оборотом от 150 млн ₽</div>
+        </div>
+        <a href="#contacts" class="btn-prim" style="width:100%;justify-content:center;font-size:.875rem">Связаться напрямую</a>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n" data-count="8">0</div><div class="stat-l">лет на рынке</div></div>
+      <div class="stat"><div class="stat-n" data-count="15">0</div><div class="stat-l">штатных бухгалтеров</div></div>
+      <div class="stat"><div class="stat-n" data-count="100" data-sfx="+">0</div><div class="stat-l">компаний-клиентов</div></div>
+      <div class="stat"><div class="stat-n" data-count="5">0</div><div class="stat-l">отраслей экспертизы</div></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- CLIENTS -->
+<section class="clients" id="clients">
+  <div class="wrap">
+    <div class="clients-hdr">
+      <span class="clients-ttl">Работаем с компаниями из ключевых отраслей</span>
+      <span class="clients-disc">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Данные клиентов защищены NDA
+      </span>
+    </div>
+    <div class="clients-grid">
+      <div class="client-card fade"><div class="cl-ind">Производство</div><div class="cl-name">ГК «СтальПром»</div><div class="cl-size">Металлообработка · 340 сотрудников</div></div>
+      <div class="client-card fade"><div class="cl-ind">Строительство</div><div class="cl-name">«Монолит Девелопмент»</div><div class="cl-size">4 юр. лица · жильё и коммерция</div></div>
+      <div class="client-card fade"><div class="cl-ind">Ритейл</div><div class="cl-name">ТС «Гастроном №1»</div><div class="cl-size">34 магазина в ЦФО</div></div>
+      <div class="client-card fade"><div class="cl-ind">IT</div><div class="cl-name">«Цифровые Горизонты»</div><div class="cl-size">SaaS-продукты · 120 человек</div></div>
+      <div class="client-card fade"><div class="cl-ind">ВЭД</div><div class="cl-name">«ИмпортТехника»</div><div class="cl-size">Поставки из DE, CN · 1,1 млрд ₽</div></div>
+      <div class="client-card fade"><div class="cl-ind">Производство</div><div class="cl-name">«АгроПром Юг»</div><div class="cl-size">Переработка · оборот 1,2 млрд ₽</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team" id="team">
+  <div class="wrap">
+    <div class="sec-hdr">
+      <span class="gline"></span>
+      <span class="label">Команда — лицо компании</span>
+      <h2 class="h2" style="margin-top:12px;margin-bottom:14px">15 бухгалтеров<br>с узкой специализацией</h2>
+      <p class="sub">Каждый клиент закреплён за конкретным специалистом. Вы знаете имя и телефон того, кто ведёт ваш учёт.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card fade">
+        <div class="team-photo"><div class="team-av">АС</div></div>
+        <div class="team-info">
+          <div class="team-name">Анна Соколова</div>
+          <div class="team-role">Ведущий бухгалтер</div>
+          <div class="team-exp">14 лет стажа · в Statera 6 лет · Аттестат ИПБ, ACCA DipIFR</div>
+          <div class="team-spec">Производственные холдинги и многоуровневые группы компаний с оборотом от 500 млн ₽</div>
+        </div>
+      </div>
+      <div class="team-card fade">
+        <div class="team-photo"><div class="team-av">МК</div></div>
+        <div class="team-info">
+          <div class="team-name">Михаил Козлов</div>
+          <div class="team-role">Налоговый консультант</div>
+          <div class="team-exp">11 лет стажа · в Statera 4 года · Член ИПБ России</div>
+          <div class="team-spec">Налоговые споры, сопровождение выездных проверок, структурирование сделок М&amp;А</div>
+        </div>
+      </div>
+      <div class="team-card fade">
+        <div class="team-photo"><div class="team-av">ЕВ</div></div>
+        <div class="team-info">
+          <div class="team-name">Елена Васильева</div>
+          <div class="team-role">Эксперт по ВЭД</div>
+          <div class="team-exp">9 лет стажа · в Statera 3 года · Специалист таможенного дела</div>
+          <div class="team-spec">Импорт / экспорт, валютный контроль, параллельный импорт — DE, CN, TR, СНГ</div>
+        </div>
+      </div>
+      <div class="team-card fade">
+        <div class="team-photo"><div class="team-av">НП</div></div>
+        <div class="team-info">
+          <div class="team-name">Наталья Петрова</div>
+          <div class="team-role">Руководитель направления ЗУП</div>
+          <div class="team-exp">12 лет стажа · в Statera 5 лет · Аттестат ИПБ России</div>
+          <div class="team-spec">Расчёт зарплаты для коллективов 500+, кадровое делопроизводство под ключ</div>
+        </div>
+      </div>
+    </div>
+    <div class="team-foot">
+      <p style="font-size:.9375rem;color:var(--text2)">Ещё 11 специалистов в команде — каждый ведёт не более 4 клиентов</p>
+      <a href="#" class="arr">Вся команда <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="sec-hdr">
+      <span class="gline"></span>
+      <span class="label">Услуги</span>
+      <h2 class="h2" style="margin-top:12px;margin-bottom:14px">5 комплексных решений<br>для крупного бизнеса</h2>
+    </div>
+    <div class="svc-grid">
+      <div class="svc">
+        <div class="svc-n">01</div>
+        <div class="svc-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="3" width="3" height="18" rx="1"/><rect x="10.5" y="8" width="3" height="13" rx="1"/><rect x="3" y="13" width="3" height="8" rx="1"/></svg></div>
+        <h3 class="svc-name">Полное бухгалтерское сопровождение</h3>
+        <p class="svc-desc">Ведение первички, составление и сдача отчётности в ИФНС, ПФР, ФСС и Росстат. Актуализация учётной политики, контроль дебиторки и кредиторки. Типовой клиент — оборот от 150 млн ₽.</p>
+      </div>
+      <div class="svc">
+        <div class="svc-n">02</div>
+        <div class="svc-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+        <h3 class="svc-name">Постановка и восстановление учёта</h3>
+        <p class="svc-desc">Аудит базы, устранение ошибок и задвоений, восстановление первичных документов за 1–3 года. Работали с критически запущенными базами после смены главбуха и при слиянии компаний.</p>
+      </div>
+      <div class="svc">
+        <div class="svc-n">03</div>
+        <div class="svc-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg></div>
+        <h3 class="svc-name">Налоговое планирование и проверки</h3>
+        <p class="svc-desc">Анализ налоговой нагрузки, выявление законных способов оптимизации. Предпроверочная подготовка и сопровождение ВНП. За 3 года — 12 выездных проверок закрыты без доначислений.</p>
+      </div>
+      <div class="svc">
+        <div class="svc-n">04</div>
+        <div class="svc-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <h3 class="svc-name">Расчёт зарплаты и кадровый учёт</h3>
+        <p class="svc-desc">Расчёт зарплаты, отпускных, больничных и командировочных. Кадровые документы под ключ: приказы, договоры, штатное расписание. В портфеле — производство 480 чел. и торговая сеть 210 чел.</p>
+      </div>
+      <div class="svc">
+        <div class="svc-n">05</div>
+        <div class="svc-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+        <h3 class="svc-name">ВЭД: внешнеэкономическая деятельность</h3>
+        <p class="svc-desc">Учёт импортных и экспортных контрактов, валютный контроль, паспорта сделок. Сопровождение в банке и на таможне. Опыт: Германия, Китай, Турция, страны СНГ.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="ind" id="cases">
+  <div class="wrap">
+    <div class="sec-hdr">
+      <span class="gline"></span>
+      <span class="label">Отраслевой опыт</span>
+      <h2 class="h2" style="margin-top:12px;margin-bottom:14px">Экспертиза в 5 отраслях</h2>
+    </div>
+    <div class="ind-grid">
+      <div class="ind-item fade"><div class="ind-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 002 2h16a2 2 0 002-2V8l-7 5V8l-7 5V4a2 2 0 00-2-2H4a2 2 0 00-2 2z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg></div><div class="ind-name">Производство</div><div class="ind-cnt">32 компании</div><div style="font-size:.75rem;color:var(--text3);text-align:center;line-height:1.4">Металлообработка,<br>машиностроение, пищепром</div></div>
+      <div class="ind-item fade"><div class="ind-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div><div class="ind-name">Строительство</div><div class="ind-cnt">24 компании</div><div style="font-size:.75rem;color:var(--text3);text-align:center;line-height:1.4">Девелопмент,<br>подрядчики, ЖКХ</div></div>
+      <div class="ind-item fade"><div class="ind-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div><div class="ind-name">Ритейл</div><div class="ind-cnt">18 компаний</div><div style="font-size:.75rem;color:var(--text3);text-align:center;line-height:1.4">Торговые сети,<br>e-commerce, дистрибьюция</div></div>
+      <div class="ind-item fade"><div class="ind-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="ind-name">IT</div><div class="ind-cnt">15 компаний</div><div style="font-size:.75rem;color:var(--text3);text-align:center;line-height:1.4">SaaS, разработка ПО,<br>IT-аутсорсинг</div></div>
+      <div class="ind-item fade"><div class="ind-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div class="ind-name">ВЭД</div><div class="ind-cnt">14 компаний</div><div style="font-size:.75rem;color:var(--text3);text-align:center;line-height:1.4">Импорт, экспорт,<br>параллельный импорт</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="wrap">
+    <div class="sec-hdr">
+      <span class="gline"></span>
+      <span class="label">Отзывы</span>
+      <h2 class="h2" style="margin-top:12px;margin-bottom:14px">Говорят первые лица</h2>
+    </div>
+    <div class="rev-grid">
+      <div class="rev-card fade">
+        <span class="rev-q">«</span>
+        <p class="rev-txt">Передали им три юридических лица — производство, торговый дом и логистику. За четыре года прошли одну выездную проверку: закрыли без доначислений. У меня есть прямой номер Анны — когда нужно быстрое решение, звоню напрямую, не жду ответа от менеджера.</p>
+        <div class="rev-auth"><div class="rev-ava">ДО</div><div><div class="rev-name">Дмитрий Орлов</div><div class="rev-pos">Генеральный директор, ГК «СтальПром»</div></div></div>
+      </div>
+      <div class="rev-card fade">
+        <span class="rev-q">«</span>
+        <p class="rev-txt">Пришли после того, как внутренний главбух ушла в декрет и оставила базу в ненадлежащем состоянии. Восстановили учёт за 8 месяцев — мы не верили, что это реально. Теперь ведут нас на постоянной основе: 34 магазина, расчёт зарплаты на 210 сотрудников.</p>
+        <div class="rev-auth"><div class="rev-ava">СМ</div><div><div class="rev-name">Светлана Морозова</div><div class="rev-pos">Финансовый директор, ТС «Гастроном №1»</div></div></div>
+      </div>
+      <div class="rev-card fade">
+        <span class="rev-q">«</span>
+        <p class="rev-txt">Поставки немецкого оборудования — специфика с валютным контролем и таможней непростая, не каждый бухгалтер возьмётся. В Statera есть специалист, который знает ВЭД изнутри. За два года ни одного замечания от банка и ни одной задержки контракта из-за документов.</p>
+        <div class="rev-auth"><div class="rev-ava">АГ</div><div><div class="rev-name">Андрей Громов</div><div class="rev-pos">Собственник, «ИмпортТехника»</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTS / CTA -->
+<section class="cta" id="contacts">
+  <div class="wrap"><div class="cta-in">
+    <div>
+      <span class="gline"></span>
+      <span class="label">Прямой контакт</span>
+      <h2 class="cta-h2" style="margin-top:12px">Поговорите с ведущим бухгалтером напрямую</h2>
+      <p class="cta-desc">Без менеджеров и скриптов. За 20 минут разберём вашу ситуацию, расскажем как работаем и назовём конкретного специалиста под вашу задачу.</p>
+      <a href="tel:+74951234567" class="cta-ph">+7 (495) 123-45-67</a>
+      <div class="msng">
+        <a href="https://wa.me/74951234567" class="msng-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          WhatsApp
+        </a>
+        <a href="https://t.me/statera_expert" class="msng-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          Telegram
+        </a>
+      </div>
+      <div class="cta-trust">
+        <div class="cta-trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Среднее время ответа — 2 часа в рабочее время
+        </div>
+        <div class="cta-trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          NDA — конфиденциальность данных гарантирована
+        </div>
+        <div class="cta-trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Страхование профессиональной ответственности
+        </div>
+      </div>
+    </div>
+    <div>
+      <form class="form" id="cform" novalidate>
+        <h3 class="form-h">Оставьте заявку</h3>
+        <p class="form-s">Ответим в течение 2 рабочих часов</p>
+        <div class="fgrp"><label class="flbl" for="fn">Имя</label><input class="finp" type="text" id="fn" name="name" placeholder="Ваше имя" autocomplete="name" required></div>
+        <div class="fgrp"><label class="flbl" for="fp">Телефон</label><input class="finp" type="tel" id="fp" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" required></div>
+        <div class="fgrp"><label class="flbl" for="ft">Суть задачи</label><textarea class="ftxt" id="ft" name="task" placeholder="Кратко опишите задачу..."></textarea></div>
+        <button type="submit" class="fsub">Связаться с ведущим бухгалтером</button>
+        <p class="fprivacy">Нажимая кнопку, вы соглашаетесь с <a href="#">политикой конфиденциальности</a></p>
+      </form>
+    </div>
+  </div></div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="/" class="logo">
+          <div class="logo-mark"></div>
+          <div class="logo-text"><span class="logo-name">Statera Expert</span><span class="logo-sub">Бухгалтерский аутсорсинг</span></div>
+        </a>
+        <p class="footer-tag">8 лет экспертизы в сопровождении крупного бизнеса. Прямой контакт с вашим бухгалтером.</p>
+      </div>
+      <div>
+        <div class="fcol-t">Навигация</div>
+        <nav class="flinks">
+          <a href="#team">Команда</a><a href="#services">Услуги</a>
+          <a href="#cases">Кейсы</a><a href="#reviews">Отзывы</a>
+          <a href="#contacts">Контакты</a>
+        </nav>
+      </div>
+      <div>
+        <div class="fcol-t">Услуги</div>
+        <nav class="flinks">
+          <a href="#services">Бухгалтерское сопровождение</a>
+          <a href="#services">Восстановление учёта</a>
+          <a href="#services">Налоговое планирование</a>
+          <a href="#services">Расчёт зарплаты</a>
+          <a href="#services">ВЭД</a>
+        </nav>
+      </div>
+      <div>
+        <div class="fcol-t">Контакты</div>
+        <address style="font-style:normal">
+          <div class="fci"><span class="fci-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .97h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 006.18 6.18l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></span><div><a href="tel:+74951234567" class="fci-txt" style="color:var(--gold)">+7 (495) 123-45-67</a></div></div>
+          <div class="fci"><span class="fci-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><div><a href="mailto:info@statera-expert.ru" class="fci-txt">info@statera-expert.ru</a><div class="fci-txt" style="font-size:.75rem;color:var(--text3);margin-top:2px">Пн–Пт, 9:00–18:00</div></div></div>
+          <div class="fci"><span class="fci-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div class="fci-txt">Москва, ул. Лесная, 43<br>офис 512, БЦ «Северная звезда»</div></div>
+        </address>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <p class="fcopy">© 2016–2024 Statera Expert · 8 лет на рынке</p>
+      <a href="#" class="fpol">Политика конфиденциальности</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll animations
+const obs = new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('on');obs.unobserve(i.target)}})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+
+// Counters
+const cobs = new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting){
+  const el=i.target,target=+el.dataset.count,sfx=el.dataset.sfx||'';
+  let cur=0;const step=target/94;
+  const t=setInterval(()=>{cur+=step;if(cur>=target){cur=target;clearInterval(t)}el.textContent=Math.floor(cur)+sfx},16);
+  cobs.unobserve(el)
+}})},{threshold:.5});
+document.querySelectorAll('.stat-n[data-count]').forEach(el=>cobs.observe(el));
+
+// Sticky header shadow
+window.addEventListener('scroll',()=>{
+  document.getElementById('hdr').style.boxShadow=scrollY>20?'0 4px 30px rgba(0,0,0,.5)':'none'
+},{passive:true});
+
+// Phone mask
+document.getElementById('fp').addEventListener('input',function(){
+  let v=this.value.replace(/\D/g,'');
+  if(v[0]==='7'||v[0]==='8')v=v.slice(1);
+  v=v.slice(0,10);
+  if(!v.length){this.value='';return}
+  let f='+7 ('+v.slice(0,3);
+  if(v.length>=4)f+=') '+v.slice(3,6);
+  if(v.length>=7)f+='-'+v.slice(6,8);
+  if(v.length>=9)f+='-'+v.slice(8,10);
+  this.value=f;
+});
+
+// Form submit
+document.getElementById('cform').addEventListener('submit',function(e){
+  e.preventDefault();
+  const b=this.querySelector('.fsub');
+  b.textContent='Отправляем...';b.disabled=true;
+  setTimeout(()=>{b.textContent='✓ Заявка отправлена';b.style.background='#1a5c3a';b.style.color='#fff'},1400);
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',function(e){
+    const t=document.querySelector(this.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}
+  });
+});
+</script>
+</body>
+</html>
