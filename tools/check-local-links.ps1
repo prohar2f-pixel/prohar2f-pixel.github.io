@@ -30,7 +30,7 @@ foreach ($file in $htmlFiles) {
     }
     if ($pathPart.EndsWith('/')) { $target = Join-Path $target 'index.html' }
     if (-not (Test-Path -LiteralPath $target)) {
-      $relativeFile = [IO.Path]::GetRelativePath($repoRoot, $file.FullName)
+      $relativeFile = $file.FullName.Substring($repoRoot.Length).TrimStart('\')
       $missing.Add("$relativeFile -> $url")
     }
   }
