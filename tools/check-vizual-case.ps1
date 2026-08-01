@@ -81,6 +81,12 @@ foreach ($asset in $carouselAssets) {
     throw "Carousel asset is missing: $asset"
   }
 }
+if ($case -notmatch 'src="/assets/cases/vizual/alexander-thinking\.webp"') {
+  throw 'Solution section is missing the generated thinking portrait'
+}
+if ($case -notmatch 'src="/assets/cases/vizual/alexander-thinking\.webp"[^>]+alt="[^\"]+"') {
+  throw 'Thinking portrait is missing its meaningful alt text'
+}
 $carouselScript = Get-Content -Raw -LiteralPath (Join-Path $root 'assets/case-vizual-carousel.js')
 foreach ($behavior in @('ArrowLeft', 'ArrowRight', 'pointerdown', 'pointerup', 'aria-current', 'aria-hidden')) {
   if ($carouselScript -notmatch [regex]::Escape($behavior)) {
