@@ -7,7 +7,38 @@
 - Источник GitHub Pages: ветка `main`, корень репозитория.
 - Custom domain: `aiprohar.ru`.
 - DNS обслуживается Beget.
-- Перед публикацией запустите `powershell -ExecutionPolicy Bypass -File .\tools\check-local-links.ps1`.
+- Изменения публикуются после слияния Pull Request в `main` и успешного завершения workflow `pages-build-deployment`.
+
+## Проверки перед публикацией
+
+Запускайте из корня репозитория:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\tools\check-local-links.ps1
+powershell -ExecutionPolicy Bypass -File .\tools\check-vizual-case.ps1
+powershell -ExecutionPolicy Bypass -File .\tools\check-legal-roles.ps1
+git diff --check
+```
+
+Проверка `check-legal-roles.ps1` контролирует согласованность юридических ролей в оферте и политиках, а также наличие обязательного согласия в контактной форме.
+
+## Юридические роли
+
+- Жукова Анна Владимировна — исполнитель услуг, получатель оплаты и оператор персональных данных.
+- Александр Прохоров — владелец и автор сайта, разработчик; ведёт коммуникацию и обрабатывает заявки от имени исполнителя.
+- Формулировки должны оставаться согласованными в `offer.html`, `privacy.html`, `confidentiality.html` и контактной форме `index.html`.
+
+## Основные страницы
+
+- `index.html` — главная страница и контактная форма.
+- `offer.html` — публичная оферта.
+- `privacy.html` — политика обработки персональных данных.
+- `confidentiality.html` — сведения о конфиденциальности и ролях сторон.
+- `case-vizual.html` — опубликованный кейс Vizual и отзыв клиента.
+
+## Последнее обновление
+
+2 августа 2026 года опубликованы уточнённые юридические роли, единые формулировки в документах и обязательное явное согласие в контактной форме. Изменения выпущены через [Pull Request №1](https://github.com/prohar2f-pixel/prohar2f-pixel.github.io/pull/1).
 
 ## Границы репозитория
 
