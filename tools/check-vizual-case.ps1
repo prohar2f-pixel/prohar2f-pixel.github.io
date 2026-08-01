@@ -24,4 +24,9 @@ $ids = [regex]::Matches($case, 'id="([^"]+)"') | ForEach-Object { $_.Groups[1].V
 $duplicates = $ids | Group-Object | Where-Object Count -gt 1
 if ($duplicates) { throw "Duplicate IDs: $($duplicates.Name -join ', ')" }
 
+$sitemap = Get-Content -Raw -LiteralPath (Join-Path $root 'sitemap.xml')
+if ($sitemap -notmatch 'https://aiprohar.ru/cases/vizual-real-estate/') {
+  throw 'Sitemap is missing the Vizual case URL'
+}
+
 Write-Host 'Vizual case audit passed.'
