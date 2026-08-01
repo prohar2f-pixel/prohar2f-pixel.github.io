@@ -87,6 +87,15 @@ if ($case -notmatch 'src="/assets/cases/vizual/alexander-thinking\.webp"') {
 if ($case -notmatch 'src="/assets/cases/vizual/alexander-thinking\.webp"[^>]+alt="[^\"]+"') {
   throw 'Thinking portrait is missing its meaningful alt text'
 }
+if ($case -notmatch 'id="testimonial"') {
+  throw 'Case page is missing the customer testimonial section'
+}
+if ($case -notmatch 'src="/assets/cases/vizual/vitaliy-testimonial\.webp"[^>]+alt="[^\"]+"') {
+  throw 'Customer testimonial portrait is missing or has no alt text'
+}
+if ($case -notmatch '<blockquote class="cv-testimonial-quote">') {
+  throw 'Customer feedback must use semantic blockquote markup'
+}
 if ($caseCss -notmatch '(?s)\.cv-solution-portrait\s*\{[^}]*aspect-ratio:\s*4\s*/\s*5') {
   throw 'Thinking portrait container needs a stable desktop aspect ratio'
 }
