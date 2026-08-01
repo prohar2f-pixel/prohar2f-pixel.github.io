@@ -29,4 +29,22 @@ if ($sitemap -notmatch 'https://aiprohar.ru/cases/vizual-real-estate/') {
   throw 'Sitemap is missing the Vizual case URL'
 }
 
+$caseCss = Get-Content -Raw -LiteralPath (Join-Path $root 'assets/case-vizual.css')
+$baseHeroTitleRule = [regex]::Match($caseCss, '(?s)\.cv-hero h1\s*\{(.*?)\}').Groups[1].Value
+if ($baseHeroTitleRule -notmatch 'overflow-wrap:\s*anywhere') {
+  throw 'Mobile case title has no safe wrapping rule'
+}
+if ($baseHeroTitleRule -notmatch 'font-size:\s*clamp\(3\.2rem,\s*5vw,\s*5\.5rem\)') {
+  throw 'Desktop case title exceeds the safe type scale'
+}
+if ($caseCss -notmatch '(?s)\.cv-case-title\s*\{[^}]*font-size:\s*clamp\(2\.15rem,\s*4vw,\s*3\.8rem\)') {
+  throw 'Homepage case title exceeds the safe card width'
+}
+if ($caseCss -notmatch 'height:\s*clamp\(') {
+  throw 'Case preview has no bounded display height'
+}
+if ($caseCss -notmatch 'linear-gradient\(135deg,\s*#9333ea,\s*#6d28d9\)') {
+  throw 'Primary case button is missing the contrast-safe gradient'
+}
+
 Write-Host 'Vizual case audit passed.'
