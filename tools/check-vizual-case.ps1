@@ -49,11 +49,43 @@ if ($caseCss -notmatch 'linear-gradient\(135deg,\s*#9333ea,\s*#6d28d9\)') {
 if ($caseCss -notmatch '(?s)@media \(max-width:\s*700px\).*?\.cv-hero h1\s*\{[^}]*font-size:\s*clamp\(2\.05rem,\s*9vw,\s*2\.55rem\)') {
   throw 'Mobile hero title is larger than the approved compact scale'
 }
-if ($caseCss -notmatch '(?s)\.cv-gallery-media\s*\{[^}]*aspect-ratio:\s*16\s*/\s*10') {
-  throw 'Gallery screenshots are missing a presentation viewport'
+if ($caseCss -notmatch '(?s)\.cv-carousel--desktop \.cv-carousel-slide\s*\{[^}]*aspect-ratio:\s*16\s*/\s*10') {
+  throw 'Desktop carousel is missing the 16:10 presentation viewport'
 }
-if ($case -notmatch 'class="cv-object-summary"') {
-  throw 'Object screen is missing the factual characteristics summary'
+if ($caseCss -notmatch '(?s)\.cv-carousel--mobile \.cv-carousel-slide\s*\{[^}]*aspect-ratio:\s*375\s*/\s*812') {
+  throw 'Mobile carousel is missing the phone presentation viewport'
+}
+if ($caseCss -notmatch '(?s)\.cv-carousel-dots button\s*\{[^}]*width:\s*32px;[^}]*height:\s*32px') {
+  throw 'Carousel dots need a touch-friendly 32px hit area'
+}
+if (([regex]::Matches($case, 'data-carousel="')).Count -ne 2) {
+  throw 'Case page must contain exactly two carousels'
+}
+if (([regex]::Matches($case, 'data-carousel-slide="desktop"')).Count -ne 5) {
+  throw 'Desktop carousel must contain five slides'
+}
+if (([regex]::Matches($case, 'data-carousel-slide="mobile"')).Count -ne 4) {
+  throw 'Mobile carousel must contain four slides'
+}
+if ($case -notmatch 'src="/assets/case-vizual-carousel.js"') {
+  throw 'Case page is missing the carousel script'
+}
+$carouselAssets = @(
+  'assets/cases/vizual/vizual-contacts.webp',
+  'assets/cases/vizual/vizual-mobile-catalog.webp',
+  'assets/cases/vizual/vizual-mobile-object.webp',
+  'assets/cases/vizual/vizual-mobile-team.webp'
+)
+foreach ($asset in $carouselAssets) {
+  if (-not (Test-Path -LiteralPath (Join-Path $root $asset))) {
+    throw "Carousel asset is missing: $asset"
+  }
+}
+$carouselScript = Get-Content -Raw -LiteralPath (Join-Path $root 'assets/case-vizual-carousel.js')
+foreach ($behavior in @('ArrowLeft', 'ArrowRight', 'pointerdown', 'pointerup', 'aria-current', 'aria-hidden')) {
+  if ($carouselScript -notmatch [regex]::Escape($behavior)) {
+    throw "Carousel behavior is missing: $behavior"
+  }
 }
 
 Write-Host 'Vizual case audit passed.'
