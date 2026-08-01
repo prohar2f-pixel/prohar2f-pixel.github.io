@@ -46,5 +46,14 @@ if ($caseCss -notmatch 'height:\s*clamp\(') {
 if ($caseCss -notmatch 'linear-gradient\(135deg,\s*#9333ea,\s*#6d28d9\)') {
   throw 'Primary case button is missing the contrast-safe gradient'
 }
+if ($caseCss -notmatch '(?s)@media \(max-width:\s*700px\).*?\.cv-hero h1\s*\{[^}]*font-size:\s*clamp\(2\.05rem,\s*9vw,\s*2\.55rem\)') {
+  throw 'Mobile hero title is larger than the approved compact scale'
+}
+if ($caseCss -notmatch '(?s)\.cv-gallery-media\s*\{[^}]*aspect-ratio:\s*16\s*/\s*10') {
+  throw 'Gallery screenshots are missing a presentation viewport'
+}
+if ($case -notmatch 'class="cv-object-summary"') {
+  throw 'Object screen is missing the factual characteristics summary'
+}
 
 Write-Host 'Vizual case audit passed.'
