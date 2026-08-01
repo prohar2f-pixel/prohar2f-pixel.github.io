@@ -9,6 +9,7 @@ node_modules/
 # Служебные папки инструментов
 .gstack/
 .impeccable/
+.worktrees/
 
 # Мусор ОС и редакторов
 .DS_Store
