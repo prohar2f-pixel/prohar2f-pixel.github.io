@@ -87,6 +87,12 @@ if ($case -notmatch 'src="/assets/cases/vizual/alexander-thinking\.webp"') {
 if ($case -notmatch 'src="/assets/cases/vizual/alexander-thinking\.webp"[^>]+alt="[^\"]+"') {
   throw 'Thinking portrait is missing its meaningful alt text'
 }
+if ($caseCss -notmatch '(?s)\.cv-solution-portrait\s*\{[^}]*aspect-ratio:\s*4\s*/\s*5') {
+  throw 'Thinking portrait container needs a stable desktop aspect ratio'
+}
+if ($caseCss -notmatch '(?s)\.cv-solution-portrait img\s*\{[^}]*height:\s*100%') {
+  throw 'Thinking portrait image must fill the bounded container height'
+}
 $carouselScript = Get-Content -Raw -LiteralPath (Join-Path $root 'assets/case-vizual-carousel.js')
 foreach ($behavior in @('ArrowLeft', 'ArrowRight', 'pointerdown', 'pointerup', 'aria-current', 'aria-hidden')) {
   if ($carouselScript -notmatch [regex]::Escape($behavior)) {
