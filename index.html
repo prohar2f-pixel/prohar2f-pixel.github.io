@@ -732,14 +732,13 @@ footer{padding:52px 0 80px;text-align:center}
   .nav-dd-menu{position:static;min-width:0;width:100%;padding:6px 0 2px 14px;border:none;background:none;box-shadow:none}
   .wrap{padding:0 20px}
   section{padding:68px 0}
-  .hero{flex-direction:column;align-items:flex-start;min-height:auto}
-  .hero-content{padding:140px 20px 0;max-width:100%}
-  .hero-photo{position:relative;top:auto;bottom:auto;right:auto;width:100%;height:95vw;margin-top:0}
+  .hero{flex-direction:column;align-items:flex-start;min-height:auto;padding:104px 0 0}
+  .hero-content{order:1;padding:0 20px;max-width:100%}
+  .hero-photo{position:relative;order:2;top:auto;bottom:auto;right:auto;width:100%;height:78vw;margin-top:20px}
   .hero-photo img{-webkit-mask-image:linear-gradient(to bottom,black 70%,transparent 100%);
     mask-image:linear-gradient(to bottom,black 70%,transparent 100%)}
   .hero-photo::after{background:linear-gradient(to bottom,transparent 60%,var(--bg) 100%)}
   .hn1,.hn2{font-size:clamp(2.8rem,10vw,4.2rem)}
-  .hero-content{padding:0 20px}
   .srv-grid{grid-template-columns:1fr}
   .trust-list{grid-template-columns:1fr}
   .price-card{flex:0 0 100%}
@@ -1674,7 +1673,18 @@ footer{padding:52px 0 80px;text-align:center}
 @media(max-width:768px){.faq-grid{grid-template-columns:1fr}}
 .sticky-cta{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:1500;display:flex;align-items:center;gap:10px;padding:14px 32px;background:var(--p);color:#fff;border:none;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 0 24px rgb(var(--p-rgb) / .55),0 4px 16px rgba(0,0,0,.4);white-space:nowrap;transition:transform .2s,box-shadow .2s}
 .sticky-cta:hover{transform:translateX(-50%) translateY(-3px);box-shadow:0 0 36px rgb(var(--p-rgb) / .8),0 8px 24px rgba(0,0,0,.5)}
-@media(max-width:600px){.sticky-cta{bottom:16px;padding:13px 24px;font-size:.93rem}}
+.cookie-visible .sticky-cta{opacity:0;pointer-events:none}
+#cookieBanner{display:none;position:fixed;right:20px;bottom:20px;z-index:3000;width:min(520px,calc(100% - 40px));padding:14px 14px 14px 16px;align-items:center;gap:14px;border:1px solid rgb(var(--p-rgb) / .32);border-radius:16px;background:rgba(10,6,22,.96);box-shadow:0 18px 56px rgba(0,0,0,.48);backdrop-filter:blur(16px)}
+#cookieBanner.is-visible{display:flex}
+.cookie-copy{min-width:0;margin:0;color:rgba(255,255,255,.68);font-size:.78rem;line-height:1.45}
+.cookie-copy a{color:var(--p);text-decoration:none;white-space:nowrap}
+.cookie-ok{flex:0 0 auto;min-width:82px;min-height:44px;padding:9px 16px;border:0;border-radius:11px;background:var(--p);color:#fff;font:inherit;font-size:.82rem;font-weight:700;cursor:pointer}
+@media(max-width:600px){
+  .sticky-cta{bottom:16px;padding:13px 24px;font-size:.93rem}
+  #cookieBanner{right:12px;bottom:12px;left:12px;width:auto;padding:11px 11px 11px 13px;gap:10px;border-radius:14px}
+  .cookie-copy{font-size:.72rem;line-height:1.38}
+  .cookie-ok{min-width:70px;min-height:42px;padding:8px 12px}
+}
 </style>
 
 <!-- ═══════════════════════════════════ FINAL CTA -->
@@ -1948,19 +1958,28 @@ footer{padding:52px 0 80px;text-align:center}
 </script>
 
 <!-- COOKIE BANNER -->
-<div id="cookieBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:3000;
-  background:rgba(10,6,22,.97);border-top:1px solid rgb(var(--p-rgb) / .3);
-  padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
-  <p style="margin:0;font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.5">
-    Мы используем cookie-файлы. Это нужно для лучшей работы сайта.
-    Продолжая пользоваться сайтом, вы соглашаетесь с этим.
-    <a href="privacy.html" style="color:var(--p);text-decoration:none;white-space:nowrap">Подробнее →</a>
+<div id="cookieBanner" role="region" aria-label="Уведомление об использовании cookie">
+  <p class="cookie-copy">
+    Используем cookie для корректной работы сайта.
+    <a href="privacy.html">Подробнее →</a>
   </p>
-  <button onclick="document.getElementById('cookieBanner').style.display='none';localStorage.setItem('cookie_ok','1')"
-    style="flex-shrink:0;padding:9px 22px;background:var(--p);color:#fff;border:none;border-radius:10px;
-    font-size:.84rem;font-weight:600;cursor:pointer;white-space:nowrap">Понятно</button>
+  <button class="cookie-ok" type="button">Понятно</button>
 </div>
-<script>if(!localStorage.getItem('cookie_ok'))document.getElementById('cookieBanner').style.display='flex';</script>
+<script>
+  (function(){
+    const banner=document.getElementById('cookieBanner');
+    const button=banner.querySelector('.cookie-ok');
+    if(!localStorage.getItem('cookie_ok')){
+      banner.classList.add('is-visible');
+      document.body.classList.add('cookie-visible');
+    }
+    button.addEventListener('click',function(){
+      banner.classList.remove('is-visible');
+      document.body.classList.remove('cookie-visible');
+      localStorage.setItem('cookie_ok','1');
+    });
+  })();
+</script>
 
 <button class="sticky-cta" id="stickyCta" aria-label="Заказать консультацию">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
