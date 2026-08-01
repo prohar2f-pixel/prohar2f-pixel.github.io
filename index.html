@@ -685,6 +685,11 @@ footer{padding:52px 0 80px;text-align:center}
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:rgb(var(--p-rgb) / .6)}
 .form-group select option{background:#0f0f1a;color:#fff}
 .form-group textarea{height:88px;resize:none}
+.form-consent{display:flex;align-items:flex-start;gap:10px;margin:2px 0 14px;color:rgba(255,255,255,.62);font-size:.72rem;line-height:1.45}
+.form-consent input{flex:0 0 auto;width:18px;height:18px;margin:2px 0 0;accent-color:var(--p)}
+.form-consent label{display:block;margin:0;text-transform:none;letter-spacing:0;color:inherit}
+.form-consent a{color:#d9a4ff;text-decoration:underline;text-underline-offset:2px}
+.form-consent input:focus-visible,.form-consent a:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:3px}
 .form-submit{width:100%;padding:13px;background:var(--p-gradient);color:#fff;border:none;border-radius:12px;font-size:.92rem;font-weight:600;cursor:pointer;margin-top:8px;transition:opacity .2s;font-family:inherit}
 .form-submit:hover{opacity:.85}
 .form-submit:disabled{opacity:.4;cursor:not-allowed}
@@ -1716,19 +1721,19 @@ footer{padding:52px 0 80px;text-align:center}
       <form id="orderForm">
         <div class="form-group">
           <label for="fname">Ваше имя *</label>
-          <input type="text" id="fname" placeholder="Александр" required>
+          <input type="text" id="fname" name="name" placeholder="Александр" required>
         </div>
         <div class="form-group">
           <label for="fphone">Телефон / Telegram *</label>
-          <input type="text" id="fphone" placeholder="+7 999 123 45 67 или @username" required>
+          <input type="text" id="fphone" name="contact" placeholder="+7 999 123 45 67 или @username" required>
         </div>
         <div class="form-group">
           <label for="femail">Эл. почта</label>
-          <input type="email" id="femail" placeholder="example@mail.com">
+          <input type="email" id="femail" name="email" placeholder="example@mail.com">
         </div>
         <div class="form-group">
           <label for="fservice">Услуга</label>
-          <select id="fservice">
+          <select id="fservice" name="service">
             <option>Сайт-визитка: 30 000 ₽</option>
             <option>Лендинг: 50 000 ₽</option>
             <option>Корпоративный сайт: 90 000 ₽</option>
@@ -1740,7 +1745,11 @@ footer{padding:52px 0 80px;text-align:center}
         </div>
         <div class="form-group">
           <label for="fcomment">Комментарий</label>
-          <textarea id="fcomment" placeholder="Расскажите о проекте..."></textarea>
+          <textarea id="fcomment" name="comment" placeholder="Расскажите о проекте..."></textarea>
+        </div>
+        <div class="form-consent">
+          <input type="checkbox" id="fconsent" name="consent" required>
+          <label for="fconsent">Я соглашаюсь на передачу данных оператору Жуковой Анне Владимировне и их обработку Александром Прохоровым от её имени для ответа на обращение и выполнения заказа. Принимаю <a href="privacy.html" target="_blank" rel="noopener">политику обработки данных</a> и <a href="offer.html" target="_blank" rel="noopener">публичную оферту</a>.</label>
         </div>
         <button type="submit" class="form-submit" id="submitBtn">Отправить заявку</button>
       </form>
@@ -1921,6 +1930,11 @@ footer{padding:52px 0 80px;text-align:center}
 
   document.getElementById('orderForm').addEventListener('submit',async e=>{
     e.preventDefault();
+    const form=e.currentTarget;
+    if(!form.checkValidity()){
+      form.reportValidity();
+      return;
+    }
     const btn=document.getElementById('submitBtn');
     btn.disabled=true;btn.textContent='Отправляю...';
     const name=document.getElementById('fname').value.trim();
